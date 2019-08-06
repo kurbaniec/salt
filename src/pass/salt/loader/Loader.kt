@@ -6,8 +6,6 @@ import pass.dev.server.Test
 import pass.salt.loader.annotations.Get
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.functions
-import com.sun.org.apache.bcel.internal.util.ClassPath
-import com.sun.xml.internal.bind.v2.model.core.ClassInfo
 import pass.salt.loader.annotations.Controller
 import pass.salt.loader.config.Config
 
@@ -47,7 +45,13 @@ class Loader() {
                 val functions = cls.kotlin.functions
                 for (f in functions) {
                     val b = f.findAnnotation<Get>()
-                    if (b != null) println("Anno")
+                    if (b != null) {
+                        val test = cls.getConstructor().newInstance()
+                        f.call(test)
+                        //val c = cls.getDeclaredMethod("test")
+                        //c.invoke(null)
+                        //println("Anno")
+                    }
                 }
             }
             /**
