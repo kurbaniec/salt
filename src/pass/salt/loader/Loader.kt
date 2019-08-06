@@ -3,6 +3,7 @@ import pass.salt.*
 import pass.dev.*
 import java.io.File
 import pass.dev.server.Test
+import pass.salt.loader.annotations.AnnotationProcessor
 import pass.salt.loader.annotations.Get
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.functions
@@ -34,6 +35,8 @@ class Loader() {
             if (it.toString().endsWith(".class") &&
                     !((it.toString().endsWith("Kt.class")) || it.toString().endsWith("$1.class"))) {
                 val name = getClassName(it.toString(), pack)
+                val dada = AnnotationProcessor.process<Controller, Get>(name)
+
                 val cls = Class.forName(name)
                 /**for(annotation in cls.declaredAnnotations) {
                     println(annotation)
