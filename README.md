@@ -20,4 +20,12 @@ Following project structure is needed.
 ```
 
 ## Naming conventions
-Classes can for now not end with Kt or $1 (because kotlin creates [className]Kt.class files).
+Classes can for now not end with `Kt` or `$1` (because kotlin creates `[className](Kt|$1).class` files).
+
+## TOML-Parser
+Supports:
+* Boolean, Float, Integer, String and Array-Datatypes
+* Arrays can be nested
+* Multiline-Array initialization is not supported
+* Sections and sub-sections are supported
+* Full-Line and End-Line comments are supported
