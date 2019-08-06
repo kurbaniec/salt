@@ -12,7 +12,14 @@ class TOMLParser(fileName: String) {
         return null
     }
 
-    fun findObject(name: String): Any? {
+    /**
+     * Replaces attribute value or creates new attribute with the given [value].
+     */
+    fun replaceAttribute(name: String, value: Any) {
+        hierarchy.attributes[name] = value
+    }
+
+    fun findObject(name: String): TOMLObject? {
         var search = name.split(".")
         var current = TOMLObject()
         if (hierarchy.objects.containsKey(search[0])) {
@@ -56,6 +63,45 @@ class TOMLParser(fileName: String) {
         }
         return null
     }
+
+    /**
+     * Replaces the value of an attribute [name] of an object [obj] with the
+     * given [value]. Does nothing when the object is not found.
+     */
+    fun replaceObjectAttribute(obj: String, name: String, value: Any) {
+        findObject(obj)?.replaceAttribute(name, value)
+    }
+
+    /**
+     * Overwrite this config with the [other] one.
+     * TODO test overdrive - highly experimental
+     */
+    fun overdrive(other: TOMLParser) {
+        // Replace attributes
+        for ((key, value) in other.hierarchy.attributes) {
+            this.hierarchy.attributes[key] = value
+        }
+        for ((key, value) in other.hierarchy.objects) {
+            // Replace object attributes
+            for ((k, v) in value.attributes) {
+                replaceObjectAttribute(key, k, v)
+            }
+            subOverdrive(key, value.subobjects)
+
+        }
+    }
+
+    fun subOverdrive(name: String, subobj: HashMap<String, TOMLObject>) {
+        for ((key, obj) in subobj) {
+            val objName = "$name.$key";
+            for ((attrName, value) in obj.attributes) {
+                replaceObjectAttribute(objName, attrName, value)
+            }
+            if (obj.subobjects.size > 0) {
+                subOverdrive(objName, obj.subobjects)
+            }
+        }
+    }
 }
 
 class TOMLFile(fileName: String) {
@@ -75,8 +121,8 @@ class TOMLFile(fileName: String) {
                         line[0] == '#' -> { }
                         line[0] == '[' && line.contains(']') -> {
                             attr = false
-                            current = TOMLObject()
                             val name = line.substring(1, line.indexOf(']'))
+                            current = TOMLObject(name)
                             objects[name] = current
                         }
                         line.contains('=') -> {
@@ -112,14 +158,14 @@ class TOMLFile(fileName: String) {
                         parent = parent.subobjects[el]
                     }
                     else {
-                        current = TOMLObject()
+                        current = TOMLObject(el)
                         parent.subobjects[el] = current
                     }
                 }
             }
         }
         else {
-            current = TOMLObject()
+            current = TOMLObject(name[0])
             objects[name[0]] = current
         }
     }
@@ -141,6 +187,15 @@ class TOMLFile(fileName: String) {
 
 
 class TOMLObject() {
+    var name = ""
     var attributes: HashMap<String, Any> = HashMap()
     var subobjects: HashMap<String, TOMLObject> = HashMap()
+
+    constructor(name: String) : this() {
+        this.name = name
+    }
+
+    fun replaceAttribute(name: String, value: Any) {
+        attributes[name] = value
+    }
 }

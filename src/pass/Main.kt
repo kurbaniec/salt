@@ -17,8 +17,6 @@ val log: Logger = Logger.getLogger("webserver")
 
 fun main(args: Array<String>) {
     val app = SaltApplication()
-    //val loader = AnnoLoader()
-    //loader.load()
     val cls = Test::class.java.kotlin
     val found = cls.memberFunctions.filter { it.annotations.any() }
     for (f in found) {
@@ -31,39 +29,9 @@ fun main(args: Array<String>) {
         if (b != null) println("hi")
     }
 
-    println("hi")
     log.info("hihi")
-    println(System.getProperty("user.dir"))
-    //val baum = TOMLFile("default.toml")
-    testTOMLParser()
-    println("hi")
+    //testTOMLParser()
     //Server()
-}
-
-fun testAnnotation() {
-    /**
-     * val fields = Test::class.findAnnotation<Get>()
-    val test2 = Test::class.java.kotlin.findAnnotation<Get>()
-    val method = Test::test
-    val annotation = method.findAnnotation<Get>()
-
-    val cls = Test::class.java.kotlin
-    val found = cls.memberFunctions.filter { it.annotations.any()  }
-
-
-    for(member in Test::class.java.declaredFields) {
-    println(member)
-    println(member.annotations.toList())  //Add .toList()
-    }
-    val aClass = Test::class.java
-    val annotations = aClass!!.getAnnotations()
-    for (annotation in annotations) {
-    if (annotation is Get) {
-    val myAnnotation = annotation as Get
-    System.out.println("name: " + myAnnotation.path)
-    }
-    }
-     */
 }
 
 fun testTOMLParser() {
