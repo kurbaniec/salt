@@ -1,0 +1,1 @@
+# passwort-manager-dev
