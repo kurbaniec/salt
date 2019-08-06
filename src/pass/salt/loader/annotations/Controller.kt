@@ -1,6 +1,8 @@
 package pass.salt.loader.annotations
 
-import jdk.internal.org.objectweb.asm.ClassVisitor
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.CLASS)
+annotation class Controller()
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION)

@@ -1,6 +1,7 @@
 package pass
 
 import pass.dev.server.Test
+import pass.salt.SaltApplication
 import pass.salt.loader.annotations.Get
 import pass.salt.loader.parser.TOMLObject
 import pass.salt.loader.parser.TOMLParser
@@ -15,6 +16,7 @@ import kotlin.test.assertEquals
 val log: Logger = Logger.getLogger("webserver")
 
 fun main(args: Array<String>) {
+    val app = SaltApplication()
     //val loader = AnnoLoader()
     //loader.load()
     val cls = Test::class.java.kotlin

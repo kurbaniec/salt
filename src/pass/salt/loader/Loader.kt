@@ -1,13 +1,64 @@
 package pass.salt.loader
-
-import jdk.internal.org.objectweb.asm.*
-import jdk.internal.org.objectweb.asm.Opcodes.ASM4
-import kotlin.reflect.jvm.internal.impl.descriptors.ModuleDescriptor.DefaultImpls.accept
+import pass.salt.*
+import pass.dev.*
 import java.io.File
-import java.io.FileInputStream
-import jdk.internal.org.objectweb.asm.Opcodes.ASM4
-import kotlin.reflect.jvm.internal.impl.descriptors.ModuleDescriptor.DefaultImpls.accept
+import pass.dev.server.Test
+import pass.salt.loader.annotations.Get
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.functions
+import com.sun.org.apache.bcel.internal.util.ClassPath
+import com.sun.xml.internal.bind.v2.model.core.ClassInfo
 
+
+
+class Loader() {
+    init {
+        //val cls = Class.forName("pass.HandlerThread")
+        val path = System.getProperty("user.dir")
+        // TODO safety check
+        val pack = File("$path/src").list().get(0)
+        annotationProcessor(path, pack)
+    }
+
+    private fun annotationProcessor(path: String, pack: String) {
+        var location: File = File(pack)
+        File("$path/out").walk().forEach {
+            if (it.toString().endsWith(pack))
+                location = it
+        }
+        location.walk().forEach {
+            //println(it)
+            // TODO do something about KT classes
+            if (it.toString().endsWith(".class") &&
+                    !((it.toString().endsWith("Kt.class")) || it.toString().endsWith("$1.class"))) {
+                val name = getClassName(it.toString(), pack)
+                val cls = Class.forName(name)
+                /**for(annotation in cls.declaredAnnotations) {
+                    println(annotation)
+                }*/
+                val functions = cls.kotlin.functions
+                for (f in functions) {
+                    val b = f.findAnnotation<Get>()
+                    if (b != null) println("Anno")
+                }
+            }
+            /**
+            val functions = Test::class.java.kotlin.functions
+            for (f in functions) {
+                val b= f.findAnnotation<Get>()
+                if (b != null) println("hi")
+            }*/
+        }
+    }
+
+    private fun getClassName(name: String, pack: String): String {
+        var ret = name.replace(".class", "")
+        ret = ret.substring(ret.indexOf(pack), ret.length)
+        ret = ret.replace("\\", ".")
+        //return ret.substring(ret.lastIndexOf('\\')+1, ret.length)
+        return ret
+    }
+}
 /**
 class AnnotationScanner(api: Int) : ClassVisitor(api) {
 
