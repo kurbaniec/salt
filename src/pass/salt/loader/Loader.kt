@@ -40,9 +40,13 @@ class Loader() {
                     !((it.toString().endsWith("Kt.class")) || it.toString().endsWith("$1.class") ||
                             it.toString().contains("salt"))) {
                 val className = getClassName(it.toString(), pack)
-                container.addElement(className)
-                val dada = AnnotationProcessor.process<Controller, Get>(className)
-                println(dada)
+
+                // Module System -> Process Annotations
+                AnnotationProcessor.module("ComponentScan", className, config, container).process()
+
+                //container.addElement(className)
+                //val dada = AnnotationProcessor.process<Controller, Get>(className)
+                println("Blub")
             }
         }
     }

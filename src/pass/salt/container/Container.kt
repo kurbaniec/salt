@@ -22,6 +22,8 @@ class Container() {
     }
 
     fun addElement(name: String, className: String) {
+        // TODO Exception when can´t instance object?
+        //val instance = cls.getConstructor().newInstance() ?: throw ReflectionInstanceException("Could not instance object for class: \"$className\"")
         val cls = Class.forName(className)
         val instance = cls.getConstructor().newInstance()
         addElement(name, instance)
