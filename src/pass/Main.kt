@@ -2,9 +2,10 @@ package pass
 
 import pass.dev.server.Test
 import pass.salt.SaltApplication
-import pass.salt.loader.annotations.Get
+import pass.salt.annotations.Get
 import pass.salt.loader.parser.TOMLObject
 import pass.salt.loader.parser.TOMLParser
+import pass.salt.server.Server
 import java.util.*
 import java.util.logging.Logger
 import kotlin.reflect.full.findAnnotation
@@ -17,20 +18,6 @@ val log: Logger = Logger.getLogger("webserver")
 
 fun main(args: Array<String>) {
     val app = SaltApplication()
-    val cls = Test::class.java.kotlin
-    val found = cls.memberFunctions.filter { it.annotations.any() }
-    for (f in found) {
-        if (f.findAnnotation<Get>() != null) println("hihi")
-    }
-
-    val functions = Test::class.java.kotlin.functions
-    for (f in functions) {
-        val b= f.findAnnotation<Get>()
-        if (b != null) println("hi")
-    }
-
-    log.info("hihi")
-    //testTOMLParser()
     //Server()
 }
 

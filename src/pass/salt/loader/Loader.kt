@@ -1,13 +1,10 @@
 package pass.salt.loader
-import pass.salt.*
-import pass.dev.*
 import java.io.File
-import pass.dev.server.Test
-import pass.salt.loader.annotations.AnnotationProcessor
-import pass.salt.loader.annotations.Get
+import pass.salt.annotations.AnnotationProcessor
+import pass.salt.annotations.Get
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.functions
-import pass.salt.loader.annotations.Controller
+import pass.salt.annotations.Controller
 import pass.salt.loader.config.Config
 
 
@@ -23,6 +20,11 @@ class Loader() {
         annotationProcessor(path, pack)
     }
 
+    /**
+     * Look for annotations in "out/.../pack" (compile output) and process them.
+     * [pack] is the name of the main package.
+     * Also adds all classes to the "container".
+     */
     private fun annotationProcessor(path: String, pack: String) {
         var location: File = File(pack)
         File("$path/out").walk().forEach {
@@ -30,17 +32,19 @@ class Loader() {
                 location = it
         }
         location.walk().forEach {
-            //println(it)
             // TODO do something about KT classes
+            // TODO what do do with salt path?
             if (it.toString().endsWith(".class") &&
-                    !((it.toString().endsWith("Kt.class")) || it.toString().endsWith("$1.class"))) {
-                val name = getClassName(it.toString(), pack)
-                val dada = AnnotationProcessor.process<Controller, Get>(name)
-
-                val cls = Class.forName(name)
+                    !((it.toString().endsWith("Kt.class")) || it.toString().endsWith("$1.class") ||
+                            it.toString().contains("salt"))) {
+                val className = getClassName(it.toString(), pack)
+                val dada = AnnotationProcessor.process<Controller, Get>(className)
+                println(dada)
+                //val cls = Class.forName(name)
                 /**for(annotation in cls.declaredAnnotations) {
                     println(annotation)
                 }*/
+                /**
                 val annotations = cls.kotlin.annotations
                 for (a in annotations) {
                     if (a is Controller) println("Controller")
@@ -55,7 +59,7 @@ class Loader() {
                         //c.invoke(null)
                         //println("Anno")
                     }
-                }
+                }*/
             }
             /**
             val functions = Test::class.java.kotlin.functions

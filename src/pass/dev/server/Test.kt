@@ -1,7 +1,7 @@
 package pass.dev.server
 
-import pass.salt.loader.annotations.Controller
-import pass.salt.loader.annotations.Get
+import pass.salt.annotations.Controller
+import pass.salt.annotations.Get
 
 @Controller
 class Test {
