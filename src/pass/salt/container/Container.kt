@@ -14,4 +14,16 @@ class Container() {
         }
         elements[name] = instance
     }
+
+    fun addElement(className: String) {
+        var name = className.substring(className.lastIndexOf('.')+1, className.length)
+        name = name.replace(name.first(), name.first().toLowerCase())
+        addElement(name, className)
+    }
+
+    fun addElement(name: String, className: String) {
+        val cls = Class.forName(className)
+        val instance = cls.getConstructor().newInstance()
+        addElement(name, instance)
+    }
 }
