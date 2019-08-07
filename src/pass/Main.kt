@@ -1,20 +1,10 @@
 package pass
 
-import pass.dev.server.Test
 import pass.salt.SaltApplication
-import pass.salt.annotations.Get
 import pass.salt.loader.parser.TOMLObject
 import pass.salt.loader.parser.TOMLParser
-import pass.salt.server.Server
 import java.util.*
-import java.util.logging.Logger
-import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.functions
-import kotlin.reflect.full.memberFunctions
 import kotlin.test.assertEquals
-
-
-val log: Logger = Logger.getLogger("webserver")
 
 class Main {
     companion object {

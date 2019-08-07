@@ -4,9 +4,10 @@ import pass.salt.modules.SaltProcessor
 import pass.salt.container.Container
 import pass.salt.exceptions.MainPackageNotFoundException
 import pass.salt.loader.config.Config
-import pass.salt.modules.logger
 import java.lang.Exception
+import java.util.logging.Logger
 
+val logger = Logger.getGlobal()
 
 class Loader() {
     private val config: Config
@@ -28,15 +29,19 @@ class Loader() {
         val pair = getLocation()
         val pack = pair.first
         val location = pair.second
+        logger.fine("Project path located")
 
         // Module System -> Single Instance
+        logger.fine("Loading module System (Single)")
         singleModules.add(SaltProcessor.module(module = "SaltThreadPool", config = config, container = container))
+        singleModules.add(SaltProcessor.module(module = "PepperServer", config = config, container = container))
         for (mod in singleModules) {
             mod.process()
         }
 
         // Module System -> Process Annotations through all Classes
         // Order of modules is important!
+        logger.fine("Loading module System (Classes)")
         classModules.add(SaltProcessor.module("ComponentScan", config, container))
         classModules.add(SaltProcessor.module("AutowiredScan", config, container))
 

@@ -2,6 +2,7 @@ package pass.salt.modules
 
 import pass.salt.container.Container
 import pass.salt.loader.config.Config
+import pass.salt.modules.server.PepperServer
 
 import java.util.logging.Logger
 import kotlin.Exception
@@ -32,6 +33,7 @@ interface SaltProcessor {
                     "ComponentScan" -> ComponentScan(config, container)
                     "AutowiredScan" -> AutowiredScan(container)
                     "SaltThreadPool" -> SaltThreadPoolFactory(config, container)
+                    "PepperServer" -> PepperServer(config, container)
                     else -> ModuleNotFound()
                 }
             } catch (ex: Exception) {

@@ -4,7 +4,11 @@ import java.util.logging.Logger
 
 class Container() {
     private val elements: MutableMap<String, Any> = mutableMapOf()
-    private val logger = Logger.getLogger("webserver")
+    private val logger = Logger.getGlobal()
+
+    init {
+        logger.fine("Container initialization done")
+    }
 
     fun addElement(name: String, instance: Any) {
         if (elements.containsKey(name)) {
