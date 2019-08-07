@@ -5,6 +5,10 @@ import pass.salt.loader.config.Config
 
 import java.util.logging.Logger
 import kotlin.Exception
+import kotlin.reflect.KFunction
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.KProperty
+import kotlin.reflect.KProperty1
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.functions
 import kotlin.reflect.full.memberProperties
@@ -24,6 +28,7 @@ interface SaltProcessor {
             try {
                 return when(module) {
                     "ComponentScan" -> ComponentScan(config, container)
+                    "AutowiredScan" -> AutowiredScan(container)
                     "SaltThreadPool" -> SaltThreadPoolFactory(config, container)
                     else -> ModuleNotFound()
                 }
@@ -56,7 +61,20 @@ interface SaltProcessor {
             return null
         }
 
-        inline fun<reified C : Annotation, reified A : Annotation> processFunc(className: String): Pair<Any, MutableList<Any>>? {
+        inline fun<reified A : Annotation> processProp(className: String): MutableList<KMutableProperty<*>>? {
+            val cls = Class.forName(className)
+            val properties = cls.kotlin.memberProperties
+            val list = mutableListOf<KMutableProperty<*>>()
+            for (p in properties) {
+                val a = p.findAnnotation<A>()
+                if (a != null && p is KMutableProperty<*>) {
+                    list.add(p)
+                }
+            }
+            return if (list.size > 0) list else null
+        }
+
+        inline fun<reified C : Annotation, reified A : Annotation> processClassFunc(className: String): Pair<Any, MutableList<Any>>? {
             val cls = Class.forName(className)
             val annotations = cls.kotlin.annotations
             for (a in annotations) {
@@ -76,7 +94,7 @@ interface SaltProcessor {
             return null
         }
 
-        inline fun<reified C : Annotation, reified A : Annotation> processProp(className: String): Pair<Any, MutableList<Any>>? {
+        inline fun<reified C : Annotation, reified A : Annotation> processClassProp(className: String): Pair<Any, MutableList<Any>>? {
             val cls = Class.forName(className)
             val annotations = cls.kotlin.annotations
             for (a in annotations) {

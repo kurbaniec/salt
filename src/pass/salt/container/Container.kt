@@ -28,4 +28,16 @@ class Container() {
         val instance = cls.getConstructor().newInstance()
         addElement(name, instance)
     }
+
+    fun getElement(className: String): Any? {
+        // check if full class is given
+        var name = ""
+        if (className.contains(".")) {
+            name = className.substring(className.lastIndexOf('.')+1, className.length)
+            name = name.replace(name.first(), name.first().toLowerCase())
+        } else {
+            name = className.replace(className.first(), className.first().toLowerCase())
+        }
+        return elements[name]
+    }
 }

@@ -34,6 +34,7 @@ class Loader() {
         // Order of modules is important!
         val modules = mutableListOf<SaltProcessor>()
         modules.add(SaltProcessor.module("ComponentScan", config, container))
+        modules.add(SaltProcessor.module("AutowiredScan", config, container))
 
         for (mod in modules) {
             location.walk().forEach {
