@@ -8,4 +8,7 @@ class ModuleNotFound : SaltProcessor {
         logger.warning("Module not found...")
     }
 
+    override fun shutdown() {
+
+    }
 }

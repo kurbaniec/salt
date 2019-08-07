@@ -11,6 +11,8 @@ import java.lang.Exception
 class Loader() {
     private val config: Config
     private val container: Container
+    val singleModules = mutableListOf<SaltProcessor>()
+    val classModules = mutableListOf<SaltProcessor>()
 
     init {
         config = Config()
@@ -22,21 +24,23 @@ class Loader() {
      * Look for annotations in "out/.../pack" (compile output) and process them.
      * Also adds all classes to the "container".
      */
-    private fun load() {
+    private fun load(): Loader {
         val pair = getLocation()
         val pack = pair.first
         val location = pair.second
 
         // Module System -> Single Instance
-        SaltProcessor.module(module = "SaltThreadPool", config = config, container = container).process()
+        singleModules.add(SaltProcessor.module(module = "SaltThreadPool", config = config, container = container))
+        for (mod in singleModules) {
+            mod.process()
+        }
 
         // Module System -> Process Annotations through all Classes
         // Order of modules is important!
-        val modules = mutableListOf<SaltProcessor>()
-        modules.add(SaltProcessor.module("ComponentScan", config, container))
-        modules.add(SaltProcessor.module("AutowiredScan", config, container))
+        classModules.add(SaltProcessor.module("ComponentScan", config, container))
+        classModules.add(SaltProcessor.module("AutowiredScan", config, container))
 
-        for (mod in modules) {
+        for (mod in classModules) {
             location.walk().forEach {
                 // TODO do something about KT classes
                 // TODO what do do with salt path?
@@ -46,11 +50,20 @@ class Loader() {
 
                     val className = getClassName(it.toString(), pack)
 
+                    // Module System -> Process Annotations through all Classes
                     mod.process(className)
-                    //SaltProcessor.module("ComponentScan", config, container).process(className)
-                    println("Blub")
                 }
             }
+        }
+        return this
+    }
+
+    fun shutdown() {
+        for (mod in classModules) {
+            mod.shutdown()
+        }
+        for (mod in singleModules) {
+            mod.shutdown()
         }
     }
 

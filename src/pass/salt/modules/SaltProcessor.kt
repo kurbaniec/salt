@@ -17,6 +17,8 @@ interface SaltProcessor {
 
     fun process(className: String = "")
 
+    fun shutdown()
+
     companion object {
         val logger = Logger.getLogger("webserver")
         /**

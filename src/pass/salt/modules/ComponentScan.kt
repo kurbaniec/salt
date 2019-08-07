@@ -17,4 +17,8 @@ class ComponentScan(
         }
     }
 
+    override fun shutdown() {
+
+    }
+
 }

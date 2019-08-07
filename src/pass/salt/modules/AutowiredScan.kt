@@ -21,4 +21,9 @@ class AutowiredScan(val container: Container): SaltProcessor {
         }
     }
 
+    override fun shutdown() {
+
+    }
+
+
 }
