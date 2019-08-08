@@ -8,14 +8,19 @@ class AutowiredScan(val container: Container): SaltProcessor {
     override fun process(className: String) {
         val props = SaltProcessor.processProp<Autowired>(className)
         if (props != null) {
-            val instace = container.getElement(className)
+            val instance = container.getElement(className)
             for (p in props) {
                 var newVal = container.getElement(p.name)
-                if (newVal == null) {
-                    newVal = container.getElement(p.returnType.toString())
+                if (newVal != null && instance != null &&
+                        newVal.javaClass.kotlin.qualifiedName == p.returnType.toString()) {
+                    p.setter.call(instance, newVal)
                 }
-                if (newVal != null && instace != null) {
-                    p.setter.call(instace, newVal)
+                else {
+                    newVal = container.getElement(p.returnType.toString())
+                    if (newVal != null && instance != null &&
+                            newVal.javaClass.kotlin.qualifiedName == p.returnType.toString()) {
+                        p.setter.call(instance, newVal)
+                    }
                 }
             }
         }

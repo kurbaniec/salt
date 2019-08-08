@@ -44,4 +44,10 @@ class Container() {
         }
         return elements[name]
     }
+
+    companion object {
+        fun getInstance(className: String, container: Container): Any? {
+            return container.getElement(className)
+        }
+    }
 }

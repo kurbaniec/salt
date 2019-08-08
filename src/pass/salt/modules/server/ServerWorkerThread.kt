@@ -3,8 +3,12 @@ package pass.salt.modules.server
 import java.io.*
 import java.net.Socket
 import java.util.*
+import kotlin.reflect.KFunction
 
-class ServerWorkerThread(val socket: Socket): Runnable {
+class ServerWorkerThread(
+        val socket: Socket,
+        val mapping: MutableMap<String, MutableMap<String, Pair<Any, KFunction<*>>>>
+): Runnable {
     val inp = BufferedReader(InputStreamReader(socket.getInputStream()))
     val out = PrintWriter(socket.getOutputStream())
     val data = BufferedOutputStream(socket.getOutputStream())
@@ -54,4 +58,10 @@ class ServerWorkerThread(val socket: Socket): Runnable {
 
         return fileData
     }
+
+    fun <S: Any, T: Any> Pair<S, KFunction<T>>.call(vararg args: Any?): T {
+        val (instance, func) = this
+        return func.call(instance, *args)
+    }
+
 }

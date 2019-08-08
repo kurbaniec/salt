@@ -89,7 +89,6 @@ interface SaltProcessor {
                         val b = f.findAnnotation<A>()
                         if (b != null) {
                             list.add(f)
-                            //f.call(instance)
                         }
                     }
                     return Pair(className, list)

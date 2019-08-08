@@ -9,5 +9,8 @@ annotation class Controller()
 @Target(AnnotationTarget.FUNCTION)
 annotation class Get(val path: String)
 
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FUNCTION)
+annotation class Post(val path: String)
 
 
