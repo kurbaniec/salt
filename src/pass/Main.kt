@@ -1,5 +1,7 @@
 package pass
-
+import com.mongodb.MongoClient
+import com.mongodb.MongoClientURI
+import org.bson.Document
 import pass.salt.SaltApplication
 import pass.salt.loader.parser.TOMLObject
 import pass.salt.loader.parser.TOMLParser
@@ -11,8 +13,15 @@ class Main {
         @JvmStatic
         fun main(args: Array<String>) {
             val app = SaltApplication()
-            //Server()
         }
+    }
+
+    fun mongo() {
+        val mongo = MongoClient(MongoClientURI("mongodb://Svtmgrleh04.wienkav.at:27017"))
+        val db = mongo.getDatabase("dev")
+        val collection = db.getCollection("test")
+        collection.insertOne(Document(mapOf("key" to "value")))
+        println("mongo")
     }
 
     fun testTOMLParser() {

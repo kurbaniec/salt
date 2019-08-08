@@ -24,6 +24,7 @@ class ServerWorkerThread(
     val WEB_ROOT: File
     val METHOD_NOT_SUPPORTED = "not_supported.html"
     val FILE_NOT_FOUND = "404.html"
+    val listening =  true
 
     init {
         /**
@@ -36,42 +37,42 @@ class ServerWorkerThread(
     }
 
     override fun run() {
-        // get first line of the request from the client
-        val input = inp.readLine()
-        // we parse the request with a string tokenizer
-        val parse = StringTokenizer(input)
-        val method = parse.nextToken().toUpperCase() // we get the HTTP method of the client
-        // we get file requested
-        val path = parse.nextToken().toLowerCase()
+        while (listening) {
+            // get first line of the request from the client
+            val input = inp.readLine()
+            // we parse the request with a string tokenizer
+            val parse = StringTokenizer(input)
+            val method = parse.nextToken().toUpperCase() // we get the HTTP method of the client
+            // we get file requested
+            val path = parse.nextToken().toLowerCase()
 
-        // Unsupported mapping
-        if (method != "GET" && method != "POST" && method != "HEAD") {
-            val file = File(WEB_ROOT, METHOD_NOT_SUPPORTED)
-            val fileLength = file.length().toInt()
-            val contentMimeType = "text/html"
-            //read content to return to client
-            val fileData = readFileData(file, fileLength)
-            send("HTTP/1.1 501 Not Implemented",
-                    "Server: SaltApplication",
-                    contentMimeType, fileLength, fileData)
-        }
-        else {
-            val fileEnd = when (method) {
-                "GET" -> server.getGetMapping(path)
-                "POST" -> server.getPostMapping(path)
-                else -> null
-            }
-
-            if ((method == "GET" || method == "POST") && fileEnd != null) {
-                val file = File(WEB_ROOT, fileEnd)
+            // Unsupported mapping
+            if (method != "GET" && method != "POST" && method != "HEAD") {
+                val file = File(WEB_ROOT, METHOD_NOT_SUPPORTED)
                 val fileLength = file.length().toInt()
-                val content = getContentType(fileEnd)
+                val contentMimeType = "text/html"
+                //read content to return to client
                 val fileData = readFileData(file, fileLength)
-                send("HTTP/1.1 200 OK",
+                send("HTTP/1.1 501 Not Implemented",
                         "Server: SaltApplication",
-                        content, fileLength, fileData)
+                        contentMimeType, fileLength, fileData)
+            } else {
+                val fileEnd = when (method) {
+                    "GET" -> server.getGetMapping(path)
+                    "POST" -> server.getPostMapping(path)
+                    else -> null
+                }
+
+                if ((method == "GET" || method == "POST") && fileEnd != null) {
+                    val file = File(WEB_ROOT, fileEnd)
+                    val fileLength = file.length().toInt()
+                    val content = getContentType(fileEnd)
+                    val fileData = readFileData(file, fileLength)
+                    send("HTTP/1.1 200 OK",
+                            "Server: SaltApplication",
+                            content, fileLength, fileData)
+                } else fileNotFound()
             }
-            else fileNotFound()
         }
     }
 
@@ -86,9 +87,9 @@ class ServerWorkerThread(
         data.write(fileData, 0, fileLength)
         data.flush()
         // TODO close connection?
-        out.close()
-        data.close()
-        socket.close()
+        //out.close()
+        //data.close()
+        //socket.close()
     }
 
     // return supported MIME Types
