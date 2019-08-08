@@ -11,11 +11,14 @@ import java.io.BufferedOutputStream
 import java.io.PrintWriter
 import java.io.InputStreamReader
 import java.io.BufferedReader
+import javax.net.ssl.SSLSocket
+import javax.net.ssl.SSLSession
+
 
 
 
 class ServerWorkerThread(
-        val socket: Socket,
+        val socket: SSLSocket,
         val server: ServerMainThread
 ): Runnable {
     val inp = BufferedReader(InputStreamReader(socket.getInputStream()))
@@ -37,6 +40,15 @@ class ServerWorkerThread(
     }
 
     override fun run() {
+        // SSL init
+        socket.enabledCipherSuites = socket.supportedCipherSuites;
+        socket.startHandshake()
+        val sslSession = socket.session
+        println("SSLSession :")
+        println("\tProtocol : " + sslSession.protocol)
+        println("\tCipher suite : " + sslSession.cipherSuite)
+
+        // TODO kill handler after a time - Terminate Service?
         while (listening) {
             // get first line of the request from the client
             val input = inp.readLine()

@@ -7,11 +7,15 @@ import java.io.BufferedReader
 import java.io.PrintWriter
 import java.net.ServerSocket
 import kotlin.reflect.KFunction
+import java.io.FileInputStream
+import java.security.KeyStore
+import javax.net.ssl.*
+
 
 // TODO 08.08 connect ServerMainThread with Get Annotation
 class ServerMainThread(
     val executor: SaltThreadPool,
-    val socket: ServerSocket
+    val socket: SSLServerSocket
 ): Runnable {
     val mapping = mutableMapOf<String, MutableMap<String, Pair<Any, KFunction<*>>>>()
     var listening = true
@@ -25,7 +29,7 @@ class ServerMainThread(
 
     override fun run() {
         while (listening)
-            executor.submit(ServerWorkerThread(socket.accept(), this))
+            executor.submit(ServerWorkerThread(socket.accept() as SSLSocket, this))
     }
 
     fun addGetMapping(path: String, call: Pair<Any, KFunction<*>>) {
@@ -62,4 +66,6 @@ class ServerMainThread(
         val (instance, func) = this
         return func.call(instance, *args)
     }
+
+
 }
