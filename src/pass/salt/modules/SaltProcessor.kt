@@ -2,6 +2,7 @@ package pass.salt.modules
 
 import pass.salt.container.Container
 import pass.salt.loader.config.Config
+import pass.salt.modules.server.MappingScan
 import pass.salt.modules.server.PepperServer
 
 import java.util.logging.Logger
@@ -34,6 +35,7 @@ interface SaltProcessor {
                     "AutowiredScan" -> AutowiredScan(container)
                     "SaltThreadPool" -> SaltThreadPoolFactory(config, container)
                     "PepperServer" -> PepperServer(config, container)
+                    "MappingScan" -> MappingScan(config, container)
                     else -> ModuleNotFound()
                 }
             } catch (ex: Exception) {
@@ -78,20 +80,20 @@ interface SaltProcessor {
             return if (list.size > 0) list else null
         }
 
-        inline fun<reified C : Annotation, reified A : Annotation> processClassFunc(className: String): Pair<Any, MutableList<Any>>? {
+        inline fun<reified C : Annotation, reified A : Annotation> processClassFunc(className: String): MutableList<Pair<Annotation, KFunction<*>>>? {
             val cls = Class.forName(className)
             val annotations = cls.kotlin.annotations
             for (a in annotations) {
                 if (a is C) {
-                    val list = mutableListOf<Any>()
+                    val list = mutableListOf<Pair<Annotation, KFunction<*>>>()
                     val functions = cls.kotlin.functions
                     for (f in functions) {
                         val b = f.findAnnotation<A>()
                         if (b != null) {
-                            list.add(f)
+                            list.add(Pair(b, f))
                         }
                     }
-                    return Pair(className, list)
+                    return list
                 }
             }
             return null

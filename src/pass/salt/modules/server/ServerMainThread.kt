@@ -27,4 +27,12 @@ class ServerMainThread(
         while (listening)
             executor.submit(ServerWorkerThread(socket.accept(), mapping))
     }
+
+    fun addGetMapping(path: String, call: Pair<Any, KFunction<*>>) {
+        mapping["get"]?.set(path, call)
+    }
+
+    fun addPostMapping(path: String, call: Pair<Any, KFunction<*>>) {
+        mapping["post"]?.set(path, call)
+    }
 }
