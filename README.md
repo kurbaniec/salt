@@ -1,5 +1,11 @@
 # passwort-manager-dev
 
+# TODO
+- [ ] TODO Terminator-service
+- [ ] redirect http->https
+- [ ] cookie session key
+- [ ] ssl certificate renew -> swap socket?
+
 # Notes
 ## Project Structure
 Following project structure is needed.
