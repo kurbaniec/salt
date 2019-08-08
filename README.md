@@ -29,3 +29,6 @@ Supports:
 * Multiline-Array initialization is not supported
 * Sections and sub-sections are supported
 * Full-Line and End-Line comments are supported
+
+## MongoDB
+MongoDB is used as a database, therefore the mongo-java-driver is needed. You can find him [here](http://central.maven.org/maven2/org/mongodb/mongo-java-driver/).
