@@ -3,71 +3,42 @@ package pass.salt.modules.server
 import pass.salt.modules.SaltThreadPool
 import java.net.ServerSocket
 import kotlin.reflect.KFunction
-import javax.net.ssl.*
 import pass.salt.loader.config.Config
 import pass.salt.modules.server.encryption.SSLManager
-import java.io.InputStreamReader
-import java.io.BufferedReader
+import javax.net.ssl.SSLServerSocket
+import javax.net.ssl.SSLSocket
 
-
-
-
-// TODO 08.08 connect ServerMainThread with Get Annotation
-class ServerMainThread(
+class ServerMainThread<P: ServerSocket>(
         val executor: SaltThreadPool,
-    //val socket: SSLServerSocket
-        val serverSocket: ServerSocket,
+        val serverSocket: P,
+        val mapping: MutableMap<String, MutableMap<String, Pair<Any, KFunction<*>>>>,
         val config: Config
 ): Runnable {
-    val mapping = mutableMapOf<String, MutableMap<String, Pair<Any, KFunction<*>>>>()
+    //val mapping = mutableMapOf<String, MutableMap<String, Pair<Any, KFunction<*>>>>()
     var listening = true
 
+    /**
     init {
         val getMapping = mutableMapOf<String, Pair<Any, KFunction<*>>>()
         val postMapping = mutableMapOf<String, Pair<Any, KFunction<*>>>()
         mapping["get"] = getMapping
         mapping["post"] = postMapping
-    }
+    }*/
 
     override fun run() {
-        val password = config.findObjectAttribute("keystore", "password") as String
-        SSLManager.createKeyStore(password)
-        while (listening) {
-            executor.submit(ServerWorkerThread(serverSocket.accept(), this, config))
-        }
-        /**val sslContext = SSLManager.createSSLContext(password)
-        val redirect = config.findObjectAttribute("server", "redirect") as Boolean
-        while (listening) {
-            val socket = serverSocket.accept()
-            if (redirect) {
-                val inp = BufferedReader(InputStreamReader(socket.getInputStream()))
-                val line = inp.readLine()
-                // HTTPS:
-                if (!Character.isLetter(line[0]) && !Character.isLetter(line[1])) {
-                    println("https")
-                    // Create server socket factory
-                    val sslServerSocketFactory = sslContext?.socketFactory
-                    // Create server socket
-                    val sslSocket = sslServerSocketFactory?.createSocket(
-                            socket, null, socket.port, false) as SSLSocket
-                    sslSocket.useClientMode = false;
-                    executor.submit(ServerWorkerThread(sslSocket, this))
-                }
-                // HTTP:
-                else {
-                    println("http")
-                    executor.submit(ServerWorkerThread(socket, this))
-                }
-                /**while (line != "") {
-                    println(line)
-                    line = inp.readLine()
-                }*/
-                //inp.close()
+        if (serverSocket is SSLServerSocket) {
+            val password = config.findObjectAttribute("keystore", "password") as String
+            SSLManager.createKeyStore(password)
+            while (listening) {
+                executor.submit(ServerWorkerThread(serverSocket.accept() as SSLSocket, this, config))
             }
+        }
+        else {
+            while (listening) {
+                executor.submit(ServerWorkerThread(serverSocket.accept(), this, config))
+            }
+        }
 
-            print("Baum")
-            //executor.submit(ServerWorkerThread(socket.accept() as SSLSocket, this))
-        }*/
     }
 
     fun addGetMapping(path: String, call: Pair<Any, KFunction<*>>) {

@@ -15,14 +15,15 @@ class MappingScan(
     val container: Container
 ): SaltProcessor {
     override fun process(className: String) {
-        val server = container.getElement("serverMainThread") as ServerMainThread
+        //val server = container.getElement("serverMainThread") as ServerMainThread
+        val server = container.getElement("pepperServer") as PepperServer
         val get = SaltProcessor.processClassFunc<Controller, Get>(className)
         val post = SaltProcessor.processClassFunc<Controller, Post>(className)
         if (get != null) addMapping(className, get, server)
         if (post != null) addMapping(className, post, server)
     }
 
-    fun addMapping(className: String, data: MutableList<Pair<Annotation, KFunction<*>>>, server: ServerMainThread) {
+    fun addMapping(className: String, data: MutableList<Pair<Annotation, KFunction<*>>>, server: PepperServer) {
         val instance = container.getElement(className)
         if (instance != null) {
             for (func in data) {
