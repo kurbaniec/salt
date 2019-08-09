@@ -7,6 +7,8 @@ import kotlin.reflect.KFunction
 import java.util.StringTokenizer
 import jdk.nashorn.internal.runtime.ScriptingFunctions.readLine
 import com.sun.xml.internal.ws.streaming.XMLStreamWriterUtil.getOutputStream
+import pass.salt.loader.config.Config
+import pass.salt.modules.server.encryption.SSLManager
 import java.io.BufferedOutputStream
 import java.io.PrintWriter
 import java.io.InputStreamReader
@@ -18,12 +20,14 @@ import javax.net.ssl.SSLSession
 
 
 class ServerWorkerThread(
-        val socket: SSLSocket,
-        val server: ServerMainThread
+        var socket: Socket,
+        val server: ServerMainThread,
+        val config: Config
 ): Runnable {
-    val inp = BufferedReader(InputStreamReader(socket.getInputStream()))
+    //var inp = BufferedReader(InputStreamReader(socket.getInputStream()))
+    lateinit var inp: BufferedReader
     var out = PrintWriter(socket.getOutputStream())
-    val data = BufferedOutputStream(socket.getOutputStream())
+    var data = BufferedOutputStream(socket.getOutputStream())
     val WEB_ROOT: File
     val METHOD_NOT_SUPPORTED = "not_supported.html"
     val FILE_NOT_FOUND = "404.html"
@@ -40,18 +44,74 @@ class ServerWorkerThread(
     }
 
     override fun run() {
-        // SSL init
-        socket.enabledCipherSuites = socket.supportedCipherSuites;
-        socket.startHandshake()
-        val sslSession = socket.session
+        val password = config.findObjectAttribute("keystore", "password") as String
+        val sslContext = SSLManager.createSSLContext(password)
+        val redirect = config.findObjectAttribute("server", "redirect") as Boolean
+
+        val tester = PushbackInputStream(socket.getInputStream())
+        //inp = BufferedReader(InputStreamReader(socket.getInputStream()))
+
+        val i = tester.read()
+        val a = i.toChar()
+        tester.unread(i)
+
+        val b = ByteArray(1024)
+        tester.read(b);
+        //val d = b.map { it.toChar() }
+        var line = String(b)
+        //line = line.substring(0, line.indexOf("\r\n"))
+        print("bauny")
+        //val line = inp.readLine()
+        //inp.reset()
+        /**
+         * val i = tester.read()
+        val a = i.toChar()
+        tester.unread(i)
+        i = tester.read()
+        println(i.toChar())
+        val b = i.toChar()
+        tester.unread(i)*/
+        /**val line = ByteArray(2)
+        val baum = tester.read()
+        tester.unread(baum)
+        tester.read(line, 0, 2)
+        tester.unread(line)*/
+
+        // HTTPS:
+        //if (!Character.isLetter(a)) {
+        if (!Character.isLetter(line[0]) && !Character.isLetter(line[1])) {
+        //if (!Character.isLetter(a) && !Character.isLetter(b)) {
+            println("https")
+            // Create server socket factory
+            val sslServerSocketFactory = sslContext?.socketFactory
+            // Create server socket
+            socket = sslServerSocketFactory?.createSocket(
+                    socket, null, socket.port, false) as SSLSocket
+            (socket as SSLSocket).useClientMode = false;
+            (socket as SSLSocket).enabledCipherSuites = (socket as SSLSocket).supportedCipherSuites;
+            (socket as SSLSocket).startHandshake() // TODO is this needed? hmm
+            inp = BufferedReader(InputStreamReader(socket.getInputStream()))
+            out = PrintWriter(socket.getOutputStream())
+            data = BufferedOutputStream(socket.getOutputStream())
+            fileNotFound()
+        }
+        // HTTP:
+        else {
+            println("http")
+            inp = BufferedReader(InputStreamReader(socket.getInputStream()))
+        }
+        /**val sslSession = socket.session
         println("SSLSession :")
         println("\tProtocol : " + sslSession.protocol)
-        println("\tCipher suite : " + sslSession.cipherSuite)
+        println("\tCipher suite : " + sslSession.cipherSuite)*/
 
         // TODO kill handler after a time - Terminate Service?
         while (listening) {
             // get first line of the request from the client
-            val input = inp.readLine()
+
+            //val input = inp.readLine()
+            val input = line
+
             // we parse the request with a string tokenizer
             val parse = StringTokenizer(input)
             val method = parse.nextToken().toUpperCase() // we get the HTTP method of the client
