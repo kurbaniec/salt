@@ -7,3 +7,6 @@ count = 4
 [logger]
 level = "finest"
 
+[keystore]
+password = "passwd1234"
+

@@ -2,12 +2,9 @@ package pass.salt.modules.server
 
 import pass.salt.modules.SaltThreadPool
 import pass.salt.server.HandlerThread
-import java.io.BufferedOutputStream
-import java.io.BufferedReader
-import java.io.PrintWriter
+import java.io.*
 import java.net.ServerSocket
 import kotlin.reflect.KFunction
-import java.io.FileInputStream
 import java.security.KeyStore
 import javax.net.ssl.*
 
@@ -28,8 +25,9 @@ class ServerMainThread(
     }
 
     override fun run() {
-        while (listening)
+        while (listening) {
             executor.submit(ServerWorkerThread(socket.accept() as SSLSocket, this))
+        }
     }
 
     fun addGetMapping(path: String, call: Pair<Any, KFunction<*>>) {
