@@ -23,7 +23,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     val WEB_ROOT: File
     val METHOD_NOT_SUPPORTED = "not_supported.html"
     val FILE_NOT_FOUND = "404.html"
-    val listening =  true
+    var listening =  true
 
     init {
         val path = System.getProperty("user.dir")
@@ -35,12 +35,18 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
             socket.enabledCipherSuites = socket.supportedCipherSuites;
             socket.startHandshake()
         }
-        val redirect = config.findObjectAttribute("server", "redirect") as Boolean
-
+        else if(config.findObjectAttribute("server", "redirect") as Boolean) {
+            val input = inp.readLine()
+            val parse = StringTokenizer(input)
+            parse.nextToken()
+            val path = parse.nextToken().toLowerCase()
+            redirect(path)
+            return
+        }
         // TODO kill handler after a time - Terminate Service?
         while (listening) {
             // get first line of the request from the client
-            val input =  inp.readLine()
+            val input = inp.readLine()
             // we parse the request with a string tokenizer
             val parse = StringTokenizer(input)
             val method = parse.nextToken().toUpperCase() // we get the HTTP method of the client
@@ -54,7 +60,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                 val contentMimeType = "text/html"
                 //read content to return to client
                 val fileData = readFileData(file, fileLength)
-                send("HTTP/1.1 501 Not Implemented",
+                sendHelper("HTTP/1.1 501 Not Implemented",
                         "Server: SaltApplication",
                         contentMimeType, fileLength, fileData)
             } else {
@@ -69,7 +75,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                     val fileLength = file.length().toInt()
                     val content = getContentType(fileEnd)
                     val fileData = readFileData(file, fileLength)
-                    send("HTTP/1.1 200 OK",
+                    sendHelper("HTTP/1.1 200 OK",
                             "Server: SaltApplication",
                             content, fileLength, fileData)
                 } else fileNotFound()
@@ -77,7 +83,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         }
     }
 
-    private fun send(header: String, server: String, contentType: String, fileLength: Int, fileData: ByteArray) {
+    private fun sendHelper(header: String, server: String, contentType: String, fileLength: Int, fileData: ByteArray) {
         out.println(header)
         out.println(server)
         out.println("Date: ${Date()}")
@@ -121,9 +127,31 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val fileLength = file.length().toInt()
         val content = "text/html"
         val fileData = readFileData(file, fileLength)
-        send("HTTP/1.1 404 File Not Found",
+        sendHelper("HTTP/1.1 404 File Not Found",
                 "Server: SaltApplication",
                 content, fileLength, fileData)
+    }
+
+    private fun redirect(path: String) {
+        val ip = config.findObjectAttribute("server", "ip_address") as String
+        val port = config.findObjectAttribute("server", "https_port").toString()
+        out.println("HTTP/1.1 302 Found")
+        out.println("Server: SaltApplication")
+        out.println("Date: ${Date()}")
+        out.println("Content-type: text/plain")
+        out.println("Location: https://$ip:$port$path")
+        out.println("Connection: Close")
+        out.println()
+        out.flush()
+        shutdown()
+    }
+
+    fun shutdown() {
+        listening = false
+        inp.close()
+        out.close()
+        data.close()
+        socket.close()
     }
 
 

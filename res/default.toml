@@ -1,5 +1,11 @@
 [server]
-port = 8080
+ip_address = "localhost"
+http = true
+https = true
+http_port = 8079
+https_port = 8080
+redirect = true
+redirect_protocol = "https"
 
 [threads]
 count = 4
@@ -9,4 +15,5 @@ level = "finest"
 
 [keystore]
 password = "passwd1234"
+
 
