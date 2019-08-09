@@ -1,10 +1,11 @@
 # passwort-manager-dev
 
 # TODO
-- [ ] TODO Terminator-service
-- [ ] redirect http->https
+- [ ] Autherization header + session + cookie
+- [ ] Terminator-service
 - [ ] cookie session key
 - [ ] ssl certificate renew -> swap socket?
+- [x] redirect http->https
 
 # Notes
 ## Project Structure
