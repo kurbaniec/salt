@@ -5,6 +5,8 @@ import pass.salt.loader.config.Config
 import pass.salt.modules.SaltProcessor
 import pass.salt.modules.SaltThreadPool
 import pass.salt.modules.server.encryption.SSLManager
+import pass.salt.modules.server.mapping.HTTPMethod
+import pass.salt.modules.server.mapping.Mapping
 import java.io.FileInputStream
 import java.net.ServerSocket
 import java.security.KeyStore
@@ -24,15 +26,20 @@ class PepperServer(
         val config: Config,
         val container: Container
 ): SaltProcessor {
-    val mapping = mutableMapOf<String, MutableMap<String, Pair<Any, KFunction<*>>>>()
+    val mapping = mutableMapOf<String, Mapping>()
     lateinit var serverHttp: ServerMainThread<ServerSocket>
     lateinit var serverHttps: ServerMainThread<SSLServerSocket>
 
     init {
-        val getMapping = mutableMapOf<String, Pair<Any, KFunction<*>>>()
-        val postMapping = mutableMapOf<String, Pair<Any, KFunction<*>>>()
+        val getMapping = Mapping(HTTPMethod.GET)
+        val postMapping = Mapping(HTTPMethod.POST)
         mapping["get"] = getMapping
         mapping["post"] = postMapping
+        // TODO Legacy
+        //val getMapping = mutableMapOf<String, Pair<Any, KFunction<*>>>()
+        //val postMapping = mutableMapOf<String, Pair<Any, KFunction<*>>>()
+        //mapping["get"] = getMapping
+        //mapping["post"] = postMapping
     }
     override fun process(className: String) {
         container.addElement("pepperServer", this)
@@ -58,11 +65,12 @@ class PepperServer(
     }
 
     fun addGetMapping(path: String, call: Pair<Any, KFunction<*>>) {
-        mapping["get"]?.set(path, call)
+        mapping["get"]?.addMapping(path, Mapping.MappingFunction(path, call.first, call.second))
     }
 
     fun addPostMapping(path: String, call: Pair<Any, KFunction<*>>) {
-        mapping["post"]?.set(path, call)
+        //mapping["post"]?.set(path, call)
+        mapping["post"]?.addMapping(path, Mapping.MappingFunction(path, call.first, call.second))
     }
 
     override fun shutdown() {

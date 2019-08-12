@@ -2,15 +2,13 @@ package pass.salt.modules
 
 import pass.salt.container.Container
 import pass.salt.loader.config.Config
-import pass.salt.modules.server.MappingScan
+import pass.salt.modules.server.mapping.MappingScan
 import pass.salt.modules.server.PepperServer
 
 import java.util.logging.Logger
 import kotlin.Exception
 import kotlin.reflect.KFunction
 import kotlin.reflect.KMutableProperty
-import kotlin.reflect.KProperty
-import kotlin.reflect.KProperty1
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.functions
 import kotlin.reflect.full.memberProperties
@@ -89,6 +87,26 @@ interface SaltProcessor {
                     val functions = cls.kotlin.functions
                     for (f in functions) {
                         val b = f.findAnnotation<A>()
+                        if (b != null) {
+                            list.add(Pair(b, f))
+                        }
+                    }
+                    return list
+                }
+            }
+            return null
+        }
+
+        inline fun<reified C : Annotation, reified F : Annotation, reified P: Annotation >
+                processClassFuncParam(className: String): MutableList<Pair<Annotation, KFunction<*>>>? {
+            val cls = Class.forName(className)
+            val annotations = cls.kotlin.annotations
+            for (a in annotations) {
+                if (a is C) {
+                    val list = mutableListOf<Pair<Annotation, KFunction<*>>>()
+                    val functions = cls.kotlin.functions
+                    for (f in functions) {
+                        val b = f.findAnnotation<F>()
                         if (b != null) {
                             list.add(Pair(b, f))
                         }

@@ -66,16 +66,16 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         "Server: SaltApplication",
                         contentMimeType, fileLength, fileData)
             } else {
-                val fileEnd = when (method) {
+                val mapping = when (method) {
                     "GET" -> server.getGetMapping(path)
                     "POST" -> server.getPostMapping(path)
                     else -> null
                 }
-
-                if ((method == "GET" || method == "POST") && fileEnd != null) {
-                    val file = File(WEB_ROOT, fileEnd)
+                if ((method == "GET" || method == "POST") && mapping != null) {
+                    val fileName = mapping.call()
+                    val file = File(WEB_ROOT, fileName)
                     val fileLength = file.length().toInt()
-                    val content = getContentType(fileEnd)
+                    val content = getContentType(fileName)
                     val fileData = readFileData(file, fileLength)
                     sendHelper("HTTP/1.1 200 OK",
                             "Server: SaltApplication",

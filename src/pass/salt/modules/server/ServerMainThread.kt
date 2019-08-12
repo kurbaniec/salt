@@ -5,13 +5,15 @@ import java.net.ServerSocket
 import kotlin.reflect.KFunction
 import pass.salt.loader.config.Config
 import pass.salt.modules.server.encryption.SSLManager
+import pass.salt.modules.server.mapping.Mapping
 import javax.net.ssl.SSLServerSocket
 import javax.net.ssl.SSLSocket
 
 class ServerMainThread<P: ServerSocket>(
         val executor: SaltThreadPool,
         val serverSocket: P,
-        val mapping: MutableMap<String, MutableMap<String, Pair<Any, KFunction<*>>>>,
+        //val mapping: MutableMap<String, MutableMap<String, Pair<Any, KFunction<*>>>>,
+        val mapping: MutableMap<String, Mapping>,
         val config: Config
 ): Runnable {
     //val mapping = mutableMapOf<String, MutableMap<String, Pair<Any, KFunction<*>>>>()
@@ -42,25 +44,27 @@ class ServerMainThread<P: ServerSocket>(
     }
 
     fun addGetMapping(path: String, call: Pair<Any, KFunction<*>>) {
-        mapping["get"]?.set(path, call)
+        mapping["get"]?.addMapping(path, Mapping.MappingFunction(path, call.first, call.second))
     }
 
     fun addPostMapping(path: String, call: Pair<Any, KFunction<*>>) {
-        mapping["post"]?.set(path, call)
+        mapping["post"]?.addMapping(path, Mapping.MappingFunction(path, call.first, call.second))
     }
 
-    fun getGetMapping(path: String): String? {
+    fun getGetMapping(path: String): Mapping.MappingFunction? {
         //return mapping["get"]?.get(path)
         return getMapping(path, "get")
     }
 
-    fun getPostMapping(path: String): String? {
+    fun getPostMapping(path: String): Mapping.MappingFunction? {
         //return mapping["post"]?.get(path)
         return getMapping(path, "post")
     }
 
-    fun getMapping(path: String, method: String): String? {
-        val pair = mapping[method]?.get(path)
+    fun getMapping(path: String, method: String): Mapping.MappingFunction? {
+        return mapping[method]?.getMapping(path)
+        //val pair = mapping[method]?.get(path)
+        /**val pair = mapping[method]?.getMapping(path)
         if (pair != null) {
             val file = pair.call()
             if (file != null && file is String) {
@@ -68,7 +72,7 @@ class ServerMainThread<P: ServerSocket>(
                 else "$file.html"
             }
         }
-        return null
+        return null*/
     }
 
     private fun Pair<Any, KFunction<*>>.call(vararg args: Any?): Any? {

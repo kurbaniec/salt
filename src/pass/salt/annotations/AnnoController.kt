@@ -13,4 +13,8 @@ annotation class Get(val path: String)
 @Target(AnnotationTarget.FUNCTION)
 annotation class Post(val path: String)
 
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.VALUE_PARAMETER)
+annotation class Param(val name: String)
+
 
