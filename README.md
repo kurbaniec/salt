@@ -1,6 +1,7 @@
 # passwort-manager-dev
 
 # TODO
+- [ ] Thymeleaf Parser?
 - [ ] Autherization header + session + cookie
 - [ ] Terminator-service
 - [ ] cookie session key
