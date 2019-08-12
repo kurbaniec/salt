@@ -37,9 +37,11 @@ class Mapping(val method: HTTPMethod) {
 
         private fun funcMapper() {
             val parameters = func.valueParameters
+            // TODO better string type check
             for (p in parameters) {
-                val ptype = p.type.toString().replace("?", "")
-                if (p.type == Model::class) {
+                val modelCheck = p.type.toString().replace("?", "")
+                val stringCheck = p.type.toString().replace("?", "")
+                if (modelCheck == Model::class.qualifiedName) {
                     model = Model()
                     hasModel = true
                     if (p.name != null) {
@@ -47,8 +49,7 @@ class Mapping(val method: HTTPMethod) {
                     }
                     else params["model"] = model!!
                 }
-                // TODO better string type check
-                else if (ptype == String::class.qualifiedName){
+                else if (stringCheck == String::class.qualifiedName){
                     val annotations = p.annotations
                     for (a in annotations) {
                         if (a is Param) {
@@ -65,7 +66,7 @@ class Mapping(val method: HTTPMethod) {
             }
         }
 
-        fun addParams(params: MutableMap<String, String>) {
+        fun addParams(params: Map<String, String>) {
             for ((k, v) in params) {
                 this.params[k] = v
             }

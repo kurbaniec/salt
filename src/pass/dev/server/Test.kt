@@ -7,7 +7,7 @@ import pass.salt.annotations.Param
 @Controller
 class Test {
     @Get("/")
-    fun test(@Param("id") id: String?): String {
+    fun test(@Param("id") id: String): String {
         return "login"
     }
 }

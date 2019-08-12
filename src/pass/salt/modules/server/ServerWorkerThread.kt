@@ -23,19 +23,20 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     val WEB_ROOT: File
     val METHOD_NOT_SUPPORTED = "not_supported.html"
     val FILE_NOT_FOUND = "404.html"
-    var listening =  true
+    var listening = true
 
     init {
         val path = System.getProperty("user.dir")
         WEB_ROOT = File(path, "res\\web")
     }
 
+    data class Request(val method: String, val path: String, val params: Map<String, String>)
+
     override fun run() {
         if (socket is SSLSocket) {
             socket.enabledCipherSuites = socket.supportedCipherSuites;
             socket.startHandshake()
-        }
-        else if(config.findObjectAttribute("server", "redirect") as Boolean) {
+        } else if (config.findObjectAttribute("server", "redirect") as Boolean) {
             val input = inp.readLine()
             val parse = StringTokenizer(input)
             parse.nextToken()
@@ -45,6 +46,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         }
         // TODO kill handler after a time - Terminate Service?
         while (listening) {
+            /**
             // get first line of the request from the client
             val input = inp.readLine()
             val header = readHeader()
@@ -53,10 +55,10 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
             val parse = StringTokenizer(input)
             val method = parse.nextToken().toUpperCase() // we get the HTTP method of the client
             // we get file requested
-            val path = parse.nextToken().toLowerCase()
-
+            val path = parse.nextToken().toLowerCase()*/
+            val request = readRequest()
             // Unsupported mapping
-            if (method != "GET" && method != "POST" && method != "HEAD") {
+            if (request.method != "GET" && request.method != "POST" && request.method != "HEAD") {
                 val file = File(WEB_ROOT, METHOD_NOT_SUPPORTED)
                 val fileLength = file.length().toInt()
                 val contentMimeType = "text/html"
@@ -66,21 +68,24 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         "Server: SaltApplication",
                         contentMimeType, fileLength, fileData)
             } else {
-                val mapping = when (method) {
-                    "GET" -> server.getGetMapping(path)
-                    "POST" -> server.getPostMapping(path)
+                val mapping = when (request.method) {
+                    "GET" -> server.getGetMapping(request.path)
+                    "POST" -> server.getPostMapping(request.path)
                     else -> null
                 }
-                if ((method == "GET" || method == "POST") && mapping != null) {
-                    val fileName = mapping.call()
-                    val file = File(WEB_ROOT, fileName)
-                    val fileLength = file.length().toInt()
-                    val content = getContentType(fileName)
-                    val fileData = readFileData(file, fileLength)
-                    sendHelper("HTTP/1.1 200 OK",
-                            "Server: SaltApplication",
-                            content, fileLength, fileData)
-                } else fileNotFound()
+                if (mapping != null) {
+                    mapping.addParams(request.params)
+                    if ((request.method == "GET" || request.method == "POST") && mapping != null) {
+                        val fileName = mapping.call()
+                        val file = File(WEB_ROOT, fileName)
+                        val fileLength = file.length().toInt()
+                        val content = getContentType(fileName)
+                        val fileData = readFileData(file, fileLength)
+                        sendHelper("HTTP/1.1 200 OK",
+                                "Server: SaltApplication",
+                                content, fileLength, fileData)
+                    } else fileNotFound()
+                }
             }
         }
     }
@@ -156,19 +161,35 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         socket.close()
     }
 
+    private fun readRequest(): Request {
+        val req = inp.readLine()
+        val reqLs = req.split(" ")
+        val method = reqLs[0].toUpperCase()
+        val pathParam = reqLs[1].split(Regex.fromLiteral("?"), 2)
+        val path = pathParam[0].toLowerCase()
+        var params = mapOf<String, String>()
+        if (pathParam.size > 1) {
+            val parLs = pathParam[1].split("&")
+            params = parLs.map {
+                val tmp = it.split("=")
+                tmp[0] to tmp[1]
+            }.toMap()
+        }
+        return Request(method, path, params)
+    }
+
     private fun readHeader(): MutableMap<String, String> {
         val header = mutableMapOf<String, String>()
         var adder = ""
         do {
             adder = inp.readLine()
             if (adder != "") {
-                val data = adder.split(Regex.fromLiteral(":"),  2)
+                val data = adder.split(Regex.fromLiteral(":"), 2)
                 header[data[0]] = data[1]
             }
 
         } while (adder != "")
         return header
     }
-
 
 }
