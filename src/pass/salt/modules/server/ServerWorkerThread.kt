@@ -3,14 +3,17 @@ package pass.salt.modules.server
 import java.io.*
 import java.net.Socket
 import java.util.*
-import java.util.StringTokenizer
 import pass.salt.loader.config.Config
+import pass.salt.modules.server.webparse.Model
+import pass.salt.modules.server.webparse.Webparse
 import java.io.BufferedOutputStream
 import java.io.PrintWriter
 import java.io.InputStreamReader
 import java.io.BufferedReader
 import java.net.ServerSocket
 import javax.net.ssl.SSLSocket
+import java.lang.StringBuilder
+
 
 class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val socket: S,
@@ -37,55 +40,42 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
             socket.enabledCipherSuites = socket.supportedCipherSuites;
             socket.startHandshake()
         } else if (config.findObjectAttribute("server", "redirect") as Boolean) {
-            val input = inp.readLine()
-            val parse = StringTokenizer(input)
-            parse.nextToken()
-            val path = parse.nextToken().toLowerCase()
-            redirect(path)
+            val request = readRequest()
+            redirect(request.path)
             return
         }
         // TODO kill handler after a time - Terminate Service?
         while (listening) {
-            /**
-            // get first line of the request from the client
-            val input = inp.readLine()
-            val header = readHeader()
-            //val test = inp.readText()
-            // we parse the request with a string tokenizer
-            val parse = StringTokenizer(input)
-            val method = parse.nextToken().toUpperCase() // we get the HTTP method of the client
-            // we get file requested
-            val path = parse.nextToken().toLowerCase()*/
             val request = readRequest()
+            val header = readHeader()
             // Unsupported mapping
             if (request.method != "GET" && request.method != "POST" && request.method != "HEAD") {
                 val file = File(WEB_ROOT, METHOD_NOT_SUPPORTED)
                 val fileLength = file.length().toInt()
                 val contentMimeType = "text/html"
                 //read content to return to client
-                val fileData = readFileData(file, fileLength)
+                val fileData = readFileData(file, fileLength, null)
                 sendHelper("HTTP/1.1 501 Not Implemented",
                         "Server: SaltApplication",
-                        contentMimeType, fileLength, fileData)
+                        contentMimeType, fileData.second, fileData.first)
             } else {
                 val mapping = when (request.method) {
                     "GET" -> server.getGetMapping(request.path)
                     "POST" -> server.getPostMapping(request.path)
                     else -> null
                 }
-                if (mapping != null) {
+                if ((request.method == "GET" || request.method == "POST") && mapping != null) {
                     mapping.addParams(request.params)
-                    if ((request.method == "GET" || request.method == "POST") && mapping != null) {
-                        val fileName = mapping.call()
-                        val file = File(WEB_ROOT, fileName)
-                        val fileLength = file.length().toInt()
-                        val content = getContentType(fileName)
-                        val fileData = readFileData(file, fileLength)
-                        sendHelper("HTTP/1.1 200 OK",
-                                "Server: SaltApplication",
-                                content, fileLength, fileData)
-                    } else fileNotFound()
-                }
+                    val model = mapping.model
+                    val fileName = mapping.call()
+                    val file = File(WEB_ROOT, fileName)
+                    val fileLength = file.length().toInt()
+                    val content = getContentType(fileName)
+                    val fileData = readFileData(file, fileLength, model)
+                    sendHelper("HTTP/1.1 200 OK",
+                            "Server: SaltApplication",
+                            content, fileData.second, fileData.first)
+                } else fileNotFound()
             }
         }
     }
@@ -115,28 +105,52 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     }
 
     @Throws(IOException::class)
-    private fun readFileData(file: File, fileLength: Int): ByteArray {
+    private fun readFileData(file: File, fileLength: Int, model: Model?): Pair<ByteArray, Int> {
+        val raw = file.readText(Charsets.UTF_8)
+        val lines = raw.split("\r\n")
+        if (model != null) {
+            Webparse.parse(lines, model)
+        }
+        val site = StringBuilder()
+        for (l in lines) {
+            site.append(l + "\r\n")
+        }
+        //val bytes = test.toByteArray(Charsets.UTF_8)
+        val bytes = site.toString().toByteArray(Charsets.UTF_8)
+        val length = bytes.size
+
+        /**val file = file.useLines {
+            (it).toList()
+        }
+        val baos = ByteArrayOutputStream()
+        val out = DataOutputStream(baos)
+        for (element in file) {
+            out.writeUTF(element)
+        }
+        val bytes = baos.toByteArray()*/
+
+        /**
+        val fileLength = file.length().toInt()
         var fileIn: FileInputStream? = null
         val fileData = ByteArray(fileLength)
-
         try {
             fileIn = FileInputStream(file)
             fileIn.read(fileData)
         } finally {
             fileIn?.close()
-        }
+        }*/
 
-        return fileData
+        return Pair(bytes, length)
     }
 
     private fun fileNotFound() {
         val file = File(WEB_ROOT, FILE_NOT_FOUND)
         val fileLength = file.length().toInt()
         val content = "text/html"
-        val fileData = readFileData(file, fileLength)
+        val fileData = readFileData(file, fileLength, null)
         sendHelper("HTTP/1.1 404 File Not Found",
                 "Server: SaltApplication",
-                content, fileLength, fileData)
+                content, fileData.second, fileData.first)
     }
 
     private fun redirect(path: String) {
