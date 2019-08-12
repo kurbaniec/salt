@@ -26,6 +26,12 @@ Following project structure is needed.
 |       └── other_packages_and_classes 
 ```
 
+## Security concept
+* Use https for tls encryption
+* Login via Authorization header
+* With successfull login -> send back valid session cookie
+* Logout or timeout -> delete session cookie
+
 ## Naming conventions
 Classes can for now not end with `Kt` or `$1` (because kotlin creates `[className](Kt|$1).class` files).
 
