@@ -47,6 +47,8 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         while (listening) {
             // get first line of the request from the client
             val input = inp.readLine()
+            val header = readHeader()
+            //val test = inp.readText()
             // we parse the request with a string tokenizer
             val parse = StringTokenizer(input)
             val method = parse.nextToken().toUpperCase() // we get the HTTP method of the client
@@ -152,6 +154,20 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         out.close()
         data.close()
         socket.close()
+    }
+
+    private fun readHeader(): MutableMap<String, String> {
+        val header = mutableMapOf<String, String>()
+        var adder = ""
+        do {
+            adder = inp.readLine()
+            if (adder != "") {
+                val data = adder.split(Regex.fromLiteral(":"),  2)
+                header[data[0]] = data[1]
+            }
+
+        } while (adder != "")
+        return header
     }
 
 

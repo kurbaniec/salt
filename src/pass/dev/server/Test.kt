@@ -7,6 +7,6 @@ import pass.salt.annotations.Get
 class Test {
     @Get("/")
     fun test(): String {
-        return "hello"
+        return "login"
     }
 }
