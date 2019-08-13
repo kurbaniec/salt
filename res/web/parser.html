@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hallo test!</title>
+</head>
+<body>
+    <h1>Hallo testä!</h1> <span th:text="Hello, ${message}"></span>
+    <ol>
+        <li th:each="task : ${tasks}" th:text="${task}"></li>
+    </ol>
+</body>
+</html>

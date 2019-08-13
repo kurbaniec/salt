@@ -16,4 +16,9 @@ class Test2 {
     fun test2(m: Model): String {
         return "testo"
     }
+
+    @Get("/parser")
+    fun parser(m: Model): String {
+        return "parser"
+    }
 }

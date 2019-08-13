@@ -1,5 +1,6 @@
 package pass.salt.modules.server
 
+import com.sun.org.apache.xerces.internal.parsers.DOMParser
 import java.io.*
 import java.net.Socket
 import java.util.*
@@ -107,7 +108,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     @Throws(IOException::class)
     private fun readFileData(file: File, fileLength: Int, model: Model?): Pair<ByteArray, Int> {
         val raw = file.readText(Charsets.UTF_8)
-        val lines = raw.split("\r\n")
+        val lines = raw.split("\r\n").toMutableList()
         if (model != null) {
             Webparse.parse(lines, model)
         }
