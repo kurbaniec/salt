@@ -19,6 +19,8 @@ class Test2 {
 
     @Get("/parser")
     fun parser(m: Model): String {
+        val msg = "baum"
+        m.addAttribute("message", msg)
         return "parser"
     }
 }

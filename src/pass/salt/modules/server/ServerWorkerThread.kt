@@ -109,15 +109,19 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     private fun readFileData(file: File, fileLength: Int, model: Model?): Pair<ByteArray, Int> {
         val raw = file.readText(Charsets.UTF_8)
         val lines = raw.split("\r\n").toMutableList()
+        val site: String
         if (model != null) {
-            Webparse.parse(lines, model)
+            site = Webparse.parse(lines, model)
         }
-        val site = StringBuilder()
-        for (l in lines) {
-            site.append(l + "\r\n")
+        else {
+            val tmpSite = StringBuilder()
+            for (l in lines) {
+                tmpSite.append(l + "\r\n")
+            }
+            site = tmpSite.toString()
         }
         //val bytes = test.toByteArray(Charsets.UTF_8)
-        val bytes = site.toString().toByteArray(Charsets.UTF_8)
+        val bytes = site.toByteArray(Charsets.UTF_8)
         val length = bytes.size
 
         /**val file = file.useLines {
