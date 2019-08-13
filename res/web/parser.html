@@ -6,8 +6,16 @@
 </head>
 <body>
     <h1>Hallo testä!</h1> <span th:text="Hello, ${message}"></span>
-    <ol>
-        <li th:each="task : ${tasks}" th:text="${task}"></li>
-    </ol>
+    <table>
+        <th:block th:each="user : ${users}">
+            <tr>
+                <td th:text="${user.login}">...</td>
+                <td th:text="${user.name}">...</td>
+            </tr>
+            <tr>
+                <td colspan="2" th:text="${user.address}">...</td>
+            </tr>
+        </th:block>
+    </table>
 </body>
 </html>

@@ -17,10 +17,14 @@ class Test2 {
         return "testo"
     }
 
+    data class User(val login: String, val name: String, val address: String)
     @Get("/parser")
     fun parser(m: Model): String {
         val msg = "baum"
         m.addAttribute("message", msg)
+        val user = listOf<User>(User("baum@baum", "baumann", "baugasse"),
+                User("baum2@baum", "baumann2", "baugasse2"))
+        m.addAttribute("users", user)
         return "parser"
     }
 }

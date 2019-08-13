@@ -5,6 +5,9 @@
     <title>Login</title>
 </head>
 <body>
+    <ol>
+    <li th:each="task : ${tasks}" th:text="${task}"></li>
+    </ol>
     <input id="firstName" type="text" />
     <input id="lastName" type="text" />
     <input id="tokenField" type="hidden" />
