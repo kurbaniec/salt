@@ -66,18 +66,28 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                     else -> null
                 }
                 // Don´t allow serving html files without Controller mapping
-                if (mapping == null && request.file.endsWith(".html")) {
+                if (mapping == null && (request.file.endsWith(".html") || request.file == "")) {
                     fileNotFound()
                 }
+                // Look for resources
                 else if (mapping == null) {
                     //val search = request.path+request.file
-                    val search = request.file
+                    //val search = request.file
+                    //val searchOr = request.file.replace("/", "\\")
+                    val fullSearch = request.file.replace("/", "\\")
+                    var directory = "\\"
+                    var search = fullSearch
+                    if (fullSearch.contains("\\")) {
+                        directory = fullSearch.substring(0, fullSearch.lastIndexOf("\\")+1)
+                        search = fullSearch.substring(directory.length)
+                    }
+                    val type = "." + request.file.split(".")[1]
                     var file: File? = null
                     var found = false
                     // TODO Optimze file search?
-                    WEB_ROOT.walkTopDown().forEach {
+                    File(WEB_ROOT, directory).listFiles().forEach {
                         if (!found) {
-                            if (it.name.contains(search)) {
+                            if (it.absolutePath.contains(search) && it.absolutePath.endsWith(type)) {
                                 file = it
                                 found = true
                             }
@@ -90,6 +100,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                                 "text/plain", fileData.second, fileData.first)
                     }
                     else fileNotFound()
+                // Normal mapping via controller
                 } else {
                     mapping.addParams(request.params)
                     val model = mapping.model
