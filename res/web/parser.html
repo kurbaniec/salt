@@ -6,10 +6,11 @@
 </head>
 <body>
     <h1>Hallo testä!</h1> <span th:text="Hello, ${message}"></span>
-    <table>
+    <a th:href="@{/${testo}}">Link!</a>
+    <table style="border: 1px solid black">
         <th:block th:each="user : ${users}">
-            <tr>
-                <td th:text="${user.login}">...</td>
+            <tr style="border: 1px solid black">
+                <td style="border: 1px solid black" th:text="${user.login}">...</td>
                 <td th:text="${user.name}">...</td>
             </tr>
             <tr>

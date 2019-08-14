@@ -1,5 +1,8 @@
 package pass.salt.modules.server.webparse
 
+import pass.salt.SaltApplication
+import pass.salt.loader.config.Config
+
 class Webparse {
     companion object {
         fun parse(lines: MutableList<String>, model: Model): String {
@@ -15,8 +18,11 @@ class Webparse {
 
         data class WebParseText(var textFlag: Boolean, var tagStop: String, var text: String)
         data class WebParseLoop(var loopFlag: Boolean, var tagStop: String, var listName: String, var list: List<Any>, var cache: MutableList<String>)
+        data class WebConf(var ipAddress: String, var method: String, var port: String, var preUrl: String)
+
         fun webParse(site: MutableList<String>, model: Model): String {
-            val conf = WebParseText(false, "", "")
+            val webConf = readWebConf()
+            val textConf = WebParseText(false, "", "")
             val loopConf = WebParseLoop(false, "", "", mutableListOf(), mutableListOf())
             var fullSite = ""
             for (tag in site) {
@@ -29,10 +35,10 @@ class Webparse {
                             for (el in loopConf.list) {
                                 model.addAttribute(loopConf.listName, el)
                                 for (looptag in loopConf.cache) {
-                                    if (conf.textFlag) {
-                                        if (looptag.contains(conf.tagStop)) {
-                                            conf.textFlag = false
-                                            fullSite += conf.text + looptag
+                                    if (textConf.textFlag) {
+                                        if (looptag.contains(textConf.tagStop)) {
+                                            textConf.textFlag = false
+                                            fullSite += textConf.text + looptag
                                         }
                                     }
                                     else {
@@ -40,8 +46,8 @@ class Webparse {
                                         fullSite += if (looptag.contains(" ") && test != "") {
                                             val looptagName = looptag.substring(1, looptag.indexOf(" "))
                                             val looptagParam = looptag.substring(looptagName.length + 2, looptag.length-1)
-                                            conf.tagStop = looptagName
-                                            "<" + looptagName + webParseHelp(looptagParam, model, conf) + ">"
+                                            textConf.tagStop = looptagName
+                                            "<" + looptagName + webParseHelp(looptagParam, model, webConf, textConf) + ">"
                                         } else looptag
                                     }
                                 }
@@ -53,7 +59,7 @@ class Webparse {
 
                     }
                     else {
-                        val tRaw = tag.replace("<", "").replace("</", "").replace(">", "")
+                        val tRaw = tag.replace("</", "").replace("<", "").replace(">", "")
                         var tName = ""
                         if (tRaw.contains(" ")) {
                             tName = tRaw.substring(0, tRaw.indexOf(" "))
@@ -69,9 +75,9 @@ class Webparse {
                                 loopConf.list = model.getAttributeList(listName)
                             } else {
                                 fullSite += "<$tName"
-                                conf.tagStop = tName
+                                textConf.tagStop = tName
                                 /** */
-                                fullSite += webParseHelp(tRawParam, model, conf)
+                                fullSite += webParseHelp(tRawParam, model, webConf, textConf)
                                 fullSite += ">"
                             }
                         } else {
@@ -80,10 +86,10 @@ class Webparse {
                     }
                 }
                 else {
-                    if (conf.textFlag) {
-                        if (tag.contains(conf.tagStop)) {
-                            conf.textFlag = false
-                            fullSite += conf.text + tag
+                    if (textConf.textFlag) {
+                        if (tag.contains(textConf.tagStop)) {
+                            textConf.textFlag = false
+                            fullSite += textConf.text + tag
                         }
                     }
                     else fullSite += tag
@@ -108,7 +114,7 @@ class Webparse {
             return count % 2 == 0 && tag.contains(conf.tagStop)
         }
 
-        private fun webParseHelp(param: String, model: Model, conf: WebParseText): String {
+        private fun webParseHelp(param: String, model: Model, webConf: WebConf, textConf: WebParseText): String {
             var tRawParam = param
             var tAttrParams = ""
             do {
@@ -130,28 +136,53 @@ class Webparse {
                     // check for webparse
                     val tAttrName = attr[0]
                     val tAttrVal = attr[1]
-                    if (tAttrName == "th:text") {
-                        val attrBegin = tAttrVal.indexOf("\${")
-                        val attrEnd = tAttrVal.indexOf("}", attrBegin)
-                        val tAttrValBegin = tAttrVal.substring(1, attrBegin)
-                        val tAttrValEnd = tAttrVal.substring(attrEnd+2)
-                        val modelSearch = tAttrVal.substring(attrBegin+2, attrEnd)
-                        val modelResult = if (modelSearch.contains(".")) {
-                            val tmp = modelSearch.split(".")
-                            model.getAttribute(tmp[0], tmp[1])
+                    when (tAttrName) {
+                        "th:text" -> {
+                            val attrBegin = tAttrVal.indexOf("\${")
+                            val attrEnd = tAttrVal.indexOf("}", attrBegin)
+                            val tAttrValBegin = tAttrVal.substring(1, attrBegin)
+                            val tAttrValEnd = tAttrVal.substring(attrEnd+2)
+                            val modelSearch = tAttrVal.substring(attrBegin+2, attrEnd)
+                            val modelResult = if (modelSearch.contains(".")) {
+                                val tmp = modelSearch.split(".")
+                                model.getAttribute(tmp[0], tmp[1])
+                            } else {
+                                model.getAttribute(modelSearch)
+                            }
+                            textConf.textFlag = true
+                            textConf.text = tAttrValBegin + modelResult + tAttrValEnd
                         }
-                        else {
-                            model.getAttribute(modelSearch)
+                        "th:href" -> {
+                            tAttrParams += " " + parseHref(tAttrVal, model, webConf)
                         }
-                        conf.textFlag = true
-                        conf.text = tAttrValBegin + modelResult + tAttrValEnd
-                    }
-                    else {
-                        tAttrParams += " $tAttrName=$tAttrVal"
+                        else -> tAttrParams += " $tAttrName=$tAttrVal"
                     }
                 }
             } while (tRawParam != "")
             return tAttrParams
+        }
+
+        fun parseHref(attrVal: String, model: Model, webConf: WebConf): String {
+            var newVal = attrVal.replace("\"@{", "")
+            var begin = newVal.indexOf("\${")
+            while (begin != -1) {
+                val end = newVal.indexOf("}")
+                if (begin != -1) {
+                    val newBegin = newVal.substring(0, begin)
+                    val newEnd = newVal.substring(end+1)
+                    val modelSearch = newVal.substring(begin+2, end)
+                    val modelResult = if (modelSearch.contains(".")) {
+                        val tmp = modelSearch.split(".")
+                        model.getAttribute(tmp[0], tmp[1])
+                    } else {
+                        model.getAttribute(modelSearch)
+                    }
+                    newVal = newBegin + modelResult + newEnd
+                    begin = newVal.indexOf("\${")
+                }
+            }
+            newVal = newVal.replace("}", "")
+            return "href=\"" + webConf.preUrl + newVal
         }
 
 
@@ -211,76 +242,28 @@ class Webparse {
             list.add("\r\n")
             return list
         }
-        /**
-        do {
-        var begin = tRawParam.indexOf("\"")
-        var end = tRawParam.indexOf("\"", begin + 1)
-        var test = tRawParam.indexOf("\\\"")
-        if (begin != -1) {
-        if (end == test) {
-        var toAdd = test
-        do {
-        end = tRawParam.indexOf("\"", test + 1)
-        test = tRawParam.indexOf("\\\"", test + 1)
-        } while (end == test)
-        }
-        val attrRaw = tRawParam.substring(0, end+1)
-        tRawParam = tRawParam.substring(end+1)
-        tRawParam = tRawParam.trim()
-        val attr = attrRaw.split("=")
-        // check for webparse
-        val tAttrName = attr[0]
-        val tAttrVal = attr[1]
-        if (tAttrName == "th:text") {
-        val attrBegin = tAttrVal.indexOf("\${")
-        val attrEnd = tAttrVal.indexOf("}", attrBegin)
-        val tAttrValBegin = tAttrVal.substring(1, attrBegin)
-        val tAttrValEnd = tAttrVal.substring(attrEnd+2)
-        val modelSearch = tAttrVal.substring(attrBegin+2, attrEnd)
-        val modelResult = if (modelSearch.contains(".")) {
-        val tmp = modelSearch.split(modelSearch)
-        model.getAttribute(tmp[0], tmp[1])
-        }
-        else {
-        model.getAttribute(modelSearch)
-        }
-        conf.textFlag = true
-        conf.text = tAttrValBegin + modelResult + tAttrValEnd
-        }
-        else {
-        fullSite += " $tRawParam"
-        }
-        }
-        } while (tRawParam != "")*/
-    }
 
-    /**
-    data class webConf(var textFlag: Boolean, var text: String)
-    fun webParse(line: MutableList<String>) {
-    val conf = webConf(false, "")
-    for (tag in line) {
-    if (tag.startsWith("<")) {
-    var tmp = tag.replace("<", "").replace("</", "").replace(">", "")
-    val hasAttrib = tag.indexOf(" ") != -1
-    if (hasAttrib) {
-    val name = tmp.substring(0, tag.indexOf(" "))
-    tmp = tmp.substring(name.length)
-    val tmp2 = tmp.split("\" ")
-    val size = tmp2.size
-    val attributes = mutableMapOf<String, String>()
-    for (i in 1..size) {
-    if (tmp2[i].contains("=")) {
-    val tmp3 = tmp2[i].split("=")
-    if (tmp3.size == 2) {
-    attributes[tmp3[0]] = tmp3[1]
+        private fun readWebConf(): WebConf {
+            val conf = SaltApplication.config
+            val ipAddress = conf.findObjectAttribute("server", "ip_address") as String
+            val redirect = conf.findObjectAttribute("server", "redirect") as Boolean
+            if (redirect) {
+                val method = (conf.findObjectAttribute("server", "redirect_protocol") as String)
+                        .toLowerCase()
+                val port = if (method == "https") {
+                     conf.findObjectAttribute("server", "https_port").toString()
+                } else conf.findObjectAttribute("server", "http_port").toString()
+                return WebConf(ipAddress, method, port, "$method://$ipAddress:$port")
+            }
+            else {
+                val method = if (conf.findObjectAttribute("server", "https") as Boolean) {
+                    "https"
+                } else "http"
+                val port = if (method == "https") {
+                    conf.findObjectAttribute("server", "https_port").toString()
+                } else conf.findObjectAttribute("server", "http_port").toString()
+                return WebConf(ipAddress, method, port, "$method://$ipAddress:$port")
+            }
+        }
     }
-    }
-    }
-    }
-    else {
-    val name = tmp
-    }
-    }
-    }
-    }*/
 }

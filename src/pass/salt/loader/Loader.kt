@@ -10,14 +10,15 @@ import java.util.logging.Logger
 val logger = Logger.getGlobal()
 
 class Loader() {
-    private val config: Config
-    private val container: Container
+    val config: Config
+    val container: Container
     val singleModules = mutableListOf<SaltProcessor>()
     val classModules = mutableListOf<SaltProcessor>()
 
     init {
         config = Config()
         container = Container()
+        container.addElement("config", config)
         load()
     }
 

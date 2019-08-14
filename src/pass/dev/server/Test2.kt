@@ -25,6 +25,7 @@ class Test2 {
         val user = listOf<User>(User("baum@baum", "baumann", "baugasse"),
                 User("baum2@baum", "baumann2", "baugasse2"))
         m.addAttribute("users", user)
+        m.addAttribute("testo", "testo")
         return "parser"
     }
 }
