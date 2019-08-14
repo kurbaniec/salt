@@ -34,7 +34,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         WEB_ROOT = File(path, "res\\web")
     }
 
-    data class Request(val method: String, val path: String, val params: Map<String, String>)
+    data class Request(val method: String, val path: String, val file: String, val params: Map<String, String>)
 
     override fun run() {
         if (socket is SSLSocket) {
@@ -55,7 +55,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                 val fileLength = file.length().toInt()
                 val contentMimeType = "text/html"
                 //read content to return to client
-                val fileData = readFileData(file, fileLength, null)
+                val fileData = readFileData(file, null)
                 sendHelper("HTTP/1.1 501 Not Implemented",
                         "Server: SaltApplication",
                         contentMimeType, fileData.second, fileData.first)
@@ -65,18 +65,43 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                     "POST" -> server.getPostMapping(request.path)
                     else -> null
                 }
-                if ((request.method == "GET" || request.method == "POST") && mapping != null) {
+                // Don´t allow serving html files without Controller mapping
+                if (mapping == null && request.file.endsWith(".html")) {
+                    fileNotFound()
+                }
+                else if (mapping == null) {
+                    //val search = request.path+request.file
+                    val search = request.file
+                    var file: File? = null
+                    var found = false
+                    // TODO Optimze file search?
+                    WEB_ROOT.walkTopDown().forEach {
+                        if (!found) {
+                            if (it.name.contains(search)) {
+                                file = it
+                                found = true
+                            }
+                        }
+                    }
+                    if (file != null) {
+                        val fileData = readFileData(file!!, null)
+                        sendHelper("HTTP/1.1 200 OK",
+                                "Server: SaltApplication",
+                                "text/plain", fileData.second, fileData.first)
+                    }
+                    else fileNotFound()
+                } else {
                     mapping.addParams(request.params)
                     val model = mapping.model
                     val fileName = mapping.call()
                     val file = File(WEB_ROOT, fileName)
                     val fileLength = file.length().toInt()
                     val content = getContentType(fileName)
-                    val fileData = readFileData(file, fileLength, model)
+                    val fileData = readFileData(file, model)
                     sendHelper("HTTP/1.1 200 OK",
                             "Server: SaltApplication",
                             content, fileData.second, fileData.first)
-                } else fileNotFound()
+                }
             }
         }
     }
@@ -106,7 +131,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     }
 
     @Throws(IOException::class)
-    private fun readFileData(file: File, fileLength: Int, model: Model?): Pair<ByteArray, Int> {
+    private fun readFileData(file: File, model: Model?): Pair<ByteArray, Int> {
         val raw = file.readText(Charsets.UTF_8)
         val lines = raw.split("\r\n").toMutableList()
         val site: String
@@ -124,27 +149,6 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val bytes = site.toByteArray(Charsets.UTF_8)
         val length = bytes.size
 
-        /**val file = file.useLines {
-            (it).toList()
-        }
-        val baos = ByteArrayOutputStream()
-        val out = DataOutputStream(baos)
-        for (element in file) {
-            out.writeUTF(element)
-        }
-        val bytes = baos.toByteArray()*/
-
-        /**
-        val fileLength = file.length().toInt()
-        var fileIn: FileInputStream? = null
-        val fileData = ByteArray(fileLength)
-        try {
-            fileIn = FileInputStream(file)
-            fileIn.read(fileData)
-        } finally {
-            fileIn?.close()
-        }*/
-
         return Pair(bytes, length)
     }
 
@@ -152,7 +156,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val file = File(WEB_ROOT, FILE_NOT_FOUND)
         val fileLength = file.length().toInt()
         val content = "text/html"
-        val fileData = readFileData(file, fileLength, null)
+        val fileData = readFileData(file, null)
         sendHelper("HTTP/1.1 404 File Not Found",
                 "Server: SaltApplication",
                 content, fileData.second, fileData.first)
@@ -185,7 +189,11 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val reqLs = req.split(" ")
         val method = reqLs[0].toUpperCase()
         val pathParam = reqLs[1].split(Regex.fromLiteral("?"), 2)
-        val path = pathParam[0].toLowerCase()
+        val pathOrFile = pathParam[0].split(".")
+        val path = pathOrFile[0]
+        val file = if (pathOrFile.size == 2) {
+            path.substring(1) + "." + pathOrFile[1]
+        } else ""
         var params = mapOf<String, String>()
         if (pathParam.size > 1) {
             val parLs = pathParam[1].split("&")
@@ -194,7 +202,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                 tmp[0] to tmp[1]
             }.toMap()
         }
-        return Request(method, path, params)
+        return Request(method, path, file, params)
     }
 
     private fun readHeader(): MutableMap<String, String> {
