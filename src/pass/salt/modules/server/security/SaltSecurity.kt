@@ -3,6 +3,7 @@ package pass.salt.modules.server.security
 import pass.salt.container.Container
 import pass.salt.loader.config.Config
 import pass.salt.modules.SaltProcessor
+import java.util.*
 import kotlin.reflect.KFunction
 
 class SaltSecurity(
@@ -29,17 +30,40 @@ class SaltSecurity(
         mapping.addAll(conf.mapping)
     }
 
+    fun addSession(username: String): String {
+        val nameSpace = ('0'..'z').toList().toTypedArray()
+        val sessionID = (1..32).map { nameSpace.random() }.joinToString("")
+        sessions[sessionID] = SessionUser(username)
+        return sessionID
+    }
+
     fun isValidSession() {
 
+    }
+
+    fun checkAuthorization(basicAuth: String): Pair<Boolean, String> {
+        val enc = if (basicAuth.contains(" ")) {
+            val tmp = basicAuth.trim().split(" ")
+            tmp[1]
+        }
+        else basicAuth
+        val dec = String(Base64.getDecoder().decode(enc))
+        val tmp = dec.split(":")
+        val username = tmp[0]
+        val password = tmp[1]
+        return Pair(auth.invoke(username, password) as Boolean, username)
     }
 
     override fun shutdown() {
 
     }
 
-    private fun Pair<Any, KFunction<*>>.call(vararg args: Any?): Any? {
-        val (instance, func) = this
-        return func.call(instance, *args)
+    private fun Pair<Any, KFunction<*>>.invoke(vararg args: Any): Any? {
+        val list = mutableListOf<Any>()
+        for (arg in args) {
+            list.add(arg)
+        }
+        return auth.second.call(*list.toTypedArray())
     }
 
 }

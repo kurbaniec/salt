@@ -1,7 +1,5 @@
 package pass.salt.modules.server
 
-import com.sun.org.apache.xerces.internal.parsers.DOMParser
-import pass.salt.annotations.WebSecurity
 import java.io.*
 import java.net.Socket
 import java.util.*
@@ -39,6 +37,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val path = System.getProperty("user.dir")
         WEB_ROOT = File(path, "res\\web")
         if (security.first) {
+            secOn = security.first
             sec = security.second
         }
     }
@@ -70,15 +69,39 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         contentMimeType, fileData.second, fileData.first)
             } else {
                 if (secOn) {    // Is SaltSecurity activated
-                    if (sec!!.open) { // mapped entries are only secured
-                        if (sec!!.mapping.contains(request.path)) {
+                    // containsKey("Cookie") -> check if id is valid
+                    // if not -> authorizatuon or redirect
+                    if (header.containsKey("Set-Cookie")) {
+                        if (sec!!.open) { // mapped entries are only secured
+                            if (sec!!.mapping.contains(request.path)) {
 
+                            }
+                        } else { // all entries beside mapped ones are secured
+                            if (!sec!!.mapping.contains(request.path)) {
+
+                            }
                         }
                     }
-                    else { // all entries beside mapped ones are secured
-                        if (!sec!!.mapping.contains(request.path)) {
+                    else if (header.containsKey("Authorization")) {
+                        // TODO 16.08
+                        // check credentiels && send cookie
+                        // if ok redirect to cached url
+
+                        // Check url
+                        val check = sec!!.checkAuthorization(header["Authorization"]!!)
+                        if (check.first) {
+                            val sessionID = sec!!.addSession(check.second)
+                            startSession(sessionID)
+                        }
+                        // send reload or something on false password
+                        else {
 
                         }
+
+                    }
+                    else if (request.path != sec!!.login){
+                        authenticate()
+                        continue
                     }
                 }
                 val mapping = when (request.method) {
@@ -166,6 +189,22 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         out.println("Date: ${Date()}")
         out.println("Content-type: text/plain")
         out.println("Location: https://$ip:$port$path")
+        out.println("Connection: Close")
+        out.println()
+        out.flush()
+        shutdown()
+    }
+
+    private fun startSession(sessionID: String) {
+        val path = "/"
+        val ip = config.findObjectAttribute("server", "ip_address") as String
+        val port = config.findObjectAttribute("server", "https_port").toString()
+        out.println("HTTP/1.1 302 Found")
+        out.println("Server: SaltApplication")
+        out.println("Date: ${Date()}")
+        out.println("Content-type: text/plain")
+        out.println("Location: https://$ip:$port$path")
+        out.println("Set-Cookie: id=$sessionID; Secure; HttpOnly")
         out.println("Connection: Close")
         out.println()
         out.flush()
