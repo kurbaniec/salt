@@ -1,10 +1,13 @@
 package pass.salt.modules.server
 
 import com.sun.org.apache.xerces.internal.parsers.DOMParser
+import pass.salt.annotations.WebSecurity
 import java.io.*
 import java.net.Socket
 import java.util.*
 import pass.salt.loader.config.Config
+import pass.salt.modules.server.security.SaltSecurity
+import pass.salt.modules.server.security.SessionUser
 import pass.salt.modules.server.webparse.Model
 import pass.salt.modules.server.webparse.Webparse
 import java.io.BufferedOutputStream
@@ -19,7 +22,8 @@ import java.lang.StringBuilder
 class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val socket: S,
         val server: ServerMainThread<P>,
-        val config: Config
+        val config: Config,
+        security: Pair<Boolean, SaltSecurity?>
 ): Runnable {
     val inp = BufferedReader(InputStreamReader(socket.getInputStream()))
     val out = PrintWriter(socket.getOutputStream())
@@ -28,10 +32,15 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     val METHOD_NOT_SUPPORTED = "not_supported.html"
     val FILE_NOT_FOUND = "404.html"
     var listening = true
+    var secOn = false
+    var sec: SaltSecurity? = null
 
     init {
         val path = System.getProperty("user.dir")
         WEB_ROOT = File(path, "res\\web")
+        if (security.first) {
+            sec = security.second
+        }
     }
 
     data class Request(val method: String, val path: String, val file: String, val params: Map<String, String>)
@@ -60,6 +69,18 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         "Server: SaltApplication",
                         contentMimeType, fileData.second, fileData.first)
             } else {
+                if (secOn) {    // Is SaltSecurity activated
+                    if (sec!!.open) { // mapped entries are only secured
+                        if (sec!!.mapping.contains(request.path)) {
+
+                        }
+                    }
+                    else { // all entries beside mapped ones are secured
+                        if (!sec!!.mapping.contains(request.path)) {
+
+                        }
+                    }
+                }
                 val mapping = when (request.method) {
                     "GET" -> server.getGetMapping(request.path)
                     "POST" -> server.getPostMapping(request.path)
@@ -104,6 +125,9 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                 } else {
                     mapping.addParams(request.params)
                     val model = mapping.model
+                    if (mapping.hasSessionUser) {
+                        mapping.params[mapping.sessionUserKey] = SessionUser() // TODO session_user
+                    }
                     val fileName = mapping.call()
                     val file = File(WEB_ROOT, fileName)
                     val fileLength = file.length().toInt()
@@ -131,6 +155,20 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         //out.close()
         //data.close()
         //socket.close()
+    }
+
+    private fun authenticate() {
+        val path = sec!!.login
+        val ip = config.findObjectAttribute("server", "ip_address") as String
+        val port = config.findObjectAttribute("server", "https_port").toString()
+        out.println("HTTP/1.1 302 Found")
+        out.println("Server: SaltApplication")
+        out.println("Date: ${Date()}")
+        out.println("Content-type: text/plain")
+        out.println("Location: https://$ip:$port$path")
+        out.println("Connection: Close")
+        out.println()
+        out.flush()
     }
 
     // return supported MIME Types

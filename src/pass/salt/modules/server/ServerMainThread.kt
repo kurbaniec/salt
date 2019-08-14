@@ -1,11 +1,13 @@
 package pass.salt.modules.server
 
+import pass.salt.annotations.WebSecurity
 import pass.salt.modules.SaltThreadPool
 import java.net.ServerSocket
 import kotlin.reflect.KFunction
 import pass.salt.loader.config.Config
 import pass.salt.modules.server.encryption.SSLManager
 import pass.salt.modules.server.mapping.Mapping
+import pass.salt.modules.server.security.SaltSecurity
 import javax.net.ssl.SSLServerSocket
 import javax.net.ssl.SSLSocket
 
@@ -14,7 +16,8 @@ class ServerMainThread<P: ServerSocket>(
         val serverSocket: P,
         //val mapping: MutableMap<String, MutableMap<String, Pair<Any, KFunction<*>>>>,
         val mapping: MutableMap<String, Mapping>,
-        val config: Config
+        val config: Config,
+        val security: Pair<Boolean, SaltSecurity?>
 ): Runnable {
     //val mapping = mutableMapOf<String, MutableMap<String, Pair<Any, KFunction<*>>>>()
     var listening = true
@@ -32,12 +35,12 @@ class ServerMainThread<P: ServerSocket>(
             val password = config.findObjectAttribute("keystore", "password") as String
             SSLManager.createKeyStore(password)
             while (listening) {
-                executor.submit(ServerWorkerThread(serverSocket.accept() as SSLSocket, this, config))
+                executor.submit(ServerWorkerThread(serverSocket.accept() as SSLSocket, this, config, security))
             }
         }
         else {
             while (listening) {
-                executor.submit(ServerWorkerThread(serverSocket.accept(), this, config))
+                executor.submit(ServerWorkerThread(serverSocket.accept(), this, config, security))
             }
         }
 

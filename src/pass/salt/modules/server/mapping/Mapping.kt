@@ -3,7 +3,9 @@ package pass.salt.modules.server.mapping
 import pass.salt.annotations.Param
 import pass.salt.exceptions.InvalidMappingParamException
 import pass.salt.loader.logger
+import pass.salt.modules.server.security.SessionUser
 import pass.salt.modules.server.webparse.Model
+import java.io.File
 import java.util.logging.Logger
 import kotlin.reflect.KFunction
 import kotlin.reflect.full.valueParameters
@@ -28,6 +30,9 @@ class Mapping(val method: HTTPMethod) {
         val func: KFunction<*>) {
         var model: Model? = null
         var hasModel: Boolean = false
+        var sessionUser: SessionUser? = null
+        var hasSessionUser = false
+        var sessionUserKey = "sessionUser"
         val params = LinkedHashMap<String, Any>()
 
         init {
@@ -39,9 +44,8 @@ class Mapping(val method: HTTPMethod) {
             val parameters = func.valueParameters
             // TODO better string type check
             for (p in parameters) {
-                val modelCheck = p.type.toString().replace("?", "")
-                val stringCheck = p.type.toString().replace("?", "")
-                if (modelCheck == Model::class.qualifiedName) {
+                val check = p.type.toString().replace("?", "")
+                if (check == Model::class.qualifiedName) {
                     model = Model()
                     hasModel = true
                     if (p.name != null) {
@@ -49,7 +53,15 @@ class Mapping(val method: HTTPMethod) {
                     }
                     else params["model"] = model!!
                 }
-                else if (stringCheck == String::class.qualifiedName){
+                else if (check == SessionUser::class.qualifiedName) {
+                    hasSessionUser = true
+                    if (p.name != null) {
+                        params[p.name!!] = SessionUser()
+                        sessionUserKey = p.name!!
+                    }
+                    else params["sessionUser"] = SessionUser()
+                }
+                else if (check == String::class.qualifiedName){
                     val annotations = p.annotations
                     for (a in annotations) {
                         if (a is Param) {
@@ -74,12 +86,14 @@ class Mapping(val method: HTTPMethod) {
         }
 
         fun call(): String {
-            // TODO cleaner function call?
             val array = mutableListOf<Any>(instance)
-            for (v in params.values) {
-                array.add(v)
-            }
-            val file = func.call(*array.toTypedArray()) as String
+            // TODO check if param mapping still works
+            val file = if(func.valueParameters.size == params.values.size) {
+                for (v in params.values) {
+                    array.add(v)
+                }
+                func.call(*array.toTypedArray()) as String
+            } else "404"
             return if (file.endsWith(".html")) file
                 else "$file.html"
         }

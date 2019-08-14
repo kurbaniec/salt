@@ -4,6 +4,8 @@ import pass.salt.container.Container
 import pass.salt.loader.config.Config
 import pass.salt.modules.server.mapping.MappingScan
 import pass.salt.modules.server.PepperServer
+import pass.salt.modules.server.security.SaltSecurity
+import pass.salt.modules.server.security.SecurityScan
 
 import java.util.logging.Logger
 import kotlin.Exception
@@ -34,6 +36,8 @@ interface SaltProcessor {
                     "SaltThreadPool" -> SaltThreadPoolFactory(config, container)
                     "PepperServer" -> PepperServer(config, container)
                     "MappingScan" -> MappingScan(config, container)
+                    "SaltSecurity" -> SaltSecurity(config, container)
+                    "SecurityScan" -> SecurityScan(config, container)
                     else -> ModuleNotFound()
                 }
             } catch (ex: Exception) {

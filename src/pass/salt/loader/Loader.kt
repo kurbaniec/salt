@@ -34,6 +34,7 @@ class Loader() {
 
         // Module System -> Single Instance
         logger.fine("Loading module System (Single)")
+        singleModules.add(SaltProcessor.module(module = "SaltSecurity", config = config, container = container))
         singleModules.add(SaltProcessor.module(module = "SaltThreadPool", config = config, container = container))
         singleModules.add(SaltProcessor.module(module = "PepperServer", config = config, container = container))
         for (mod in singleModules) {
@@ -46,6 +47,7 @@ class Loader() {
         classModules.add(SaltProcessor.module("ComponentScan", config, container))
         classModules.add(SaltProcessor.module("AutowiredScan", config, container))
         classModules.add(SaltProcessor.module("MappingScan", config, container))
+        classModules.add(SaltProcessor.module("SecurityScan", config, container))
         for (mod in classModules) {
             location.walk().forEach {
                 // TODO do something about KT classes

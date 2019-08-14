@@ -1,5 +1,6 @@
 package pass.salt.modules.server
 
+import pass.salt.annotations.WebSecurity
 import pass.salt.container.Container
 import pass.salt.loader.config.Config
 import pass.salt.modules.SaltProcessor
@@ -7,6 +8,7 @@ import pass.salt.modules.SaltThreadPool
 import pass.salt.modules.server.encryption.SSLManager
 import pass.salt.modules.server.mapping.HTTPMethod
 import pass.salt.modules.server.mapping.Mapping
+import pass.salt.modules.server.security.SaltSecurity
 import java.io.FileInputStream
 import java.net.ServerSocket
 import java.security.KeyStore
@@ -29,25 +31,24 @@ class PepperServer(
     val mapping = mutableMapOf<String, Mapping>()
     lateinit var serverHttp: ServerMainThread<ServerSocket>
     lateinit var serverHttps: ServerMainThread<SSLServerSocket>
+    var security: Pair<Boolean, SaltSecurity?> = Pair(false, null)
 
     init {
         val getMapping = Mapping(HTTPMethod.GET)
         val postMapping = Mapping(HTTPMethod.POST)
         mapping["get"] = getMapping
         mapping["post"] = postMapping
-        // TODO Legacy
-        //val getMapping = mutableMapOf<String, Pair<Any, KFunction<*>>>()
-        //val postMapping = mutableMapOf<String, Pair<Any, KFunction<*>>>()
-        //mapping["get"] = getMapping
-        //mapping["post"] = postMapping
     }
     override fun process(className: String) {
         container.addElement("pepperServer", this)
+        if (config.findObjectAttribute("security", "enable") as Boolean) {
+            security = Pair(true, container.getElement("saltSecurity") as SaltSecurity)
+        }
         val executor = container.getElement("saltThreadPool") as SaltThreadPool
         if (config.findObjectAttribute("server", "http") as Boolean) {
             val port = config.findObjectAttribute("server", "http_port") as Int
             val socket = ServerSocket(port)
-            serverHttp = ServerMainThread(executor, socket, mapping, config)
+            serverHttp = ServerMainThread(executor, socket, mapping, config, security)
             container.addElement("serverMainThreadHttp", serverHttp)
             executor.submit(serverHttp)
         }
@@ -58,7 +59,7 @@ class PepperServer(
             val sslContext = SSLManager.createSSLContext(password)
             val sslServerSocketFactory = sslContext?.serverSocketFactory
             val socket = sslServerSocketFactory?.createServerSocket(port) as SSLServerSocket
-            serverHttps = ServerMainThread(executor, socket, mapping, config)
+            serverHttps = ServerMainThread(executor, socket, mapping, config, security)
             container.addElement("serverMainThreadHttps", serverHttps)
             executor.submit(serverHttps)
         }
