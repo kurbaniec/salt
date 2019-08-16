@@ -3,6 +3,7 @@ package pass.dev.server
 import pass.salt.annotations.Controller
 import pass.salt.annotations.Get
 import pass.salt.annotations.Param
+import pass.salt.modules.server.webparse.Model
 
 @Controller
 class Test {
@@ -12,7 +13,7 @@ class Test {
     }
 
     @Get("/login")
-    fun login(@Param("id")id: String): String {
+    fun login(m: Model): String {
         return "login"
     }
 }

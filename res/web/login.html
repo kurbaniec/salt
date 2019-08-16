@@ -3,15 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <ol>
-    <li th:each="task : ${tasks}" th:text="${task}"></li>
-    </ol>
-    <input id="firstName" type="text" />
-    <input id="lastName" type="text" />
-    <input id="tokenField" type="hidden" />
-    <input id="submitButton" type="button" />
+    <div class="container">
+        <div class="card text-center mx-auto" style="width: 18rem;">
+            <div class="row">
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <input id="firstName" type="text" />
+        <input id="lastName" type="text" />
+        <input id="submitButton" type="button" />
+    </div>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

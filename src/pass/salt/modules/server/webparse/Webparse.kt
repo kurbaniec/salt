@@ -209,6 +209,7 @@ class Webparse {
                 begin = tmp.indexOf("<")
                 end = tmp.indexOf(">")
                 if (begin == -1 && end == -1) {
+                    list.add(line)
                     break
                 }
                 if (begin != 0) list.add(tmp.substring(0, begin))
