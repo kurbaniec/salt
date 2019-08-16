@@ -18,8 +18,8 @@ class SaltThreadPoolFactory(
     lateinit var executor: SaltThreadPool
 
     override fun process(className: String) {
-        val configCount = config.findObjectAttribute("threads", "count")
-        val count: Int
+        val count = config.findObjectAttribute<Int>("threads", "count")
+        /**val count: Int
         count = if (configCount is Int) {
             configCount
         }
@@ -29,7 +29,7 @@ class SaltThreadPoolFactory(
                 res
             } else throw ConfigException("Could not parse [threads.count] in config.toml")
         }
-        else throw ConfigException("Could not parse [threads.count] in config.toml")
+        else throw ConfigException("Could not parse [threads.count] in config.toml")*/
         // TODO more ThreadPool types
         executor = SaltThreadPool("FixedThreadPool", count)
         container.addElement("saltThreadPool", executor)

@@ -1,2 +1,2 @@
-[server]
-redirect = false
+[security]
+enable = true

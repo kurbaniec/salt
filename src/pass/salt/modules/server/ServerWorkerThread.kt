@@ -69,39 +69,37 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         contentMimeType, fileData.second, fileData.first)
             } else {
                 if (secOn) {    // Is SaltSecurity activated
-                    // containsKey("Cookie") -> check if id is valid
-                    // if not -> authorizatuon or redirect
-                    if (header.containsKey("Set-Cookie")) {
-                        if (sec!!.open) { // mapped entries are only secured
-                            if (sec!!.mapping.contains(request.path)) {
-
-                            }
-                        } else { // all entries beside mapped ones are secured
-                            if (!sec!!.mapping.contains(request.path)) {
-
-                            }
+                    var secured = false
+                    if (sec!!.open) { // mapped entries are only secured
+                        if (sec!!.mapping.contains(request.path)) {
+                            secured = true
+                        }
+                    } else { // all entries beside mapped ones are secured
+                        if (!sec!!.mapping.contains(request.path)) {
+                            secured = true
                         }
                     }
-                    else if (header.containsKey("Authorization")) {
-                        // TODO 16.08
-                        // check credentiels && send cookie
-                        // if ok redirect to cached url
-
-                        // Check url
-                        val check = sec!!.checkAuthorization(header["Authorization"]!!)
-                        if (check.first) {
-                            val sessionID = sec!!.addSession(check.second)
-                            startSession(sessionID)
+                    if (secured) {
+                        // containsKey("Cookie") -> check if id is valid
+                        // if not -> authorizatuon or redirect
+                        var authFailed = true
+                        if (header.containsKey("Cookie")) {
+                            val cookieRaw = header["Cookie"]
+                            if (cookieRaw != null && cookieRaw.contains("_sid")) {
+                                val cookie = getSID(cookieRaw)
+                                if (sec!!.sessions.containsKey(cookie)) {
+                                    authFailed = false
+                                }
+                            }
                         }
-                        // send reload or something on false password
-                        else {
-
+                        if (authFailed) {
+                            if (header.containsKey("Authorization")) {
+                                authenticate(header)
+                            } else if (request.path != sec!!.login) {
+                                login()
+                                continue
+                            }
                         }
-
-                    }
-                    else if (request.path != sec!!.login){
-                        authenticate()
-                        continue
                     }
                 }
                 val mapping = when (request.method) {
@@ -180,10 +178,26 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         //socket.close()
     }
 
-    private fun authenticate() {
+    private fun authenticate(header: MutableMap<String, String>) {
+        // TODO 16.08
+        // check credentiels && send cookie
+        // if ok redirect to cached url
+        // Check url
+        val check = sec!!.checkAuthorization(header["Authorization"]!!)
+        if (check.first) {
+            val sessionID = sec!!.addSession(check.second)
+            startSession(sessionID)
+        }
+        // send reload or something on false password
+        else {
+
+        }
+    }
+
+    private fun login() {
         val path = sec!!.login
         val ip = config.findObjectAttribute("server", "ip_address") as String
-        val port = config.findObjectAttribute("server", "https_port").toString()
+        val port = config.findObjectAttribute<String>("server", "https_port")
         out.println("HTTP/1.1 302 Found")
         out.println("Server: SaltApplication")
         out.println("Date: ${Date()}")
@@ -198,13 +212,13 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     private fun startSession(sessionID: String) {
         val path = "/"
         val ip = config.findObjectAttribute("server", "ip_address") as String
-        val port = config.findObjectAttribute("server", "https_port").toString()
+        val port = config.findObjectAttribute<String>("server", "https_port")
         out.println("HTTP/1.1 302 Found")
         out.println("Server: SaltApplication")
         out.println("Date: ${Date()}")
         out.println("Content-type: text/plain")
         out.println("Location: https://$ip:$port$path")
-        out.println("Set-Cookie: id=$sessionID; Secure; HttpOnly")
+        out.println("Set-Cookie: _sid=$sessionID; Secure; HttpOnly")
         out.println("Connection: Close")
         out.println()
         out.flush()
@@ -252,7 +266,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
 
     private fun redirect(path: String) {
         val ip = config.findObjectAttribute("server", "ip_address") as String
-        val port = config.findObjectAttribute("server", "https_port").toString()
+        val port = config.findObjectAttribute<String>("server", "https_port")
         out.println("HTTP/1.1 302 Found")
         out.println("Server: SaltApplication")
         out.println("Date: ${Date()}")
@@ -305,6 +319,13 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
 
         } while (adder != "")
         return header
+    }
+
+    private fun getSID(cookieRaw: String): String {
+        val begin = cookieRaw.indexOf("_sid=")
+        val tmp = cookieRaw.substring(begin+5)
+        val tmp2 = tmp.split(" ")
+        return tmp2[0]
     }
 
 }

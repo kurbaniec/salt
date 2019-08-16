@@ -251,8 +251,8 @@ class Webparse {
                 val method = (conf.findObjectAttribute("server", "redirect_protocol") as String)
                         .toLowerCase()
                 val port = if (method == "https") {
-                     conf.findObjectAttribute("server", "https_port").toString()
-                } else conf.findObjectAttribute("server", "http_port").toString()
+                     conf.findObjectAttribute<String>("server", "https_port")
+                } else conf.findObjectAttribute<String>("server", "http_port")
                 return WebConf(ipAddress, method, port, "$method://$ipAddress:$port")
             }
             else {
@@ -260,8 +260,8 @@ class Webparse {
                     "https"
                 } else "http"
                 val port = if (method == "https") {
-                    conf.findObjectAttribute("server", "https_port").toString()
-                } else conf.findObjectAttribute("server", "http_port").toString()
+                    conf.findObjectAttribute<String>("server", "https_port")
+                } else conf.findObjectAttribute<String>("server", "http_port")
                 return WebConf(ipAddress, method, port, "$method://$ipAddress:$port")
             }
         }

@@ -28,11 +28,15 @@ class SaltSecurity(
         open = conf.open
         login = conf.login
         mapping.addAll(conf.mapping)
+        if (open) {
+            mapping.add(login)
+        }
+        // TODO add mapping exceptions through config for files like favicon.ico
     }
 
     fun addSession(username: String): String {
         val nameSpace = ('0'..'z').toList().toTypedArray()
-        val sessionID = (1..32).map { nameSpace.random() }.joinToString("")
+        val sessionID = (1..101).map { nameSpace.random() }.joinToString("").replace(";", "/")
         sessions[sessionID] = SessionUser(username)
         return sessionID
     }
