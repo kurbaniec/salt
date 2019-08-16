@@ -32,6 +32,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     var listening = true
     var secOn = false
     var sec: SaltSecurity? = null
+    val cachedPath = CachedPath(false, "/")
 
     init {
         val path = System.getProperty("user.dir")
@@ -42,6 +43,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         }
     }
 
+    data class CachedPath(var set: Boolean, var path: String)
     data class Request(val method: String, val path: String, val file: String, val params: Map<String, String>)
 
     override fun run() {
@@ -86,8 +88,8 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         if (header.containsKey("Cookie")) {
                             val cookieRaw = header["Cookie"]
                             if (cookieRaw != null && cookieRaw.contains("_sid")) {
-                                val cookie = getSID(cookieRaw)
-                                if (sec!!.sessions.containsKey(cookie)) {
+                                val sid = getSID(cookieRaw)
+                                if (sec!!.isValidSession(sid)) {
                                     authFailed = false
                                 }
                             }
@@ -95,6 +97,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         if (authFailed) {
                             if (header.containsKey("Authorization")) {
                                 authenticate(header)
+                                continue
                             } else if (request.path != sec!!.login) {
                                 login()
                                 continue
@@ -186,7 +189,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val check = sec!!.checkAuthorization(header["Authorization"]!!)
         if (check.first) {
             val sessionID = sec!!.addSession(check.second)
-            startSession(sessionID)
+            startSession(sessionID, "/")
         }
         // send reload or something on false password
         else {
@@ -209,19 +212,39 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         shutdown()
     }
 
-    private fun startSession(sessionID: String) {
-        val path = "/"
+    private fun startSession(sessionID: String, cachedPath: String) {
+        val path = cachedPath
         val ip = config.findObjectAttribute("server", "ip_address") as String
         val port = config.findObjectAttribute<String>("server", "https_port")
+        out.println("HTTP/1.1 204 No content")
+        out.println("Server: SaltApplication")
+        out.println("Date: ${Date()}")
+        //out.println("Content-type: text/plain")
+        //out.println("Location: https://$ip:$port$path")
+        out.println("Set-Cookie: _sid=$sessionID; Secure; HttpOnly")
+        //out.println("Connection: Close")
+        out.println()
+        out.flush()
+        out.println("HTTP/1.1 204 No content")
+        out.println("Server: SaltApplication")
+        out.println("Date: ${Date()}")
+        //out.println("Content-type: text/plain")
+        //out.println("Location: https://$ip:$port$path")
+        out.println("Set-Cookie: _sid=$sessionID; Secure; HttpOnly")
+        //out.println("Connection: Close")
+        out.println()
+        out.flush()
+
         out.println("HTTP/1.1 302 Found")
         out.println("Server: SaltApplication")
         out.println("Date: ${Date()}")
         out.println("Content-type: text/plain")
         out.println("Location: https://$ip:$port$path")
-        out.println("Set-Cookie: _sid=$sessionID; Secure; HttpOnly")
+        //out.println("Set-Cookie: _sid=$sessionID; Secure; HttpOnly")
         out.println("Connection: Close")
         out.println()
         out.flush()
+        shutdown()
     }
 
     // return supported MIME Types

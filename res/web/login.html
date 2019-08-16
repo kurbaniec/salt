@@ -24,18 +24,22 @@
             console.log("Token: " + $('#tokenField').val());
             console.log("Firstname: " + $('#firstName').val());
             console.log("Lastname: " + $('#lastName').val());
-            $.ajax({
-            url: "https://localhost:8080/login",
-            type: 'GET',
-            data: {
-            firstName: $('#firstName').val(),
-            lastName: $('#lastName').val()
-            },
-            headers: {
-            "Authorization": "Basic " + btoa($('#firstName').val() + ":" + $('#lastName').val())
-            },
-            async: false
-            })});
+                $.ajax({
+                url: "https://localhost:8080/login",
+                type: 'GET',
+                data: {
+                firstName: $('#firstName').val(),
+                lastName: $('#lastName').val()
+                },
+                headers: {
+                "Authorization": "Basic " + btoa($('#firstName').val() + ":" + $('#lastName').val())
+                },
+                async: false,
+                success: function() {
+                    window.location.href = "https://localhost:8080"
+                }
+                })
+            });
 
     </script>
 

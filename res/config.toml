@@ -1,2 +1,3 @@
 [security]
 enable = true
+timeout = 1

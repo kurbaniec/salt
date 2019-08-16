@@ -3,6 +3,10 @@ package pass.salt.modules.server.security
 import pass.salt.container.Container
 import pass.salt.loader.config.Config
 import pass.salt.modules.SaltProcessor
+import pass.salt.modules.server.ServerWorkerThread
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import java.util.*
 import kotlin.reflect.KFunction
 
@@ -14,11 +18,13 @@ class SaltSecurity(
     var login = "/login"
     val mapping = mutableListOf<String>()
     val sessions = mutableMapOf<String, SessionUser>()
+    var timeout: Int = 15
     lateinit var auth: Pair<Any, KFunction<*>>
 
 
     override fun process(className: String) {
-        if (config.findObjectAttribute("security", "enable") as Boolean) {
+        if (config.findObjectAttribute<Boolean>("security", "enable")) {
+            timeout = config.findObjectAttribute<Int>("security", "timeout")
             container.addElement("saltSecurity", this)
         }
     }
@@ -41,8 +47,25 @@ class SaltSecurity(
         return sessionID
     }
 
-    fun isValidSession() {
+    fun isValidSession(sid: String): Boolean {
+        if (sessions.containsKey(sid)) {
+            val user = sessions[sid]
+            if (user != null) {
+                val mi = Calendar.getInstance()
+                if (user.init.plus(Duration.of(timeout.toLong(), ChronoUnit.MINUTES)) > LocalDateTime.now()) {
+                    user.init = LocalDateTime.now()
+                    return true
+                }
+                else {
+                    sessions.remove(sid)
+                }
+            }
+        }
+       return false
+    }
 
+    fun getSession(sid: String): SessionUser? {
+        return sessions[sid]
     }
 
     fun checkAuthorization(basicAuth: String): Pair<Boolean, String> {
