@@ -32,7 +32,13 @@
                     },
                     async: true,
                     statusCode: {
+                        204: function() {
+                            window.location.href = "https://localhost:8080"
+                        },
                         403: function(xhr) {
+                            console.log("Wrong credentials");
+                        },
+                        404: function(xhr) {
                             console.log("Wrong credentials");
                         }
                     },

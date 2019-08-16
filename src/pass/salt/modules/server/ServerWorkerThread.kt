@@ -193,7 +193,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         }
         // send reload or something on false password
         else {
-
+            restartSession()
         }
     }
 
@@ -225,16 +225,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         //out.println("Connection: Close")
         out.println()
         out.flush()
-        out.println("HTTP/1.1 204 No content")
-        out.println("Server: SaltApplication")
-        out.println("Date: ${Date()}")
-        //out.println("Content-type: text/plain")
-        //out.println("Location: https://$ip:$port$path")
-        out.println("Set-Cookie: _sid=$sessionID; Secure; HttpOnly")
-        //out.println("Connection: Close")
-        out.println()
-        out.flush()
-
+        /**
         out.println("HTTP/1.1 302 Found")
         out.println("Server: SaltApplication")
         out.println("Date: ${Date()}")
@@ -242,6 +233,15 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         out.println("Location: https://$ip:$port$path")
         //out.println("Set-Cookie: _sid=$sessionID; Secure; HttpOnly")
         out.println("Connection: Close")
+        out.println()
+        out.flush()
+        shutdown()*/
+    }
+
+    private fun restartSession() {
+        out.println("HTTP/1.1 403 Forbidden")
+        out.println("Server: SaltApplication")
+        out.println("Date: ${Date()}")
         out.println()
         out.flush()
         shutdown()
