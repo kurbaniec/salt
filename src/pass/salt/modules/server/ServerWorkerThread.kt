@@ -72,12 +72,19 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
             } else {
                 if (secOn) {    // Is SaltSecurity activated
                     var secured = false
+                    // TODO Montag fix for files!!!
                     if (sec!!.open) { // mapped entries are only secured
+                        // TODO Montag - streamline oder outsurcen?
                         if (sec!!.mapping.contains(request.path)) {
                             secured = true
                         }
                     } else { // all entries beside mapped ones are secured
-                        if (!sec!!.mapping.contains(request.path)) {
+                        if (request.file == "") {
+                            if (!sec!!.mapping.contains(request.path)) {
+                                secured = true
+                            }
+                        }
+                        else if (!sec!!.mapping.contains("/" + request.file)) {
                             secured = true
                         }
                     }

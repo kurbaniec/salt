@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
     <div class="container">
-        <div class="card text-center mx-auto" style="width: 18rem;">
+        <div class="card text-center mx-auto login" style="width: 18rem;">
             <div class="row">
                 <div class="card-body">
                     <h5 class="card-title">Special title treatment</h5>
@@ -16,6 +17,7 @@
                 </div>
             </div>
         </div>
+        <p class="center">This paragraph will be red and center-aligned.</p>
         <input id="firstName" type="text" />
         <input id="lastName" type="text" />
         <input id="submitButton" type="button" />
