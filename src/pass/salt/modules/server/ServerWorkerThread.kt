@@ -15,6 +15,8 @@ import java.io.BufferedReader
 import java.net.ServerSocket
 import javax.net.ssl.SSLSocket
 import java.lang.StringBuilder
+import java.nio.file.Files
+import javax.activation.MimetypesFileTypeMap
 
 
 class ServerWorkerThread<P: ServerSocket, S: Socket>(
@@ -75,18 +77,19 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                     // TODO Montag fix for files!!!
                     if (sec!!.open) { // mapped entries are only secured
                         // TODO Montag - streamline oder outsurcen?
-                        if (sec!!.mapping.contains(request.path)) {
+                        if (sec!!.mapping.contains(request.path) || sec!!.mapping.contains("/"+request.file)) {
                             secured = true
                         }
                     } else { // all entries beside mapped ones are secured
-                        if (request.file == "") {
-                            if (!sec!!.mapping.contains(request.path)) {
-                                secured = true
-                            }
-                        }
-                        else if (!sec!!.mapping.contains("/" + request.file)) {
+                        //if (request.file == "") {
+                        //if (!sec!!.mapping.contains(request.path) && !sec!!.mapping.contains("/"+request.file)) {
+                        if (!sec!!.mapping.contains(request.path) && !sec!!.mapping.contains(request.file)) {
                             secured = true
                         }
+                        //}
+                        /**else if (!sec!!.mapping.contains("/" + request.file)) {
+                            secured = true
+                        }*/
                     }
                     if (secured) {
                         // containsKey("Cookie") -> check if id is valid
@@ -146,10 +149,11 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         }
                     }
                     if (file != null) {
+                        val contentType = getContentType(file!!)
                         val fileData = readFileData(file!!, null)
                         sendHelper("HTTP/1.1 200 OK",
                                 "Server: SaltApplication",
-                                "text/plain", fileData.second, fileData.first)
+                                contentType, fileData.second, fileData.first)
                     }
                     else fileNotFound()
                 // Normal mapping via controller
@@ -162,7 +166,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                     val fileName = mapping.call()
                     val file = File(WEB_ROOT, fileName)
                     val fileLength = file.length().toInt()
-                    val content = getContentType(fileName)
+                    val content = getContentType(file)
                     val fileData = readFileData(file, model)
                     sendHelper("HTTP/1.1 200 OK",
                             "Server: SaltApplication",
@@ -255,11 +259,17 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     }
 
     // return supported MIME Types
-    private fun getContentType(fileRequested: String): String {
+    private fun getContentType(fileRequested: File): String {
+        /**
         return if (fileRequested.endsWith(".htm") || fileRequested.endsWith(".html"))
             "text/html"
         else
-            "text/plain"
+            "text/plain"*/
+        var type = "text/plain" // Default Value
+        //val map = MimetypesFileTypeMap()
+        //type = map.getContentType(fileRequested)
+        type = Files.probeContentType(fileRequested.toPath())
+        return type
     }
 
     @Throws(IOException::class)
@@ -324,7 +334,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val pathOrFile = pathParam[0].split(".")
         val path = pathOrFile[0]
         val file = if (pathOrFile.size == 2) {
-            path.substring(1) + "." + pathOrFile[1]
+            path + "." + pathOrFile[1]
         } else ""
         var params = mapOf<String, String>()
         if (pathParam.size > 1) {
