@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <ol>
+    <li th:each="task : ${tasks}" th:text="${task}"></li>
+    </ol>
+    <input id="firstName" type="text" />
+    <input id="lastName" type="text" />
+    <input id="tokenField" type="hidden" />
+    <input id="submitButton" type="button" />
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+            // "Authorization": "Bearer " + $('#tokenField').val()
+            $('#submitButton').on('click',function(){
+            console.log("Token: " + $('#tokenField').val());
+            console.log("Firstname: " + $('#firstName').val());
+            console.log("Lastname: " + $('#lastName').val());
+                $.ajax({
+                    url: "https://localhost:8080/login",
+                    type: 'GET',
+                    headers: {
+                    "Authorization": "Basic " + btoa($('#firstName').val() + ":" + $('#lastName').val())
+                    },
+                    async: true,
+                    statusCode: {
+                        204: function() {
+                            window.location.href = "https://localhost:8080"
+                        },
+                        403: function(xhr) {
+                            console.log("Wrong credentials");
+                        },
+                        404: function(xhr) {
+                            console.log("Wrong credentials");
+                        }
+                    },
+                    success: function() {
+                        window.location.href = "https://localhost:8080"
+                    }
+                })
+            });
+
+    </script>
+
+
+</body>
+</html>

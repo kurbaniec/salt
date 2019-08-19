@@ -244,20 +244,27 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
 
     @Throws(IOException::class)
     private fun readFileData(file: File, model: Model?): Pair<ByteArray, Int> {
-        val raw = file.readText(Charsets.UTF_8)
-        val lines = raw.split("\r\n").toMutableList()
-        val site: String
-        if (model != null) {
-            site = Webparse.parse(lines, model)
+        val bytes = if (getContentType(file) == "text/html" && file.name.endsWith(".html")) {
+            val raw = file.readText(Charsets.UTF_8)
+            val lines = raw.split("\r\n").toMutableList()
+            val site: String
+            site = if (model != null) {
+                Webparse.parse(lines, model)
+            } else {
+                val tmpSite = StringBuilder()
+                for (l in lines) {
+                    tmpSite.append(l + "\r\n")
+                }
+                tmpSite.toString()
+            }
+            site.toByteArray(Charsets.UTF_8)
         }
         else {
-            val tmpSite = StringBuilder()
-            for (l in lines) {
-                tmpSite.append(l + "\r\n")
-            }
-            site = tmpSite.toString()
+            val reader = BufferedInputStream(FileInputStream(file))
+            val bytes = ByteArray(reader.available())
+            reader.read(bytes)
+            bytes
         }
-        val bytes = site.toByteArray(Charsets.UTF_8)
         val length = bytes.size
 
         return Pair(bytes, length)

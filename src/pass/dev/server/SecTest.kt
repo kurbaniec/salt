@@ -12,7 +12,7 @@ class SecTest: WebSecurityConfigurator {
 
     override fun configure(conf: WebSecurityConfig) {
         conf
-            .matchRequests("/", "/css/login.css").permitAll()
+            .matchRequests("/", "/css/login.css", "/favicon.ico").permitAll()
             .anyRequest().authenticated()
             .loginPath("/login")
             .successfulLoginPath("/testo")

@@ -162,9 +162,8 @@ class Webparse {
                             textConf.textFlag = true
                             textConf.text = tAttrValBegin + modelResult + tAttrValEnd
                         }
-                        "th:href" -> {
-                            tAttrParams += " " + parseHref(tAttrVal, model, webConf)
-                        }
+                        "th:href" -> tAttrParams += " " + parsePath("href", tAttrVal, model, webConf)
+                        "th:src" -> tAttrParams += " " + parsePath("src", tAttrVal, model, webConf)
                         else -> tAttrParams += " $tAttrName=$tAttrVal"
                     }
                 }
@@ -172,7 +171,7 @@ class Webparse {
             return tAttrParams
         }
 
-        fun parseHref(attrVal: String, model: Model, webConf: WebConf): String {
+        fun parsePath(tag: String, attrVal: String, model: Model, webConf: WebConf): String {
             var newVal = attrVal.replace("\"@{", "")
             var begin = newVal.indexOf("\${")
             while (begin != -1) {
@@ -192,8 +191,14 @@ class Webparse {
                 }
             }
             newVal = newVal.replace("}", "")
-            return "href=\"" + webConf.preUrl + newVal
+            return tag + "=\"" + webConf.preUrl + newVal
         }
+
+        /**
+        fun parseHref(attrVal: String, model: Model, webConf: WebConf): String {
+        }
+        fun parseSrc(attrVal: String, model: Model, webConf: WebConf): String {
+        }*/
 
 
 
