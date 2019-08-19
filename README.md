@@ -1,11 +1,15 @@
 # passwort-manager-dev
 
 # TODO
-- [ ] Thymeleaf Parser?
-- [ ] Autherization header + session + cookie
+- [ ] Database-mongo wrapper for salt
+- [ ] convert login in script to th:login & update README
+- [ ] Config default page when logged on
 - [ ] Terminator-service
-- [ ] cookie session key
 - [ ] ssl certificate renew -> swap socket?
+
+- [x] Thymeleaf Parser?
+- [x] Autherization header + session + cookie
+- [x] cookie session key
 - [x] redirect http->https
 
 # Notes
