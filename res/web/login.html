@@ -5,6 +5,8 @@
     <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
 </head>
 <body>
     <div class="container">
@@ -13,14 +15,29 @@
                 <div class="card-body">
                     <h5 class="card-title">Special title treatment</h5>
                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><span class="fa fa-user" aria-hidden="true"></span></span>
+                        </div>
+                        <input class="form-control card-element" id="username" type="text" placeholder="Username" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><span class="fas fa-key" aria-hidden="true"></span></span>
+                        </div>
+                        <input class="form-control card-element" id="password" type="password" placeholder="Password"/>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="passwdToggle();">
+                                <span class="fas fa-eye" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="submitButton">Submit</button>
+                    <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
                 </div>
             </div>
         </div>
-        <p class="center">This paragraph will be red and center-aligned.</p>
-        <input id="firstName" type="text" />
-        <input id="lastName" type="text" />
-        <input id="submitButton" type="button" />
+
     </div>
 
     <!-- Optional JavaScript -->
@@ -30,16 +47,25 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <script>
-            // "Authorization": "Bearer " + $('#tokenField').val()
-            $('#submitButton').on('click',function(){
-            console.log("Token: " + $('#tokenField').val());
-            console.log("Firstname: " + $('#firstName').val());
-            console.log("Lastname: " + $('#lastName').val());
+        function passwdToggle() {
+            var x = document.getElementById("password");
+              if (x.type === "password") {
+                x.type = "text";
+              } else {
+                x.type = "password";
+              }
+        }
+    </script>
+
+    <script>
+            $('#submitButton').on('click', function() {auth() });
+
+            function auth() {
                 $.ajax({
                     url: "https://localhost:8080/login",
-                    type: 'GET',
+                    type: 'POST',
                     headers: {
-                    "Authorization": "Basic " + btoa($('#firstName').val() + ":" + $('#lastName').val())
+                    "Authorization": "Basic " + btoa($('#username').val() + ":" + $('#password').val())
                     },
                     async: true,
                     statusCode: {
@@ -51,7 +77,7 @@
                         window.location.href = "https://localhost:8080"
                     }
                 })
-            });
+            }
 
     </script>
 

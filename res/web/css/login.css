@@ -6,7 +6,7 @@
         -webkit-transform: translate(-50%, -50%);
 }
 
-p.center {
-  text-align: center;
-  color: red;
+.card-element {
+    margin-top: 0;
+    margin-bottom: 1rem;
 }

@@ -93,14 +93,15 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                     }
                     if (secured) {
                         // containsKey("Cookie") -> check if id is valid
-                        // if not -> authorizatuon or redirect
+                        // if not -> authorization or redirect
                         var authFailed = true
                         if (header.containsKey("Cookie")) {
                             val cookieRaw = header["Cookie"]
                             if (cookieRaw != null && cookieRaw.contains("_sid")) {
                                 val sid = getSID(cookieRaw)
                                 if (sec!!.isValidSession(sid)) {
-                                    authFailed = false
+                                    if (request.path != sec!!.login)
+                                        authFailed = false
                                 }
                             }
                         }
@@ -224,29 +225,20 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     }
 
     private fun startSession(sessionID: String, cachedPath: String) {
-        val path = cachedPath
-        val ip = config.findObjectAttribute("server", "ip_address") as String
-        val port = config.findObjectAttribute<String>("server", "https_port")
         out.println("HTTP/1.1 204 No content")
         out.println("Server: SaltApplication")
         out.println("Date: ${Date()}")
-        //out.println("Content-type: text/plain")
-        //out.println("Location: https://$ip:$port$path")
         out.println("Set-Cookie: _sid=$sessionID; Secure; HttpOnly")
-        //out.println("Connection: Close")
         out.println()
         out.flush()
-        /**
-        out.println("HTTP/1.1 302 Found")
+    }
+
+    private fun home() {
+        out.println("HTTP/1.1 204 No content")
         out.println("Server: SaltApplication")
         out.println("Date: ${Date()}")
-        out.println("Content-type: text/plain")
-        out.println("Location: https://$ip:$port$path")
-        //out.println("Set-Cookie: _sid=$sessionID; Secure; HttpOnly")
-        out.println("Connection: Close")
         out.println()
         out.flush()
-        shutdown()*/
     }
 
     private fun restartSession() {
@@ -260,14 +252,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
 
     // return supported MIME Types
     private fun getContentType(fileRequested: File): String {
-        /**
-        return if (fileRequested.endsWith(".htm") || fileRequested.endsWith(".html"))
-            "text/html"
-        else
-            "text/plain"*/
         var type = "text/plain" // Default Value
-        //val map = MimetypesFileTypeMap()
-        //type = map.getContentType(fileRequested)
         type = Files.probeContentType(fileRequested.toPath())
         return type
     }

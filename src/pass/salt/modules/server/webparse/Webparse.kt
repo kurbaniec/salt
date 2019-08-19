@@ -1,15 +1,16 @@
 package pass.salt.modules.server.webparse
 
 import pass.salt.SaltApplication
-import pass.salt.loader.config.Config
 
 class Webparse {
     companion object {
+
         fun parse(lines: MutableList<String>, model: Model): String {
+            val comment = ParserHelp(false, false, "")
             //val tagRx = Regex.fromLiteral("<((?=!\\-\\-)!\\-\\-[\\s\\S]*\\-\\-|((?=\\?)\\?[\\s\\S]*\\?|((?=\\/)\\/[^.\\-\\d][^\\/\\]'\"[!#\$%&()*+,;<=>?@^`{|}~ ]*|[^.\\-\\d][^\\/\\]'\"[!#\$%&()*+,;<=>?@^`{|}~ ]*(?:\\s[^.\\-\\d][^\\/\\]'\"[!#\$%&()*+,;<=>?@^`{|}~ ]*(?:=(?:\"[^\"]*\"|'[^']*'|[^'\"<\\s]*))?)*)\\s?\\/?))>")
             val full = mutableListOf<String>()
             for (line in lines) {
-                val tmp = parseLine(line)
+                val tmp = parseLine(line, comment)
                 //webParse(tmp)
                 full.addAll(tmp)
             }
@@ -19,6 +20,7 @@ class Webparse {
         data class WebParseText(var textFlag: Boolean, var tagStop: String, var text: String)
         data class WebParseLoop(var loopFlag: Boolean, var tagStop: String, var listName: String, var list: List<Any>, var cache: MutableList<String>)
         data class WebConf(var ipAddress: String, var method: String, var port: String, var preUrl: String)
+        data class ParserHelp(var comment: Boolean, var notFinished: Boolean, var cache: String)
 
         fun webParse(site: MutableList<String>, model: Model): String {
             val webConf = readWebConf()
@@ -187,17 +189,45 @@ class Webparse {
 
 
 
-        fun parseLine(line: String): MutableList<String> {
+        fun parseLine(line: String, help: ParserHelp): MutableList<String> {
             var tmp = "" + line
             var length = tmp.length
             tmp.trim()
-            length = length - tmp.length
+            // Comment check
+            if (help.comment) {
+                if (line.contains("-->")) {
+                    help.comment = false
+                    tmp = tmp.substring(tmp.indexOf("-->"))
+                }
+                else return mutableListOf()
+            }
+            if (tmp.contains("<!--")) {
+                val begin = tmp.indexOf("<!--")
+                if (tmp.contains("-->")) {
+                    val end = line.indexOf("-->")
+                    tmp = tmp.substring(0, begin) + tmp.substring(end+3)
+                }
+                else {
+                    tmp = tmp.substring(0, begin)
+                    help.comment = true
+                }
+            }
+            // Multiline check
+            if (help.notFinished) {
+                help.notFinished = false
+                tmp = help.cache + tmp
+            }
             val list = mutableListOf<String>()
             var more = true
             while (more) {
                 var begin = tmp.indexOf("<")
                 var end = tmp.indexOf(">")
                 var test = tmp.indexOf("<", begin)
+                if (end == -1) { // multiline tag
+                    help.notFinished = true
+                    help.cache = tmp
+                    return mutableListOf()
+                }
                 if (end < begin) {
                     list.add(tmp.substring(0, end+1))
                     tmp = tmp.substring(end+1)
