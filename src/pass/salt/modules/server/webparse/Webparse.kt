@@ -1,6 +1,7 @@
 package pass.salt.modules.server.webparse
 
 import pass.salt.SaltApplication
+import pass.salt.modules.server.security.SaltSecurity
 
 class Webparse {
     companion object {
@@ -19,7 +20,7 @@ class Webparse {
 
         data class WebParseText(var textFlag: Boolean, var tagStop: String, var text: String)
         data class WebParseLoop(var loopFlag: Boolean, var tagStop: String, var listName: String, var list: List<Any>, var cache: MutableList<String>)
-        data class WebConf(var ipAddress: String, var method: String, var port: String, var preUrl: String)
+        data class WebConf(var ipAddress: String, var method: String, var port: String, var preUrl: String, val security: SaltSecurity?)
         data class ParserHelp(var comment: Boolean, var notFinished: Boolean, var cache: String)
 
         fun webParse(site: MutableList<String>, model: Model): String {
@@ -61,7 +62,7 @@ class Webparse {
 
                     }
                     else {
-                        val tRaw = tag.replace("</", "").replace("<", "").replace(">", "")
+                        val tRaw = tag.replace("</", "").replace("<", "").replace("/>", "").replace(">", "")
                         var tName = ""
                         if (tRaw.contains(" ")) {
                             tName = tRaw.substring(0, tRaw.indexOf(" "))
@@ -83,7 +84,14 @@ class Webparse {
                                 fullSite += ">"
                             }
                         } else {
-                            fullSite += tag
+                            if(tRaw.startsWith("th:login")) {
+                                if (webConf.security != null) {
+                                    fullSite += script + "\"" + webConf.preUrl + webConf.security.login + "\""
+                                    fullSite += script2 + "console.log(\"Wrong credentials\");"
+                                    fullSite += script3 + "window.location.href = \"" + webConf.preUrl + webConf.security.success + "\"" + script4
+                                }
+                            }
+                            else fullSite += tag
                         }
                     }
                 }
@@ -223,7 +231,7 @@ class Webparse {
                 var begin = tmp.indexOf("<")
                 var end = tmp.indexOf(">")
                 var test = tmp.indexOf("<", begin)
-                if (end == -1) { // multiline tag
+                if (begin != -1 && end == -1) { // multiline tag
                     help.notFinished = true
                     help.cache = tmp
                     return mutableListOf()
@@ -276,6 +284,7 @@ class Webparse {
 
         private fun readWebConf(): WebConf {
             val conf = SaltApplication.config
+            val security = SaltApplication.container.getElement("saltSecurity") as SaltSecurity?
             val ipAddress = conf.findObjectAttribute("server", "ip_address") as String
             val redirect = conf.findObjectAttribute("server", "redirect") as Boolean
             if (redirect) {
@@ -284,7 +293,7 @@ class Webparse {
                 val port = if (method == "https") {
                      conf.findObjectAttribute<String>("server", "https_port")
                 } else conf.findObjectAttribute<String>("server", "http_port")
-                return WebConf(ipAddress, method, port, "$method://$ipAddress:$port")
+                return WebConf(ipAddress, method, port, "$method://$ipAddress:$port", security)
             }
             else {
                 val method = if (conf.findObjectAttribute("server", "https") as Boolean) {
@@ -293,8 +302,81 @@ class Webparse {
                 val port = if (method == "https") {
                     conf.findObjectAttribute<String>("server", "https_port")
                 } else conf.findObjectAttribute<String>("server", "http_port")
-                return WebConf(ipAddress, method, port, "$method://$ipAddress:$port")
+                return WebConf(ipAddress, method, port, "$method://$ipAddress:$port", security)
             }
         }
+
+        val script =
+        """
+            <script>
+            ${'$'}('#submitButton').on('click', function() {auth() });
+            ${'$'}('#username').keypress(function (e) {
+                if (e.which == 13) {
+                    auth()
+                }
+            });
+            ${'$'}('#password').keypress(function (e) {
+                if (e.which == 13) {
+                    auth()
+                }
+            });
+            function auth() {
+                ${'$'}.ajax({
+                    url: 
+        """
+        val script2 =
+        """
+                    ,
+                    type: 'POST',
+                    headers: {
+                    "Authorization": "Basic " + btoa(${'$'}('#username').val() + ":" + ${'$'}('#password').val())
+                    },
+                    async: true,
+                    statusCode: {
+                        403: function(xhr) {
+                            $("#alert").text("Wrong credentials");
+                            $("#alert").removeAttr("hidden");
+        """
+        val script3 =
+        """
+                        }
+                    },
+                    success: function() {
+        """
+        val script4 =
+        """
+                    }
+                })
+            }
+            </script>
+        """
+
+
+
+        /**
+        <script>
+            $('#submitButton').on('click', function() {auth() });
+
+            function auth() {
+                $.ajax({
+                    url: "https://localhost:8080/login",
+                    type: 'POST',
+                    headers: {
+                    "Authorization": "Basic " + btoa($('#username').val() + ":" + $('#password').val())
+                    },
+                    async: true,
+                    statusCode: {
+                        403: function(xhr) {
+                            console.log("Wrong credentials");
+                        }
+                    },
+                    success: function() {
+                        window.location.href = "https://localhost:8080"
+                    }
+                })
+            }
+
+        </script>
+        */
     }
 }

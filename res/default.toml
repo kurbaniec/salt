@@ -18,7 +18,6 @@ password = "passwd1234"
 
 [security]
 enable = false
-do_not_secure = [ "favicon.ico" ]
 timeout = 15
 
 

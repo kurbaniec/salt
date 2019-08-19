@@ -34,7 +34,6 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     var listening = true
     var secOn = false
     var sec: SaltSecurity? = null
-    val cachedPath = CachedPath(false, "/")
 
     init {
         val path = System.getProperty("user.dir")
@@ -45,7 +44,6 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         }
     }
 
-    data class CachedPath(var set: Boolean, var path: String)
     data class Request(val method: String, val path: String, val file: String, val params: Map<String, String>)
 
     override fun run() {
@@ -64,9 +62,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
             // Unsupported mapping
             if (request.method != "GET" && request.method != "POST" && request.method != "HEAD") {
                 val file = File(WEB_ROOT, METHOD_NOT_SUPPORTED)
-                val fileLength = file.length().toInt()
                 val contentMimeType = "text/html"
-                //read content to return to client
                 val fileData = readFileData(file, null)
                 sendHelper("HTTP/1.1 501 Not Implemented",
                         "Server: SaltApplication",
@@ -81,15 +77,9 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                             secured = true
                         }
                     } else { // all entries beside mapped ones are secured
-                        //if (request.file == "") {
-                        //if (!sec!!.mapping.contains(request.path) && !sec!!.mapping.contains("/"+request.file)) {
                         if (!sec!!.mapping.contains(request.path) && !sec!!.mapping.contains(request.file)) {
                             secured = true
                         }
-                        //}
-                        /**else if (!sec!!.mapping.contains("/" + request.file)) {
-                            secured = true
-                        }*/
                     }
                     if (secured) {
                         // containsKey("Cookie") -> check if id is valid
@@ -194,16 +184,13 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     }
 
     private fun authenticate(header: MutableMap<String, String>) {
-        // TODO 16.08
-        // check credentiels && send cookie
-        // if ok redirect to cached url
         // Check url
         val check = sec!!.checkAuthorization(header["Authorization"]!!)
         if (check.first) {
             val sessionID = sec!!.addSession(check.second)
-            startSession(sessionID, "/")
+            startSession(sessionID)
         }
-        // send reload or something on false password
+        // send reload on false password
         else {
             restartSession()
         }
@@ -224,7 +211,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         shutdown()
     }
 
-    private fun startSession(sessionID: String, cachedPath: String) {
+    private fun startSession(sessionID: String) {
         out.println("HTTP/1.1 204 No content")
         out.println("Server: SaltApplication")
         out.println("Date: ${Date()}")
@@ -252,9 +239,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
 
     // return supported MIME Types
     private fun getContentType(fileRequested: File): String {
-        var type = "text/plain" // Default Value
-        type = Files.probeContentType(fileRequested.toPath())
-        return type
+        return Files.probeContentType(fileRequested.toPath())
     }
 
     @Throws(IOException::class)
@@ -272,7 +257,6 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
             }
             site = tmpSite.toString()
         }
-        //val bytes = test.toByteArray(Charsets.UTF_8)
         val bytes = site.toByteArray(Charsets.UTF_8)
         val length = bytes.size
 
@@ -281,7 +265,6 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
 
     private fun fileNotFound() {
         val file = File(WEB_ROOT, FILE_NOT_FOUND)
-        val fileLength = file.length().toInt()
         val content = "text/html"
         val fileData = readFileData(file, null)
         sendHelper("HTTP/1.1 404 File Not Found",
@@ -334,7 +317,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
 
     private fun readHeader(): MutableMap<String, String> {
         val header = mutableMapOf<String, String>()
-        var adder = ""
+        var adder: String
         do {
             adder = inp.readLine()
             if (adder != "") {

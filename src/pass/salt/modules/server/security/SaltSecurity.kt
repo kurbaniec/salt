@@ -16,6 +16,7 @@ class SaltSecurity(
 ): SaltProcessor {
     var open = false
     var login = "/login"
+    var success = "/"
     val mapping = mutableListOf<String>()
     val sessions = mutableMapOf<String, SessionUser>()
     var timeout: Int = 15
@@ -33,6 +34,7 @@ class SaltSecurity(
         this.auth = auth
         open = conf.open
         login = conf.login
+        success = conf.success
         mapping.addAll(conf.mapping)
         if (open) {
             mapping.add(login)

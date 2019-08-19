@@ -27,11 +27,12 @@
                         </div>
                         <input class="form-control card-element" id="password" type="password" placeholder="Password"/>
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" onclick="passwdToggle();">
+                            <button class="btn btn-outline-secondary input-group-text" type="button" onclick="passwdToggle();">
                                 <span class="fas fa-eye" aria-hidden="true"></span>
                             </button>
                         </div>
                     </div>
+                    <div class="alert alert-danger card-element" id="alert" role="alert" hidden>""</div>
                     <button class="btn btn-primary" id="submitButton">Submit</button>
                     <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
                 </div>
@@ -57,29 +58,7 @@
         }
     </script>
 
-    <script>
-            $('#submitButton').on('click', function() {auth() });
-
-            function auth() {
-                $.ajax({
-                    url: "https://localhost:8080/login",
-                    type: 'POST',
-                    headers: {
-                    "Authorization": "Basic " + btoa($('#username').val() + ":" + $('#password').val())
-                    },
-                    async: true,
-                    statusCode: {
-                        403: function(xhr) {
-                            console.log("Wrong credentials");
-                        }
-                    },
-                    success: function() {
-                        window.location.href = "https://localhost:8080"
-                    }
-                })
-            }
-
-    </script>
+    <th:login/>
 
 
 </body>
