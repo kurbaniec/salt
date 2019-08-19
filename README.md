@@ -1,6 +1,7 @@
 # passwort-manager-dev
 
 # TODO
+- [ ] Logout functionality
 - [ ] Database-mongo wrapper for salt
 - [ ] convert login in script to th:login & update README
 - [ ] Config default page when logged on
