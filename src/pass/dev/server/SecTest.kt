@@ -15,6 +15,6 @@ class SecTest: WebSecurityConfigurator {
             .matchRequests("/", "/css/login.css", "/favicon.ico").permitAll()
             .anyRequest().authenticated()
             .loginPath("/login")
-            .successfulLoginPath("/testo")
+            .successfulLoginPath("/index")
     }
 }

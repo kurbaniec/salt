@@ -59,6 +59,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         while (listening) {
             val request = readRequest()
             val header = readHeader()
+            var sid = "NA"
             // Unsupported mapping
             if (request.method != "GET" && request.method != "POST" && request.method != "HEAD") {
                 val file = File(WEB_ROOT, METHOD_NOT_SUPPORTED)
@@ -88,7 +89,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         if (header.containsKey("Cookie")) {
                             val cookieRaw = header["Cookie"]
                             if (cookieRaw != null && cookieRaw.contains("_sid")) {
-                                val sid = getSID(cookieRaw)
+                                sid = getSID(cookieRaw)
                                 if (sec!!.isValidSession(sid)) {
                                     if (request.path != sec!!.login)
                                         authFailed = false
@@ -152,7 +153,11 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                     mapping.addParams(request.params)
                     val model = mapping.model
                     if (mapping.hasSessionUser) {
-                        mapping.params[mapping.sessionUserKey] = SessionUser() // TODO session_user
+                        val sessionUser = sec!!.sessions[sid]
+                        if (sessionUser != null) {
+                            mapping.params[mapping.sessionUserKey] = sessionUser // TODO session_user
+                        }
+                        else mapping.params[mapping.sessionUserKey] = SessionUser()
                     }
                     val fileName = mapping.call()
                     val file = File(WEB_ROOT, fileName)
