@@ -6,7 +6,6 @@
 - [ ] Config default page when logged on
 - [ ] Terminator-service
 - [ ] ssl certificate renew -> swap socket?
-
 - [x] Thymeleaf Parser?
 - [x] Autherization header + session + cookie
 - [x] cookie session key
