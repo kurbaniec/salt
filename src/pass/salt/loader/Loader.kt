@@ -49,6 +49,7 @@ class Loader() {
         classModules.add(SaltProcessor.module("AutowiredScan", config, container))
         classModules.add(SaltProcessor.module("MappingScan", config, container))
         classModules.add(SaltProcessor.module("SecurityScan", config, container))
+        classModules.add(SaltProcessor.module("MongoScan", config, container))
         for (mod in classModules) {
             location.walk().forEach {
                 // TODO do something about KT classes
