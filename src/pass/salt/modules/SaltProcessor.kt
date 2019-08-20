@@ -2,6 +2,7 @@ package pass.salt.modules
 
 import pass.salt.container.Container
 import pass.salt.loader.config.Config
+import pass.salt.modules.db.mongo.MongoInit
 import pass.salt.modules.server.mapping.MappingScan
 import pass.salt.modules.server.PepperServer
 import pass.salt.modules.server.security.SaltSecurity
@@ -38,6 +39,7 @@ interface SaltProcessor {
                     "MappingScan" -> MappingScan(config, container)
                     "SaltSecurity" -> SaltSecurity(config, container)
                     "SecurityScan" -> SecurityScan(config, container)
+                    "MongoInit" -> MongoInit(config, container)
                     else -> ModuleNotFound()
                 }
             } catch (ex: Exception) {

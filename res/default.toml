@@ -20,4 +20,10 @@ password = "passwd1234"
 enable = false
 timeout = 15
 
+[mongo]
+enable = false
+uri = "mongodb://localhost:27017"
+db = "dev"
+collection = "test"
+
 

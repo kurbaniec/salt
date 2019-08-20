@@ -1,3 +1,9 @@
 [security]
 enable = true
 timeout = 25
+
+[mongo]
+enable = true
+uri = "mongodb://Svtmgrleh04.wienkav.at:27017"
+db = "dev"
+collection = "test"

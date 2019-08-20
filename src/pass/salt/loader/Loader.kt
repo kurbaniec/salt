@@ -37,6 +37,7 @@ class Loader() {
         singleModules.add(SaltProcessor.module(module = "SaltSecurity", config = config, container = container))
         singleModules.add(SaltProcessor.module(module = "SaltThreadPool", config = config, container = container))
         singleModules.add(SaltProcessor.module(module = "PepperServer", config = config, container = container))
+        singleModules.add(SaltProcessor.module(module = "MongoInit", config = config, container = container))
         for (mod in singleModules) {
             mod.process()
         }

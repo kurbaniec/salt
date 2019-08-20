@@ -22,7 +22,6 @@ class SaltSecurity(
     var timeout: Int = 15
     lateinit var auth: Pair<Any, KFunction<*>>
 
-
     override fun process(className: String) {
         if (config.findObjectAttribute<Boolean>("security", "enable")) {
             timeout = config.findObjectAttribute<Int>("security", "timeout")
@@ -39,7 +38,6 @@ class SaltSecurity(
         if (open) {
             mapping.add(login)
         }
-        // TODO add mapping exceptions through config for files like favicon.ico
     }
 
     fun addSession(username: String): String {

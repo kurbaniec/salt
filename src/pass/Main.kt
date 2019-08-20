@@ -12,17 +12,23 @@ class Main {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
+            //mongo()
             val app = SaltApplication()
         }
+
+        fun mongo() {
+            val mongo = MongoClient(MongoClientURI("mongodb://Svtmgrleh04.wienkav.at:27017"))
+            // MongoSocket Exception
+            val db = mongo.getDatabase("dev")
+            val collection = db.getCollection("test")
+            collection.insertOne(Document(mapOf("key" to "value")))
+            val b = collection.find()
+            val c = b.count()
+            println("mongo")
+        }
+
     }
 
-    fun mongo() {
-        val mongo = MongoClient(MongoClientURI("mongodb://Svtmgrleh04.wienkav.at:27017"))
-        val db = mongo.getDatabase("dev")
-        val collection = db.getCollection("test")
-        collection.insertOne(Document(mapOf("key" to "value")))
-        println("mongo")
-    }
 
     fun testTOMLParser() {
         val baum = TOMLParser("test.toml")
