@@ -46,10 +46,10 @@ class Loader() {
         // Order of modules is important!
         logger.fine("Loading module System (Classes)")
         classModules.add(SaltProcessor.module("ComponentScan", config, container))
+        classModules.add(SaltProcessor.module("MongoScan", config, container))
         classModules.add(SaltProcessor.module("AutowiredScan", config, container))
         classModules.add(SaltProcessor.module("MappingScan", config, container))
         classModules.add(SaltProcessor.module("SecurityScan", config, container))
-        classModules.add(SaltProcessor.module("MongoScan", config, container))
         for (mod in classModules) {
             location.walk().forEach {
                 // TODO do something about KT classes
