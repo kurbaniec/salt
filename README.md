@@ -1,12 +1,13 @@
 # passwort-manager-dev
 
 # TODO
-- [ ] Logout functionality
-- [ ] Database-mongo wrapper for salt
-- [ ] convert login in script to th:login & update README
-- [ ] Config default page when logged on
+- [ ] PasswordManager: copy to clipboard / update links / delete entries+user
 - [ ] Terminator-service
 - [ ] ssl certificate renew -> swap socket?
+- [X] Logout functionality
+- [X] Database-mongo wrapper for salt
+- [X] convert login in script to th:login
+- [X] Config default page when logged on
 - [x] Thymeleaf Parser?
 - [x] Autherization header + session + cookie
 - [x] cookie session key
