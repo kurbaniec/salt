@@ -1,6 +1,7 @@
 # passwort-manager-dev
 
 # TODO
+- [ ] PasswordManager: Don´t load all passwords at once, instead send them on a request basis
 - [ ] PasswordManager: copy to clipboard / update links / delete entries+user
 - [ ] Terminator-service
 - [ ] ssl certificate renew -> swap socket?
