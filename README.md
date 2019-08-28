@@ -1,8 +1,9 @@
 # passwort-manager-dev
 
 # TODO
+- [ ] PasswordManager: Account page / update password (with old one as test) and delete user
 - [ ] PasswordManager: Don´t load all passwords at once, instead send them on a request basis
-- [ ] PasswordManager: copy to clipboard / update links / delete entries+user
+- [X] PasswordManager: copy to clipboard / update links / delete entries
 - [ ] Terminator-service
 - [ ] ssl certificate renew -> swap socket?
 - [X] Logout functionality
