@@ -1,11 +1,12 @@
 # passwort-manager-dev
 
 # TODO
-- [ ] PasswordManager: Account page / update password (with old one as test) and delete user
+- [ ] PasswordManager: Support letsencrypt for https keystore
 - [ ] PasswordManager: Don´t load all passwords at once, instead send them on a request basis
-- [X] PasswordManager: copy to clipboard / update links / delete entries
 - [ ] Terminator-service
 - [ ] ssl certificate renew -> swap socket?
+- [X] PasswordManager: Account page / update password (with old one as test) and delete user
+- [X] PasswordManager: copy to clipboard / update links / delete entries
 - [X] Logout functionality
 - [X] Database-mongo wrapper for salt
 - [X] convert login in script to th:login
