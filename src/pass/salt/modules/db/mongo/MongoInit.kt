@@ -1,18 +1,26 @@
 package pass.salt.modules.db.mongo
 
-import com.mongodb.MongoClient
-import com.mongodb.MongoClientURI
+import com.mongodb.ConnectionString
+import com.mongodb.client.MongoClient
+import com.mongodb.MongoClient as MHelp
 import com.mongodb.MongoSocketException
+import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import org.bson.Document
 import pass.salt.container.Container
 import pass.salt.loader.config.Config
 import pass.salt.modules.SaltProcessor
-import pass.salt.modules.logger
 import java.util.logging.Level
 import java.util.logging.Logger
-import java.util.logging.Level.SEVERE
+import com.mongodb.MongoClientSettings
+import org.bson.codecs.configuration.CodecRegistries.fromProviders
+import org.bson.codecs.configuration.CodecRegistries.fromRegistries
+import org.bson.codecs.pojo.PojoCodecProvider
+
+
+
+
 
 
 
@@ -24,6 +32,7 @@ class MongoInit(
     val log = Logger.getGlobal()
     lateinit var mongoClient: MongoClient
     lateinit var db: MongoDatabase
+    lateinit var collName: String
     lateinit var collection: MongoCollection<Document>
 
     override fun process(className: String) {
@@ -31,11 +40,20 @@ class MongoInit(
         if (enabled) {
             try {
                 disableLogger()
-                mongoClient = MongoClient(MongoClientURI(config.findObjectAttribute<String>("mongo", "uri")))
+                //mongoClient = MongoClient(MongoClientURI(config.findObjectAttribute<String>("mongo", "uri")))
+                val pojoCodecRegistry = fromRegistries(MHelp.getDefaultCodecRegistry(),
+                        fromProviders(PojoCodecProvider.builder().automatic(true).build()))
+                val settings = MongoClientSettings.builder()
+                        .codecRegistry(pojoCodecRegistry)
+                        .applyConnectionString(ConnectionString(config.findObjectAttribute<String>("mongo", "uri")))
+                        .build()
+                mongoClient = MongoClients.create(settings)
                 db = mongoClient.getDatabase(config.findObjectAttribute<String>("mongo", "db"))
-                collection = db.getCollection(config.findObjectAttribute<String>("mongo", "collection"))
+                collName = config.findObjectAttribute<String>("mongo", "collection")
+                collection = db.getCollection(collName)
                 log.fine("Successfully established connection to MongoDB")
                 container.addElement("mongoInit", this)
+                MongoWrapper.config = config
             }
             catch (ex: MongoSocketException) {
                 log.warning("Could not establish database connection, MongoDB will not bes used")

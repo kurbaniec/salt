@@ -1,5 +1,6 @@
 package pass.salt.modules.server.webparse
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import pass.salt.SaltApplication
 import pass.salt.modules.server.security.SaltSecurity
 
@@ -7,7 +8,7 @@ class Webparse {
     companion object {
 
         fun parse(lines: MutableList<String>, model: Model): String {
-            val comment = ParserHelp(false, false, "")
+            val comment = ParserHelp(false, false, "", false)
             //val tagRx = Regex.fromLiteral("<((?=!\\-\\-)!\\-\\-[\\s\\S]*\\-\\-|((?=\\?)\\?[\\s\\S]*\\?|((?=\\/)\\/[^.\\-\\d][^\\/\\]'\"[!#\$%&()*+,;<=>?@^`{|}~ ]*|[^.\\-\\d][^\\/\\]'\"[!#\$%&()*+,;<=>?@^`{|}~ ]*(?:\\s[^.\\-\\d][^\\/\\]'\"[!#\$%&()*+,;<=>?@^`{|}~ ]*(?:=(?:\"[^\"]*\"|'[^']*'|[^'\"<\\s]*))?)*)\\s?\\/?))>")
             val full = mutableListOf<String>()
             for (line in lines) {
@@ -19,25 +20,26 @@ class Webparse {
         }
 
         data class WebParseText(var textFlag: Boolean, var tagStop: String, var text: String)
-        data class WebParseLoop(var loopFlag: Boolean, var tagStop: String, var listName: String, var list: List<Any>, var cache: MutableList<String>)
+        data class WebParseLoop(var loopFlag: Boolean, var tagStop: String, var listName: String, var list: List<Any>, var cache: MutableList<String>, var notFinishedScript: Boolean)
         data class WebConf(var ipAddress: String, var method: String, var port: String, var preUrl: String, val security: SaltSecurity?)
-        data class ParserHelp(var comment: Boolean, var notFinished: Boolean, var cache: String)
+        data class ParserHelp(var comment: Boolean, var notFinished: Boolean, var cache: String, var notFinishedScript: Boolean)
 
         fun webParse(site: MutableList<String>, model: Model): String {
             val webConf = readWebConf()
             val textConf = WebParseText(false, "", "")
-            val loopConf = WebParseLoop(false, "", "", mutableListOf(), mutableListOf())
+            val loopConf = WebParseLoop(false, "", "", mutableListOf(), mutableListOf(), false)
             var fullSite = ""
-            for (tag in site) {
-                if ((tag.startsWith("<") && tag.contains("th:")) || loopConf.loopFlag ) {
+            for (tagRaw in site) {
+                if ((tagRaw.trim().startsWith("<") && tagRaw.contains("th:")) || loopConf.loopFlag ) {
                     if (loopConf.loopFlag) {
                        // if (tag.contains(loopConf.tagStop)) {
                         // TODO check <div th:each ><div> </div></div>
-                        if(testLoopTagStop(tag, loopConf)) {
+                        if(testLoopTagStop(tagRaw, loopConf)) {
                             loopConf.loopFlag = false
                             for (el in loopConf.list) {
                                 model.addAttribute(loopConf.listName, el)
-                                for (looptag in loopConf.cache) {
+                                for (looptagRaw in loopConf.cache) {
+                                    val looptag = webParseShort(looptagRaw, model) // Short parse ${{_}}
                                     if (textConf.textFlag) {
                                         if (looptag.contains(textConf.tagStop)) {
                                             textConf.textFlag = false
@@ -45,24 +47,46 @@ class Webparse {
                                         }
                                     }
                                     else {
-                                        val test = looptag.replace(" ", "")
-                                        fullSite += if (looptag.contains(" ") && test != "") {
-                                            val looptagName = looptag.substring(1, looptag.indexOf(" "))
-                                            val looptagParam = looptag.substring(looptagName.length + 2, looptag.length-1)
-                                            textConf.tagStop = looptagName
-                                            "<" + looptagName + webParseHelp(looptagParam, model, webConf, textConf) + ">"
-                                        } else looptag
+                                        if (loopConf.notFinishedScript) {
+                                            fullSite += looptag
+                                        }
+                                        else if (looptag.contains("<script") && !looptag.contains("</script")) {
+                                            loopConf.notFinishedScript = true
+                                            fullSite += looptag
+                                        }
+                                        else if (looptag.contains("</script")) {
+                                            loopConf.notFinishedScript = false
+                                            fullSite += looptag
+                                        }
+                                        else {
+                                            val test = looptag.replace(" ", "")
+                                            fullSite += if (looptag.trim().contains(" ") && test != "" &&
+                                                    (!looptag.contains("<!--") && !looptag.contains("-->")) && // TODO check this webparse condition
+                                                    (looptag.contains("<") || looptag.contains(">"))) {
+                                                val looptagName = looptag.trim().substring(1, looptag.indexOf(" "))
+                                                val looptagParam = looptag.trim().substring(looptagName.length + 2, looptag.length - 1)
+                                                textConf.tagStop = looptagName
+                                                "<" + looptagName + webParseHelp(looptagParam, model, webConf, textConf) + ">"
+                                            } else looptag
+                                        }
                                     }
                                 }
                             }
+                            loopConf.cache.clear()
                         }
                         else {
-                            loopConf.cache.add(tag)
+                            loopConf.cache.add(tagRaw)
                         }
 
                     }
                     else {
-                        val tRaw = tag.replace("</", "").replace("<", "").replace("/>", "").replace(">", "")
+                        var tagParsed = webParseShort(tagRaw, model)
+                        var space = "";
+                        for (letter in tagParsed) {
+                            if (Character.isWhitespace(letter)) space += " " else break
+                        }
+                        tagParsed = tagParsed.substring(space.length)
+                        val tRaw = tagParsed.replace("</", "").replace("<", "").replace("/>", "").replace(">", "")
                         var tName = ""
                         if (tRaw.contains(" ")) {
                             tName = tRaw.substring(0, tRaw.indexOf(" "))
@@ -76,33 +100,32 @@ class Webparse {
                                 loopConf.listName = listtmp[0].replace(" ", "")
                                 val listName = listtmp[1].replace("\${", "").replace("}", "").replace(" ", "")
                                 loopConf.list = model.getAttributeList(listName)
-                            } else {
-                                fullSite += "<$tName"
+                            } else { // operations like th:text...
+                                fullSite += "$space<$tName"
                                 textConf.tagStop = tName
-                                /** */
                                 fullSite += webParseHelp(tRawParam, model, webConf, textConf)
                                 fullSite += ">"
                             }
                         } else {
-                            if(tRaw.startsWith("th:login")) {
-                                if (webConf.security != null) {
-                                    fullSite += script + "\"" + webConf.preUrl + webConf.security.login + "\""
-                                    fullSite += script2 + "console.log(\"Wrong credentials\");"
-                                    fullSite += script3 + "window.location.href = \"" + webConf.preUrl + webConf.security.success + "\"" + script4
-                                }
+                            if(tRaw.startsWith("th:login") && webConf.security != null) {
+                                fullSite += WebTools.buildLogin(webConf.preUrl, webConf.security.login, webConf.security.success)
                             }
-                            else fullSite += tag
+                            else if(tRaw.startsWith("th:logout") && webConf.security != null) {
+                                fullSite += WebTools.buildLogout(webConf.preUrl, webConf.security.logout, webConf.security.login)
+                            }
+                            else fullSite += space + tagParsed
                         }
                     }
                 }
                 else {
+                    val tagParsed = webParseShort(tagRaw, model)
                     if (textConf.textFlag) {
-                        if (tag.contains(textConf.tagStop)) {
+                        if (tagParsed.contains(textConf.tagStop)) {
                             textConf.textFlag = false
-                            fullSite += textConf.text + tag
+                            fullSite += textConf.text + tagParsed
                         }
                     }
-                    else fullSite += tag
+                    else fullSite += tagParsed
                 }
             }
             return fullSite
@@ -124,11 +147,35 @@ class Webparse {
             return count % 2 == 0 && tag.contains(conf.tagStop)
         }
 
+        private fun webParseShort(element: String, model: Model): String {
+            var line = ""+element
+            // TODO short thymeleaf
+            var finished = true
+            do {
+                val begin = line.indexOf("\${{")
+                val end = line.indexOf("}}", begin + 1)
+                if (begin != -1 && end != -1) {
+                    val beginLine = line.substring(0, begin)
+                    val attrRaw = line.substring(begin + 3, end)
+                    val endLine = line.substring(end + 2)
+                    val attr = if (attrRaw.contains(".")) {
+                        val tmp = attrRaw.split(".")
+                        if (tmp.size == 2) {
+                            model.getAttribute(tmp[0], tmp[1])
+                        } else "wrongSyntxError"
+                    } else model.getAttribute(attrRaw)
+                    line = beginLine + attr + endLine
+                    finished = line.indexOf("\${{") == -1
+                }
+            } while (!finished)
+            return line
+        }
+
         private fun webParseHelp(param: String, model: Model, webConf: WebConf, textConf: WebParseText): String {
             var tRawParam = param
             var tAttrParams = ""
             do {
-                var begin = tRawParam.indexOf("\"")
+                val begin = tRawParam.indexOf("\"")
                 var end = tRawParam.indexOf("\"", begin + 1)
                 var test = tRawParam.indexOf("\\\"")
                 if (begin != -1) {
@@ -155,7 +202,9 @@ class Webparse {
                             val modelSearch = tAttrVal.substring(attrBegin+2, attrEnd)
                             val modelResult = if (modelSearch.contains(".")) {
                                 val tmp = modelSearch.split(".")
-                                model.getAttribute(tmp[0], tmp[1])
+                                if (tmp.size == 2) {
+                                    model.getAttribute(tmp[0], tmp[1])
+                                } else "wrongSyntxError"
                             } else {
                                 model.getAttribute(modelSearch)
                             }
@@ -166,6 +215,10 @@ class Webparse {
                         "th:src" -> tAttrParams += " " + parsePath("src", tAttrVal, model, webConf)
                         else -> tAttrParams += " $tAttrName=$tAttrVal"
                     }
+                }
+                else if (begin == -1 && end == -1) { // for cases like "hidden" at the end of a tag
+                    tAttrParams += " $tRawParam"
+                    tRawParam = tRawParam.substring(tRawParam.length)
                 }
             } while (tRawParam != "")
             return tAttrParams
@@ -194,25 +247,18 @@ class Webparse {
             return tag + "=\"" + webConf.preUrl + newVal
         }
 
-        /**
-        fun parseHref(attrVal: String, model: Model, webConf: WebConf): String {
-        }
-        fun parseSrc(attrVal: String, model: Model, webConf: WebConf): String {
-        }*/
-
-
-
         fun parseLine(line: String, help: ParserHelp): MutableList<String> {
             var tmp = "" + line
             var length = tmp.length
-            tmp.trim()
+            val list = mutableListOf<String>()
+            var more = true
             // Comment check
             if (help.comment) {
                 if (line.contains("-->")) {
                     help.comment = false
-                    tmp = tmp.substring(tmp.indexOf("-->"))
+                    tmp = tmp.substring(tmp.indexOf("-->")+3).trim()
                 }
-                else return mutableListOf()
+                else return list
             }
             if (tmp.contains("<!--")) {
                 val begin = tmp.indexOf("<!--")
@@ -230,12 +276,25 @@ class Webparse {
                 help.notFinished = false
                 tmp = help.cache + tmp
             }
-            val list = mutableListOf<String>()
-            var more = true
+            // script check
+            if (help.notFinishedScript) {
+                list.add(tmp)
+                more = false
+            }
+            else if (tmp.contains("<script") && !tmp.contains("</script")) {
+                help.notFinishedScript = true
+                list.add(tmp)
+                more = false
+            }
+            else if (tmp.contains("</script")) {
+                help.notFinishedScript = false
+                list.add(tmp)
+                more = false
+            }
             while (more) {
                 var begin = tmp.indexOf("<")
                 var end = tmp.indexOf(">")
-                var test = tmp.indexOf("<", begin)
+                var test = tmp.indexOf("<", begin+1)
                 if (begin != -1 && end == -1) { // multiline tag
                     help.notFinished = true
                     help.cache = tmp
@@ -255,7 +314,7 @@ class Webparse {
                     list.add(line)
                     break
                 }
-                if (begin != 0) list.add(tmp.substring(0, begin))
+                if (begin != 0 && begin != -1) list.add(tmp.substring(0, begin))
                 val tag = tmp.substring(begin, end+1)
                 list.add(tag) //.replace("<", "").replace(">", "").replace("</", ""))
                 tmp = tmp.substring(end+1)
@@ -310,78 +369,5 @@ class Webparse {
                 return WebConf(ipAddress, method, port, "$method://$ipAddress:$port", security)
             }
         }
-
-        val script =
-        """
-            <script>
-            ${'$'}('#submitButton').on('click', function() {auth() });
-            ${'$'}('#username').keypress(function (e) {
-                if (e.which == 13) {
-                    auth()
-                }
-            });
-            ${'$'}('#password').keypress(function (e) {
-                if (e.which == 13) {
-                    auth()
-                }
-            });
-            function auth() {
-                ${'$'}.ajax({
-                    url: 
-        """
-        val script2 =
-        """
-                    ,
-                    type: 'POST',
-                    headers: {
-                    "Authorization": "Basic " + btoa(${'$'}('#username').val() + ":" + ${'$'}('#password').val())
-                    },
-                    async: true,
-                    statusCode: {
-                        403: function(xhr) {
-                            $("#alert").text("Wrong credentials");
-                            $("#alert").removeAttr("hidden");
-        """
-        val script3 =
-        """
-                        }
-                    },
-                    success: function() {
-        """
-        val script4 =
-        """
-                    }
-                })
-            }
-            </script>
-        """
-
-
-
-        /**
-        <script>
-            $('#submitButton').on('click', function() {auth() });
-
-            function auth() {
-                $.ajax({
-                    url: "https://localhost:8080/login",
-                    type: 'POST',
-                    headers: {
-                    "Authorization": "Basic " + btoa($('#username').val() + ":" + $('#password').val())
-                    },
-                    async: true,
-                    statusCode: {
-                        403: function(xhr) {
-                            console.log("Wrong credentials");
-                        }
-                    },
-                    success: function() {
-                        window.location.href = "https://localhost:8080"
-                    }
-                })
-            }
-
-        </script>
-        */
     }
 }

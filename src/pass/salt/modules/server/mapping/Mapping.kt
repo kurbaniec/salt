@@ -5,6 +5,7 @@ import pass.salt.exceptions.ExceptionsTools
 import pass.salt.exceptions.InvalidMappingParamException
 import pass.salt.exceptions.InvalidParameterCountInURL
 import pass.salt.loader.logger
+import pass.salt.modules.server.HTTPTransport
 import pass.salt.modules.server.security.SessionUser
 import pass.salt.modules.server.webparse.Model
 import java.io.File
@@ -87,7 +88,7 @@ class Mapping(val method: HTTPMethod) {
 
         }
 
-        fun call(): String {
+        fun call(): Any {
             val array = mutableListOf<Any>(instance)
             // TODO check if param mapping still works
             /**
@@ -97,20 +98,24 @@ class Mapping(val method: HTTPMethod) {
                 }
                 func.call(*array.toTypedArray()) as String
             } else "404"*/
-            var file = ""
+            var file: Any? = null
             if(func.valueParameters.size == params.values.size) {
                 for (v in params.values) {
                     array.add(v)
                 }
-                file = func.call(*array.toTypedArray()) as String
+                file = func.call(*array.toTypedArray())
             }
             else {
                 val exp = InvalidParameterCountInURL("URL Mapping exited with error")
                 log.warning(ExceptionsTools.exceptionToString(exp))
                 throw exp
             }
-            return if (file.endsWith(".html")) file
+            return if (file is String) {
+                if (file.endsWith(".html")) file
                 else "$file.html"
+            } else if (file is HTTPTransport) {
+                file
+            } else ""
         }
 
         fun hasModel(): Boolean {

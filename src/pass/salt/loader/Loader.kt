@@ -56,7 +56,7 @@ class Loader() {
                 // TODO what do do with salt path?
                 if (it.toString().endsWith(".class") &&
                         !((it.toString().endsWith("Kt.class")) || it.toString().endsWith("$1.class") ||
-                                it.toString().contains("salt"))) {
+                                it.toString().contains("salt") || it.toString().contains("$"))) {
 
                     val className = getClassName(it.toString(), pack)
 

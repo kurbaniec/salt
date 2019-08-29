@@ -13,6 +13,7 @@ class Main {
         @JvmStatic
         fun main(args: Array<String>) {
             //mongo()
+            //clear()
             val app = SaltApplication()
         }
 
@@ -25,6 +26,17 @@ class Main {
             val b = collection.find()
             val c = b.count()
             println("mongo")
+            collection.drop()
+        }
+
+        fun clear() {
+            val mongo = MongoClient(MongoClientURI("mongodb://Svtmgrleh04.wienkav.at:27017"))
+            // MongoSocket Exception
+            val db = mongo.getDatabase("dev")
+            //val user = db.getCollection("users")
+            //user.drop()
+            val pass = db.getCollection("store")
+            pass.drop()
         }
 
     }

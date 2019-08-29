@@ -1,9 +1,18 @@
+[server]
+# ip_address = "10.20.110.146"
+ip_address = "localhost"
+
 [security]
 enable = true
 timeout = 25
 
 [mongo]
 enable = true
-uri = "mongodb://Svtmgrleh04.wienkav.at:27017"
+#uri = "mongodb://Svtmgrleh04.wienkav.at:27017"
+uri = "mongodb://localhost:27017"
 db = "dev"
-collection = "test"
+UserRepo = "users"
+PasswordRepo = "store"
+
+UserTestoRepo = "test"
+TestRepo = "test2"

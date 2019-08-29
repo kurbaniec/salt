@@ -30,7 +30,7 @@ class MappingScan(
                     server.addGetMapping((func.first as Get).path, Pair(instance, func.second))
                 }
                 else if (func.first is Post) {
-                    server.addGetMapping((func.first as Post).path, Pair(instance, func.second))
+                    server.addPostMapping((func.first as Post).path, Pair(instance, func.second))
                 }
             }
         }

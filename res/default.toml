@@ -19,6 +19,8 @@ password = "passwd1234"
 [security]
 enable = false
 timeout = 15
+password_timeout = 5
+password_fails = 3
 
 [mongo]
 enable = false

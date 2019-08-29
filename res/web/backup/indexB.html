@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
+</head>
+<body class="color-grad">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #000;">
+    <div class="d-flex flex-grow-1">
+        <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
+        <a class="navbar-brand" href="#">
+            <img th:src="@{/favicon.ico}" width="30" height="30" class="d-inline-block align-top" alt="">
+            Salt
+        </a>
+        <div class="w-100 text-right">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+    <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+            <li class="nav-item">
+                <button class="btn btn-outline-success my-2 my-sm-0" id="logoutButton">Search</button>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-outline-success my-2 my-sm-0" id="postTest">Post</button>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+
+    
+    <div class="card card-default" id="raster" style="margin-top: 2%">
+        <div id="contacts" class="panel-collapse collapse show" aria-expanded="true" style="">
+            <ul class="list-group pull-down" id="contact-list">
+                <li class="list-group-item">
+                    <div class="row w-100">
+                        <div class="col-12 col-sm-6 col-md-3 px-0">
+                            <h2>Test1</h2>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                            <span class="fa fa-mobile fa-2x text-success float-right pulse" title="online now"></span>
+                            <label class="name lead">Mike Anamendolla</label>
+                            <br>
+                            <span class="fa fa-map-marker fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="5842 Hillcrest Rd"></span>
+                            <span class="text-muted">5842 Hillcrest Rd</span>
+                            <br>
+                            <span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="(870) 288-4149"></span>
+                            <span class="text-muted small">(870) 288-4149</span>
+                            <br>
+                            <span class="fa fa-envelope fa-fw text-muted" data-toggle="tooltip" data-original-title="" title=""></span>
+                            <span class="text-muted small text-truncate">mike.ana@example.com</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row w-100">
+                        <div class="col-12 col-sm-6 col-md-3 px-0">
+                            <img src="http://demos.themes.guide/bodeo/assets/images/users/m105.jpg" alt="Seth Frazier" class="img-fluid rounded-circle d-block mx-auto">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                            <span class="name lead">Seth Frazier</span>
+                            <br>
+                            <span class="fa fa-map-marker fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="7396 E North St"></span>
+                            <span class="text-muted">7396 E North St</span>
+                            <br>
+                            <span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="(560) 180-4143"></span>
+                            <span class="text-muted small">(560) 180-4143</span>
+                            <br>
+                            <span class="fa fa-envelope fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="seth.frazier@example.com"></span>
+                            <span class="text-muted small text-truncate">seth.frazier@example.com</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row w-100">
+                        <div class="col-12 col-sm-6 col-md-3 px-0">
+                            <img src="http://demos.themes.guide/bodeo/assets/images/users/w102.jpg" alt="Rosemary Porter" class="img-fluid rounded-circle d-block mx-auto">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                            <span class="fa fa-envelope fa-lg text-danger float-right" title="left you a message"></span>
+                            <span class="name lead">Rosemary Porter</span>
+                            <br> <span class="fa fa-map-marker fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="5267 Cackson St"></span>
+                            <span class="text-muted">5267 Cackson St</span>
+                            <br>
+                            <span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="(497) 160-9776"></span>
+                            <span class="text-muted small">(497) 160-9776</span>
+                            <br>
+                            <span class="fa fa-envelope fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="rosemary.porter@example.com"></span>
+                            <span class="text-muted small text-truncate">rosemary.porter@example.com</span>
+                            <br>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row w-100">
+                        <div class="col-12 col-sm-6 col-md-3 px-0">
+                            <img src="http://demos.themes.guide/bodeo/assets/images/users/w104.jpg" alt="Debbie Schmidt" class="img-fluid rounded-circle d-block mx-auto">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                            <label class="name lead">Debbie Schmidt</label>
+                            <br>
+
+                            <span class="fa fa-fw fa-map-marker fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="3903 W Alexander Rd"></span>
+                            <span class="text-muted">3903 W Alexander Rd</span>
+                            <br>
+
+                            <span class="fa fa-fw fa-phone fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="(867) 322-1852"></span>
+                            <span class="text-muted small">(867) 322-1852</span>
+                            <br>
+
+                            <span class="fa fa-fw fa-envelope fa-fw text-muted" data-toggle="tooltip" title="" data-original-title="debbie.schmidt@example.com"></span>
+                            <span class="text-muted small text-truncate">debbie.schmidt@example.com</span>
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!--/contacts list-->
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<th:logout/>
+<script>
+            $('#postTest').on('click', function() {postT() });
+            function postT() {
+                $.ajax({
+                    url: "https://localhost:8080/testpost",
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        var test = getParams(data)
+                        console.log(test)
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus)
+                    }
+
+                })
+            }
+
+            function getParams(data) {
+                var params = {};
+                var vars = data.split('&');
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split('=');
+                    params[pair[0]] = decodeURIComponent(pair[1]);
+                }
+                return params;
+            }
+</script>
+
+</body>
+</html>

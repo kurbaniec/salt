@@ -1,9 +1,11 @@
 package pass.salt.loader.parser
 
 import java.io.File
+import java.util.logging.Logger
 
 class TOMLParser(fileName: String) {
     private var hierarchy = TOMLFile(fileName)
+    private val log = Logger.getGlobal()
 
     fun findAttribute(name: String): Any? {
         if(hierarchy.attributes.containsKey(name)) {
@@ -108,12 +110,21 @@ class TOMLFile(fileName: String) {
     var attributes: HashMap<String, Any> = hashMapOf()
     var objects: HashMap<String, TOMLObject> = hashMapOf()
     var current = TOMLObject()
+    private val log = Logger.getGlobal()
 
     init {
         var attr = true
         val classLoader = javaClass.classLoader
         val resource = classLoader.getResource(fileName)
-        File(resource.file).forEachLine {
+        val file = if (resource != null) {
+            File(resource.file)
+        }
+        else {
+            val path = System.getProperty("user.dir")
+            log.info("$path\\res\\$fileName")
+            File("$path\\res\\$fileName")
+        }
+        file.forEachLine {
             if(it != "") {
                 val line = it.trim()
                 if (attr) {

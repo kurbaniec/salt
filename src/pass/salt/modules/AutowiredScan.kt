@@ -11,9 +11,22 @@ class AutowiredScan(val container: Container): SaltProcessor {
             val instance = container.getElement(className)
             for (p in props) {
                 var newVal = container.getElement(p.name)
-                if (newVal != null && instance != null &&
-                        newVal.javaClass.kotlin.qualifiedName == p.returnType.toString()) {
-                    p.setter.call(instance, newVal)
+                if (newVal != null && instance != null) {
+                    if (newVal.javaClass.kotlin.qualifiedName == p.returnType.toString()) {
+                        p.setter.call(instance, newVal)
+                    }
+                    else {
+                        var proxyHasInterface = false
+                        for (it in newVal.javaClass.interfaces) {
+                            if (it.kotlin.qualifiedName == p.returnType.toString()) {
+                                proxyHasInterface = true
+                                break
+                            }
+                        }
+                        if (proxyHasInterface) {
+                            p.setter.call(instance, newVal)
+                        }
+                    }
                 }
                 else {
                     newVal = container.getElement(p.returnType.toString())

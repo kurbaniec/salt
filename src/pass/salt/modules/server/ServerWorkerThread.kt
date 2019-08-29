@@ -1,5 +1,6 @@
 package pass.salt.modules.server
 
+import pass.salt.exceptions.ExceptionsTools
 import java.io.*
 import java.net.Socket
 import java.util.*
@@ -7,15 +8,21 @@ import pass.salt.loader.config.Config
 import pass.salt.modules.server.security.SaltSecurity
 import pass.salt.modules.server.security.SessionUser
 import pass.salt.modules.server.webparse.Model
+import pass.salt.modules.server.webparse.WebTools
 import pass.salt.modules.server.webparse.Webparse
 import java.io.BufferedOutputStream
 import java.io.PrintWriter
 import java.io.InputStreamReader
 import java.io.BufferedReader
+import java.lang.Exception
 import java.net.ServerSocket
 import javax.net.ssl.SSLSocket
 import java.lang.StringBuilder
+import java.net.URLDecoder
+import java.net.URLEncoder
 import java.nio.file.Files
+import java.util.logging.Logger
+import java.util.stream.Collectors
 import javax.activation.MimetypesFileTypeMap
 
 
@@ -34,6 +41,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     var listening = true
     var secOn = false
     var sec: SaltSecurity? = null
+    val log = Logger.getGlobal()
 
     init {
         val path = System.getProperty("user.dir")
@@ -44,7 +52,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         }
     }
 
-    data class Request(val method: String, val path: String, val file: String, val params: Map<String, String>)
+    data class Request(val method: String, val path: String, val file: String, val params: MutableMap<String, String>, val ipaddress: String)
 
     override fun run() {
         if (socket is SSLSocket) {
@@ -59,6 +67,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         while (listening) {
             val request = readRequest()
             val header = readHeader()
+            readBody(request, header)
             var sid = "NA"
             // Unsupported mapping
             if (request.method != "GET" && request.method != "POST" && request.method != "HEAD") {
@@ -71,9 +80,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
             } else {
                 if (secOn) {    // Is SaltSecurity activated
                     var secured = false
-                    // TODO Montag fix for files!!!
                     if (sec!!.open) { // mapped entries are only secured
-                        // TODO Montag - streamline oder outsurcen?
                         if (sec!!.mapping.contains(request.path) || sec!!.mapping.contains("/"+request.file)) {
                             secured = true
                         }
@@ -91,8 +98,12 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                             if (cookieRaw != null && cookieRaw.contains("_sid")) {
                                 sid = getSID(cookieRaw)
                                 if (sec!!.isValidSession(sid)) {
-                                    if (request.path != sec!!.login)
+                                    if (request.path == sec!!.logout) {
+                                        stopSession(sid)
+                                        continue
+                                    } else if (request.path != sec!!.login) {
                                         authFailed = false
+                                    }
                                 }
                             }
                         }
@@ -150,23 +161,34 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                     else fileNotFound()
                 // Normal mapping via controller
                 } else {
+                    //mapping.model = Model() //
+                    if (mapping.model != null) {
+                        mapping.model!!.clear()
+                        mapping.model!!.addAttribute("ipaddress", request.ipaddress)
+                    }
                     mapping.addParams(request.params)
                     val model = mapping.model
+
                     if (mapping.hasSessionUser) {
                         val sessionUser = sec!!.sessions[sid]
                         if (sessionUser != null) {
-                            mapping.params[mapping.sessionUserKey] = sessionUser // TODO session_user
+                            mapping.params[mapping.sessionUserKey] = sessionUser
                         }
                         else mapping.params[mapping.sessionUserKey] = SessionUser()
                     }
-                    val fileName = mapping.call()
-                    val file = File(WEB_ROOT, fileName)
-                    val fileLength = file.length().toInt()
-                    val content = getContentType(file)
-                    val fileData = readFileData(file, model)
-                    sendHelper("HTTP/1.1 200 OK",
-                            "Server: SaltApplication",
-                            content, fileData.second, fileData.first)
+                    val fileRaw = mapping.call()
+                    if (fileRaw is String) {
+                        val file = File(WEB_ROOT, fileRaw)
+                        val fileLength = file.length().toInt()
+                        val content = getContentType(file)
+                        val fileData = readFileData(file, model)
+                        sendHelper("HTTP/1.1 200 OK",
+                                "Server: SaltApplication",
+                                content, fileData.second, fileData.first)
+                    }
+                    else if (fileRaw is HTTPTransport) {
+                        fileRaw.transport(out)
+                    } // TODO if not HTTPTransport?
                 }
             }
         }
@@ -191,14 +213,23 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     private fun authenticate(header: MutableMap<String, String>) {
         // Check url
         val check = sec!!.checkAuthorization(header["Authorization"]!!)
-        if (check.first) {
+        if (check.first == 0) {
             val sessionID = sec!!.addSession(check.second)
             startSession(sessionID)
         }
         // send reload on false password
-        else {
+        else if (check.first == 1) {
             restartSession()
         }
+        else {
+            HTTPTransport().locked().transport(out)
+            shutdown()
+        }
+    }
+
+    private fun stopSession(sid: String) {
+        sec!!.removeSession(sid)
+        home()
     }
 
     private fun login() {
@@ -251,18 +282,23 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     private fun readFileData(file: File, model: Model?): Pair<ByteArray, Int> {
         val bytes = if (getContentType(file) == "text/html" && file.name.endsWith(".html")) {
             val raw = file.readText(Charsets.UTF_8)
-            val lines = raw.split("\r\n").toMutableList()
-            val site: String
-            site = if (model != null) {
-                Webparse.parse(lines, model)
-            } else {
-                val tmpSite = StringBuilder()
-                for (l in lines) {
-                    tmpSite.append(l + "\r\n")
+            try {
+                val lines = raw.split("\r\n").toMutableList()
+                val site: String
+                site = if (model != null) {
+                    Webparse.parse(lines, model)
+                } else {
+                    val tmpSite = StringBuilder()
+                    for (l in lines) {
+                        tmpSite.append(l + "\r\n")
+                    }
+                    tmpSite.toString()
                 }
-                tmpSite.toString()
+                site.toByteArray(Charsets.UTF_8)
             }
-            site.toByteArray(Charsets.UTF_8)
+            catch (ex: Exception) {
+                log.warning(ExceptionsTools.exceptionToString(ex))
+            }
         }
         else {
             val reader = BufferedInputStream(FileInputStream(file))
@@ -270,9 +306,11 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
             reader.read(bytes)
             bytes
         }
-        val length = bytes.size
-
-        return Pair(bytes, length)
+        if (bytes is ByteArray) {
+            val length = bytes.size
+            return Pair(bytes, length)
+        }
+        else return Pair(ByteArray(0), 0)
     }
 
     private fun fileNotFound() {
@@ -316,29 +354,52 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val file = if (pathOrFile.size == 2) {
             path + "." + pathOrFile[1]
         } else ""
-        var params = mapOf<String, String>()
+        var params = mutableMapOf<String, String>()
         if (pathParam.size > 1) {
             val parLs = pathParam[1].split("&")
             params = parLs.map {
                 val tmp = it.split("=")
                 tmp[0] to tmp[1]
-            }.toMap()
+            }.toMap().toMutableMap()
         }
-        return Request(method, path, file, params)
+        val ipaddress = WebTools.getIPAdress(config)
+        return Request(method, path, file, params, ipaddress)
     }
 
     private fun readHeader(): MutableMap<String, String> {
         val header = mutableMapOf<String, String>()
-        var adder: String
+        var adder: String = ""
         do {
-            adder = inp.readLine()
+            try {
+                adder = inp.readLine()
+            }
+            catch (ex: Exception) {
+                log.warning(ExceptionsTools.exceptionToString(ex))
+            }
             if (adder != "") {
                 val data = adder.split(Regex.fromLiteral(":"), 2)
-                header[data[0]] = data[1]
+                header[data[0]] = data[1].trim()
             }
 
         } while (adder != "")
         return header
+    }
+
+    private fun readBody(request: Request, header: MutableMap<String, String>) {
+        if (header.containsKey("Content-Length") && header["Content-Length"] != "0") {
+            val length: Int = header["Content-Length"]!!.toInt()
+            val data = CharArray(length)
+            inp.read(data, 0, length)
+            val raw = String(data) // TODO HttpBody support whitespace?
+            val fine = raw.split("&")
+            for (attributes in fine) {
+                if (attributes.contains("=")) {
+                    val finest = URLDecoder.decode(attributes, "UTF-8").split("=")
+                    if (finest.size == 2)
+                        request.params[finest[0]] = finest[1]
+                }
+            }
+        }
     }
 
     private fun getSID(cookieRaw: String): String {

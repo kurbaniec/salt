@@ -18,3 +18,91 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
+.touch {
+    background-color: black;
+    color: white;
+}
+
+.btn-primary.touch {
+	background-color: black;
+	border-color: black;
+	color: white;
+}
+
+.btn-primary.touch:hover {
+	background-color: lightgreen;
+	border-color: black;
+	color: black;
+}
+
+.btn-primary.touch:active {
+	background-color: lightgreen;
+	border-color: black;
+	color: black;
+}
+
+.btn-primary.touch:active:focus {
+	background-color: lightgreen;
+	border-color: black;
+	color: black;
+}
+
+.btn-primary.touch2 {
+	background-color: black;
+	border-color: black;
+	color: white;
+}
+
+.btn-primary.touch2:hover {
+	background-color: white;
+	border-color: black;
+	color: black;
+}
+
+.btn-primary.touch2:active {
+	background-color: white;
+	border-color: black;
+	color: black;
+}
+
+.btn-primary.touch2:active:focus {
+	background-color: white;
+	border-color: black;
+	color: black;
+}
+
+.btn-primary.touch3 {
+	background-color: white;
+	border-color: white;
+	color: black;
+}
+
+.btn-primary.touch3:hover {
+	background-color: black;
+	border-color: white;
+	color: white;
+}
+
+.btn-primary.touch3:active {
+	background-color: black;
+    	border-color: white;
+    	color: white;
+}
+
+.btn-primary.touch3:active:focus {
+	background-color: black;
+    border-color: white;
+    color: white;
+}
+
+.touch-border {
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    border-bottom: 1px solid rgba(0,0,0,.125)
+}
+
+.touch-card-body {
+    background-color: lightgreen;
+}

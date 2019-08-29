@@ -17,6 +17,7 @@ class WebSecurityConfig {
         private set
     var mapping = mutableListOf<String>()
     var login = ""
+    var logout = "/logout"
     var success = "/"
 
     fun matchRequests(vararg paths: String): WebSecurityConfig {
@@ -54,6 +55,11 @@ class WebSecurityConfig {
 
     fun loginPath(path: String): WebSecurityConfig {
         login = path
+        return this
+    }
+
+    fun logoutPath(path: String): WebSecurityConfig {
+        logout = path
         return this
     }
 

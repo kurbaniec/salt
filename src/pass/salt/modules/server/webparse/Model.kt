@@ -38,5 +38,10 @@ class Model {
         return ""
     }
 
+    fun clear() {
+        attributes.clear()
+        attributeLists.clear()
+    }
+
 
 }

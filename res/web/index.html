@@ -8,24 +8,219 @@
     <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
     <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
 </head>
-<body class="color-grad">
-<nav class="navbar navbar-dark text-white" style="background-color: #000;">
-    <a class="navbar-brand" href="#">
-        <img th:src="@{/favicon.ico}" width="30" height="30" class="d-inline-block align-top" alt="">
-        Salt
-    </a>
+<!-- class="color-grad" -->
+<body>
+<nav class="navbar navbar-expand-lg navbar-light shadow" style="background-color: white;">
+    <div class="d-flex flex-grow-1">
+        <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
+        <a class="navbar-brand" href="#">
+            Password Manager |
+        </a>
+        <div class="w-100 text-right">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+    <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+            <li class="nav-item" style="padding-top: 5px">
+                <a href="/account" class="btn btn-outline-success my-2 my-sm-0" role="button">Account</a>
+            </li>
+            <li class="nav-item" style="padding-top: 5px; margin-left: 5px">
+                <button class="btn btn-outline-success my-2 my-sm-0" id="logoutButton">Logout</button>
+            </li>
+        </ul>
+    </div>
 </nav>
 <div class="container">
     <div class="row">
-        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h5 class="card-title">Dark card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <div class="col-sm-12 col-lg-6">
+        <div class="row">
+        <div class="col-sm-12">
+        <div class="container shadow touch-border" style="background-color: lightgreen; margin-top: 20px">
+            <div class="row" style="padding-top: 20px">
+                <div class="col-sm-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text touch"><span class="fa fa-building" aria-hidden="true"></span></span>
+                        </div>
+                        <input class="form-control card-element" id="org" type="text" placeholder="Website / Organization" />
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text touch"><span class="fa fa-user" aria-hidden="true"></span></span>
+                        </div>
+                        <input class="form-control card-element" id="name" type="text" placeholder="Account-Name" />
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text touch"><span class="fas fa-key" aria-hidden="true"></span></span>
+                        </div>
+                        <input class="form-control card-element" id="password" type="password" placeholder="Password"/>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary input-group-text touch" type="button" onclick="passwdToggle('password');">
+                                <span class="fas fa-eye" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text touch" ><span class="fas fa-external-link-alt" aria-hidden="true"></span></span>
+                        </div>
+                        <input class="form-control card-element" id="link" type="text" placeholder="Link (optional)" />
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-12">
+                    <div class="alert alert-danger card-element" id="alert" role="alert" hidden>""</div>
+                </div>
+                <div class="col-sm-12 col-lg-12" style="padding-bottom: 20px">
+                    <button class="btn btn-primary touch" id="submitButton">Submit</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="container shadow touch-border" style="background-color: lightgreen; margin-top: 20px">
+                <div class="row" style="padding-top: 20px">
+                    <div class="col-sm-12">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text touch"><span class="fas fa-search" aria-hidden="true"></span></span>
+                            </div>
+                            <input class="form-control card-element" id="search" type="text" placeholder="Search" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-lg-6">
+        <div id="accordion" style="margin-top: 20px" class="shadow">
+            <th:block th:each="entry : ${entries}">
+                <div class="card filter" id="card${{entry.organization}}${{entry.name}}">
+                    <div class="card-header" id="entry${{entry.organization}}${{entry.name}}">
+                        <h5 class="mb-0">
+                            <button class="btn btn-primary touch3" id="name${{entry.organization}}${{entry.name}}" data-toggle="collapse" data-target="#collapse${{entry.organization}}${{entry.name}}" aria-expanded="true" aria-controls="collapse${{entry.organization}}${{entry.name}}"
+                                onclick="closeAll('${{entry.organization}}${{entry.name}}');">
+                                <i class="fas fa-bars">  </i><span>&nbsp;&nbsp;${{entry.organization}} | ${{entry.name}}</span>
+                            </button>
+                            <span class="input-group-btn float-right" style="margin-left: 5px">
+                                <button type="button" class="btn btn-primary touch2" data-toggle="tooltip" data-placement="top" title="Copy password to clipboard" onclick="copyPassword('${{entry.organization}}${{entry.name}}');">
+                                    <span class="fas fa-clone" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                            <a class="btn btn-primary touch2 float-right" id="linkTop${{entry.organization}}${{entry.name}}" href="${{entry.link}}" role="button" hidden>Link</a>
+                        </h5>
+                    </div>
+
+                    <div id="collapse${{entry.organization}}${{entry.name}}" class="collapse" aria-labelledby="entry${{entry.organization}}${{entry.name}}" data-parent="#accordion">
+                        <div class="card-body touch-card-body">
+                            <div class="input-group mb-3" >
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text touch3"><span class="fas fa-key" aria-hidden="true"></span></span>
+                                </div>
+                                <input class="form-control card-element" id="password${{entry.organization}}${{entry.name}}" type="password" placeholder="Password" value="${{entry.password}}" readonly/>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary input-group-text touch3" type="button" onclick="passwdToggle('password${{entry.organization}}${{entry.name}}');">
+                                        <span class="fas fa-eye" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+
+                                <!-- <span class="input-group-btn" id="copyPassword${{entry.organization}}${{entry.name}}" data-toggle="tooltip" data-placement="top" title="Copy password to clipboard" style="margin-left: 5px">
+                                    <button type="button" class="btn btn-primary" onclick="copyPassword('${{entry.organization}}${{entry.name}}');">
+                                        <span class="fas fa-clone" aria-hidden="true"></span>
+                                    </button>
+                                </span> -->
+                                <span class="input-group-btn" id="changePassword${{entry.organization}}${{entry.name}}" data-toggle="tooltip" data-placement="top" title="Edit password" style="margin-left: 5px">
+                                    <button type="button" class="btn btn-secondary" onclick="changePasswordInit('${{entry.organization}}${{entry.name}}');">
+                                        <span class="fas fa-edit" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                                <span class="input-group-btn" id="changePassword${{entry.organization}}${{entry.name}}Ok" style="margin-left: 5px" hidden>
+                                    <button type="button" class="btn btn-secondary" onclick="changePassword('${{entry.organization}}${{entry.name}}', true);">
+                                        <span class="fas fa-check" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                                <span class="input-group-btn" id="changePassword${{entry.organization}}${{entry.name}}NotOk" style="margin-left: 5px" hidden>
+                                    <button type="button" class="btn btn-secondary" onclick="changePassword('${{entry.organization}}${{entry.name}}', false);">
+                                        <span class="fas fa-times" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="input-group justify-content-between" >
+                                <a class="btn btn-secondary" id="link${{entry.organization}}${{entry.name}}" href="${{entry.link}}" role="button">Link</a>
+                                <div class="input-group-prepend" id="link${{entry.organization}}${{entry.name}}Head" hidden>
+                                    <span class="input-group-text"><span class="fas fa-external-link-alt" aria-hidden="true"></span></span>
+                                </div>
+                                <input class="form-control card-element" id="link${{entry.organization}}${{entry.name}}Val" type="text" placeholder="Link (optional)" hidden/>
+                                <p class="ml-auto"></p>
+                                <span class="input-group-btn" id="changeLink${{entry.organization}}${{entry.name}}" data-toggle="tooltip" data-placement="top" title="Edit link">
+                                    <button type="button" class="btn btn-secondary" onclick="changeLinkInit('${{entry.organization}}${{entry.name}}');">
+                                        <span class="fas fa-edit" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                                <span class="input-group-btn" id="changeLink${{entry.organization}}${{entry.name}}Ok" style="margin-left: 5px" hidden>
+                                    <button type="button" class="btn btn-secondary" onclick="changeLink('${{entry.organization}}${{entry.name}}', true);">
+                                        <span class="fas fa-check" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                                <span class="input-group-btn" id="changeLink${{entry.organization}}${{entry.name}}NotOk" style="margin-left: 5px" hidden>
+                                    <button type="button" class="btn btn-secondary" onclick="changeLink('${{entry.organization}}${{entry.name}}', false);">
+                                        <span class="fas fa-times" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                            </div>
+
+                            <div class="clearfix" style="margin-bottom: 10px">
+                                <span class="input-group-btn float-right" style="margin-top: 15px;">
+                                <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Delete" onclick="deletePassword('${{entry.organization}}${{entry.name}}');">
+                                    <span class="fas fa-trash" aria-hidden="true"></span>
+                                </button>
+                                </span>
+                            </div>
+                            <div class="alert alert-danger card-element" id="alert${{entry.organization}}${{entry.name}}" role="alert" hidden>""</div>
+                            <div class="alert alert-success card-element" id="success${{entry.organization}}${{entry.name}}" role="alert" hidden>""</div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </th:block>
+        </div>
+
+    </div>
+</div>
+</div>
+
+<button type="button" id="deleteTrigger" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" hidden></button>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalTitle">Delete account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this account <br>
+                This operation can not be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" onclick="deletePasswordReally()">Delete</button>
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- Optional JavaScript -->
@@ -34,7 +229,351 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+<th:logout/>
+<script>
+    $('#submitButton').on('click', function() {addEntry() });
+    $('#name').keypress(function (e) {
+        if (e.which == 13) {
+            addEntry()
+        }
+    });
+    $('#password').keypress(function (e) {
+        if (e.which == 13) {
+            addEntry()
+        }
+    });
+    $('#link').keypress(function (e) {
+        if (e.which == 13) {
+            addEntry()
+        }
+    });
+    $('#org').keypress(function (e) {
+        if (e.which == 13) {
+            addEntry()
+        }
+    });
+    function addEntry() {
+        if ($("#name").val().replaceAll(" ", "") == "" || $("#password").val().replaceAll(" ", "") == "" ||
+            $("#org").val().replaceAll(" ", "") == "") {
+            $("#alert").text("Please fill the form");
+            $("#alert").removeAttr("hidden");
+            window.setTimeout(function() {$("#alert").attr("hidden", true);}, 5000);
+        }
+        else {
+            $.ajax({
+                url: "${{ipaddress}}/addentry",
+                type: 'POST',
+                data: {
+                    "name": $("#name").val().replaceAll(" ", ""),
+                    "password": $("#password").val().replaceAll(" ", ""),
+                    "link": $("#link").val().replaceAll(" ", ""),
+                    "organization": $("#org").val().replaceAll(" ", "")
+                },
+                async: true,
+                success: function (data) {
+                    //$("#alert").attr("hidden", true);
+                    //var test = getParams(data);
+                    //console.log(test);
+                    location.reload();
+                },
+                statusCode: {
+                    403: function (xhr) {
+                        $("#alert").text("Sorry, an account with the same organization and account name already exists");
+                        $("#alert").removeAttr("hidden");
+                        window.setTimeout(function() {$("#alert").attr("hidden", true);}, 5000);
+                    }
+                }
+            })
+        }
+    }
 
+    var revLink = new Map();
+    function changeLinkInit(id) {
+        revLink[id] = $("#link" + id).attr("href");
+        $("#link" + id).attr("hidden", true);
+        $("#link" + id + "Head").removeAttr("hidden");
+        $("#link" + id + "Val").removeAttr("hidden");
+        $("#link" + id + "Val").val($("#link" + id).attr("href"));
+        $("#changeLink" + id).attr("hidden", true);
+        $("#changeLink" + id + "Ok").removeAttr("hidden");
+        $("#changeLink" + id + "NotOk").removeAttr("hidden");
+    }
+
+    function closeAll(id) {
+        changePassword(id, false);
+        changeLink(id, false);
+    }
+
+    function changeLink(id, action) {
+        if (action == false) {
+            if (revLink.has(id)) {
+                $("#link" + id).attr("href", revLink.get(id));
+            }
+            else revLink.set(id, $("#link" + id).attr("href"));
+            resetLink(id);
+        }
+        else {
+            $("#link" + id).attr("href", $("#link" + id + "Val").val());
+            updateAll(id);
+        }
+    }
+
+    function resetLink(id) {
+    var test = $('#link' + id).attr("href");
+        if(!$('#link' + id).attr("href") == "") {
+            if(linksHidden.includes(id)) linksHidden.pop(id);
+        }
+        else {
+            if(!linksHidden.includes(id)) linksHidden.push(id);
+            $("#link" + id).attr("hidden", true);
+            $('#linkTop' + id).attr("hidden", true);
+        }
+        if(!linksHidden.includes(id)) {
+            $("#link" + id).removeAttr("hidden");
+            $('#linkTop' + id).removeAttr("hidden");
+            $('#linkTop' + id).attr("href", $('#link' + id).attr("href"));
+        }
+        $("#changeLink" + id).removeAttr("hidden");
+        $("#link" + id + "Head").attr("hidden", true);
+        $("#link" + id + "Val").attr("hidden", true);
+        $("#changeLink" + id + "Ok").attr("hidden", true);
+        $("#changeLink" + id + "NotOk").attr("hidden", true);
+    }
+
+    var revert = new Map();
+    function changePasswordInit(id) {
+        revert[id] = $("#password" + id).val();
+        $("#password" + id).removeAttr("readonly");
+        $("#copyPassword" + id).attr("hidden", true);
+        $("#changePassword" + id).attr("hidden", true);
+        $("#changePassword" + id + "Ok").removeAttr("hidden");
+        $("#changePassword" + id + "NotOk").removeAttr("hidden");
+    }
+
+    function changePassword(id, action) {
+        if (action == false) {
+            if (revert.has(id)) {
+                $("#password" + id).val(revert.get(id));
+            }
+            else revert.set(id, $("#password" + id).val());
+            $("#password" + id).attr("type", "password");
+            $("#password" + id).attr("readonly", true);
+            $("#copyPassword" + id).removeAttr("hidden");
+            $("#changePassword" + id).removeAttr("hidden");
+            $("#changePassword" + id + "Ok").attr("hidden", true);
+            $("#changePassword" + id + "NotOk").attr("hidden", true);
+        }
+        else {
+            var test = $("#password" + id).val().replaceAll(" ", "");
+            if($("#password" + id).val().replaceAll(" ", "") == "") {
+                $("#alert"+id).text("Enter a password!");
+                $("#alert"+id).removeAttr("hidden")
+                window.setTimeout(function() {$("#alert"+id).attr("hidden", true);}, 3000);
+            }
+            else updateAll(id);
+        }
+    }
+
+    function copyPassword(id) {
+        var flag = false; var flag2 = false;
+        var passwd = document.getElementById("password" + id);
+        var body = $("#collapse"+id);
+        passwd.removeAttribute("hidden");
+        if (passwd.type === "password") {
+            passwd.type = "text"; flag = true;
+        }
+        if(!body.hasClass("show")) {
+            body.addClass("show"); flag2 = true;
+        }
+        passwd.select();
+        passwd.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        if(flag) passwd.type = "password";
+        if(flag2) body.removeClass("show");
+    }
+
+    function updateAll(id) {
+        var orgAndName = $("#name" + id).text().replaceAll(/(\r\n|\n|\r)/gm, "").replaceAll(" ", "").substring(2).split("|");
+        //var orgAndName = $("#name" + id).text().replaceAll(/(\r\n|\n|\r)/gm, "").replaceAll(" ", "").split("|");
+        $.ajax({
+            url: "${{ipaddress}}/updatepassword",
+            type: 'POST',
+            data: {
+                "name": orgAndName[1],
+                "passwd": $("#password" + id).val().replaceAll(" ", ""),
+                "link": $("#link" + id + "Val").val().replaceAll(" ", ""),
+                "org": orgAndName[0]
+            },
+            async: true,
+            success: function (data) {
+                revert.set(id, $("#password" + id).val());
+                changePassword(id, false);
+                $("#password" + id).val($("#password" + id).val().replaceAll(" ", ""));
+                revLink.set(id, $("#link" + id + "Val").val());
+                resetLink(id);
+                $("#link" + id ).attr("href", $("#link" + id ).attr("href").replaceAll(" ", ""));
+                $("#linkTop" + id).attr("href", $("#link" + id ).attr("href").replaceAll(" ", ""));
+                $("#alert"+id).attr("hidden", true);
+                $("#success"+id).text("Account successfully updated");
+                $("#success"+id).removeAttr("hidden");
+                window.setTimeout(function() {$("#success"+id).attr("hidden", true);}, 3000);
+            },
+            statusCode: {
+                403: function (xhr) {
+                    $("#alert"+id).text("Something went wrong. Try again!");
+                    $("#alert"+id).removeAttr("hidden");
+                }
+            }
+        })
+    }
+
+    function passwdToggle(id) {
+        var x = document.getElementById(id);
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+
+    function getParams(data) {
+        var params = {};
+        var vars = data.split('&');
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split('=');
+            params[pair[0]] = decodeURIComponent(pair[1]);
+        }
+        return params;
+    }
+
+    $('#postTest').on('click', function() {postT() });
+    function postT() {
+        $.ajax({
+            url: "${{ipaddress}}/testpost",
+            type: 'POST',
+            async: true,
+            success: function(data){
+                var test = getParams(data);
+                console.log(test);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+            }
+
+        })
+    }
+
+    var deleteID = undefined;
+
+    function deletePassword(id) {
+        deleteID = id;
+        $('#deleteTrigger').click();
+    }
+
+    function deletePasswordReally() {
+        if(typeof deleteID != typeof undefined) {
+            var id = deleteID;
+            var orgAndName = $("#name" + id).text().replaceAll(/(\r\n|\n|\r)/gm, "").replaceAll(" ", "").substring(2).split("|");
+            //var orgAndName = $("#card" + id).text().replaceAll(/(\r\n|\n|\r)/gm, "").replaceAll(" ", "").split("|");
+            $.ajax({
+                url: "${{ipaddress}}/deletepassword",
+                type: 'POST',
+                data: {
+                    "name": orgAndName[1],
+                    "passwd": $("#password" + id).val().replaceAll(" ", ""),
+                    "link": $("#link" + id + "Val").val().replaceAll(" ", ""),
+                    "org": orgAndName[0]
+                },
+                async: true,
+                success: function (data) {
+                    location.reload();
+                },
+                statusCode: {
+                    403: function (xhr) {
+                        $("#alert"+id).text("Something went wrong. Try again!");
+                        $("#alert"+id).removeAttr("hidden");
+                    }
+                }
+            })
+        }
+        else {
+            $("#alert"+id).text("Something went wrong. Try again!");
+            $("#alert"+id).removeAttr("hidden");
+        }
+    }
+
+    $("#search").on('change keydown paste input',function(){
+        var x, i;
+        var search = $("#search").val().replaceAll(" ", "");
+        x = document.getElementsByClassName("filter");
+        for (i = 0; i < x.length; i++) {
+            var test = x[i].id.substring(4);
+            if(test.includes(search)) {
+                x[i].removeAttribute("hidden");
+            }
+            else {
+                x[i].setAttribute("hidden", true);
+            }
+        }
+    });
+
+    /** Utility functions + Bootstrap */
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    String.prototype.replaceAll = function(search, replacement) {
+        var target = this;
+        return target.replace(new RegExp(search, 'g'), replacement);
+    };
+
+</script>
+
+<th:block th:each="entry : ${entries}">
+    <script>
+        $('#password${{entry.organization}}${{entry.name}}').keypress(function (e) {
+            var test = $('#password${{entry.organization}}${{entry.name}}').attr('readonly');
+            if (e.which == 13 && (typeof test === typeof undefined || test === false)) {
+                changePassword('${{entry.organization}}${{entry.name}}', true);
+            }
+        });
+    </script>
+</th:block>
+
+<th:block th:each="entry : ${entries}">
+    <script>
+        $('#link${{entry.organization}}${{entry.name}}Val').keypress(function (e) {
+            if (e.which == 13) {
+                changeLink('${{entry.organization}}${{entry.name}}', true);
+            }
+        });
+    </script>
+</th:block>
+
+<script>
+    var linksHidden = new Array();
+    function linkToggle(id) {
+        if($('#link' + id).attr("href") == "") {
+            $('#link' + id).attr("hidden", true);
+            //$('#changeLink' + id).attr("hidden", true);
+            if(!linksHidden.includes(id)) linksHidden.push(id);
+        }
+        else {
+            $('#linkTop' + id).removeAttr("hidden");
+            $('#linkTop' + id).attr("href", $('#link' + id).attr("href"));
+        }
+    }
+
+</script>
+
+<th:block th:each="entry : ${entries}">
+    <script>
+        $(document).ready(function () {
+            linkToggle("${{entry.organization}}${{entry.name}}");
+        });
+    </script>
+</th:block>
 
 </body>
 </html>
