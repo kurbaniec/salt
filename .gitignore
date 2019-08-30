@@ -2,3 +2,4 @@
 *.jks
 out/
 run.jar
+.venv/
