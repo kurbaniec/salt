@@ -17,6 +17,11 @@
 - [x] redirect http->https
 
 # Notes
+## Running
+``python kpm build``
+
+``python kpm run``
+
 ## Project Structure
 Following project structure is needed.
 ```bash    
