@@ -69,6 +69,8 @@ class Loader() {
                 }
             }
         }
+        // Delete temporary files if created
+        deleteDirectory(File("tmpout"))
         return this
     }
 
