@@ -2,9 +2,13 @@ package pass.salt.loader
 import java.io.File
 import pass.salt.modules.SaltProcessor
 import pass.salt.container.Container
+import pass.salt.exceptions.ExceptionsTools
 import pass.salt.exceptions.MainPackageNotFoundException
 import pass.salt.loader.config.Config
+import java.io.FileOutputStream
 import java.lang.Exception
+import java.nio.file.Paths
+import java.util.jar.JarFile
 import java.util.logging.Logger
 
 val logger = Logger.getGlobal()
@@ -89,18 +93,85 @@ class Loader() {
      * [pack] is the name of the main package.
      */
     private fun getLocation(): Pair<String, File> {
-        val path = System.getProperty("user.dir")
-        // TODO safety check
-        try {
-            val pack = File("$path/src").list().get(0)!!
-            File("$path/out").walk().forEach {
-                if (it.toString().endsWith(pack)) {
-                    return Pair(pack, it)
+        val path = if (System.getProperty("user.dir") != null) {
+            System.getProperty("user.dir")
+        } else Paths.get(".").toAbsolutePath().normalize().toString()
+
+        logger.info("Application detected following program path: $path")
+
+        if (File("$path\\run.jar").exists()) {
+            val jar = JarFile("$path\\run.jar")
+            val tmpOut = File("tmpout")
+            deleteDirectory(tmpOut)
+            tmpOut.mkdir()
+            val outPath = "$path\\tmpout"
+            val entries = jar.entries()
+            while (entries.hasMoreElements()) {
+                val entry = entries.nextElement()
+                if (!entry.name.contains("META-INF") && !entry.name.contains("kotlin")) {
+                    var file = File(outPath, entry.name)
+                    if (!file.exists()) {
+                        file.parentFile.mkdirs()
+                        file = File(outPath, entry.name)
+                    }
+                    if (entry.isDirectory) {
+                        continue
+                    }
+                    val inp = jar.getInputStream(entry)
+                    val out = FileOutputStream(file)
+                    while (inp.available() > 0) {
+                        out.write(inp.read())
+                    }
+                    out.close()
+                    inp.close()
                 }
             }
-        } catch (ex: Exception) {
-            logger.warning(ex.toString())
+            val dir = File(outPath).listFiles(File::isDirectory)
+            when {
+                dir == null -> throw MainPackageNotFoundException("No main package found in jar")
+                dir.size > 1 -> throw MainPackageNotFoundException("More than one main package found!\nRefactor your project so you have exactly one main package")
+                else -> return Pair(dir.first().name, dir.first())
+            }
         }
-        throw MainPackageNotFoundException("Main package not found under /src/")
+        else {
+            logger.info("No 'jar.run' found, using /out for file scan...")
+            // TODO safety check
+            val pack: String
+            try {
+                pack = File("$path/src").list().get(0)!!
+            } catch (ex: Exception) {
+                logger.warning(ExceptionsTools.exceptionToString(ex))
+                throw MainPackageNotFoundException("Main package not found under /src/")
+            }
+            try {
+                val check = File("$path/out")
+                File("$path/out").walk().forEach {
+                    if (it.toString().endsWith(pack)) {
+                        return Pair(pack, it)
+                    }
+                }
+            } catch (ex: Exception) {
+                logger.warning(ExceptionsTools.exceptionToString(ex))
+                throw MainPackageNotFoundException("No compiled classes found in /out/")
+
+            }
+            throw MainPackageNotFoundException("Something went wrong, check your project structure\nTry to use or use not the buidled 'run.jar'")
+        }
+    }
+
+    fun deleteDirectory(directory: File): Boolean {
+        if (directory.exists()) {
+            val files = directory.listFiles()
+            if (null != files) {
+                for (i in files.indices) {
+                    if (files[i].isDirectory) {
+                        deleteDirectory(files[i])
+                    } else {
+                        files[i].delete()
+                    }
+                }
+            }
+        }
+        return directory.delete()
     }
 }
