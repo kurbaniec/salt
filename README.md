@@ -2,8 +2,8 @@
 
 # URGENT
 - [ ] Fix kpm script - classpath is static + not working on linux
-- [ ] Make Java-Files system independent, use / instead of \
-. [ ] Test certificate + build script
+- [ ] Make Java-Files system independent, use slash / instead of backslash \
+- [ ] Test certificate + build script
 
 # TODO
 - [ ] PasswordManager: Support letsencrypt for https keystore
