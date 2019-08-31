@@ -13,10 +13,10 @@ import javax.net.ssl.TrustManagerFactory
 class SSLManager {
     companion object {
         // Create the and initialize the SSLContext
-        fun createSSLContext(password: String): SSLContext? {
+        fun createSSLContext(password: String, file: String): SSLContext? {
             try {
                 val keyStore = KeyStore.getInstance("JKS")
-                keyStore.load(FileInputStream("test.jks"), password.toCharArray())
+                keyStore.load(FileInputStream(file), password.toCharArray())
                 // Create key manager
                 val keyManagerFactory = KeyManagerFactory.getInstance("SunX509")
                 keyManagerFactory.init(keyStore, password.toCharArray())
@@ -42,11 +42,11 @@ class SSLManager {
                 var keyStore = KeyStore.getInstance("JKS")
                 keyStore.load(null, null)
 
-                keyStore.store(FileOutputStream("test.jks"), password.toCharArray())
+                keyStore.store(FileOutputStream("res/test.jks"), password.toCharArray())
 
 
                 keyStore = KeyStore.getInstance("JKS")
-                keyStore.load(FileInputStream("test.jks"), password.toCharArray())
+                keyStore.load(FileInputStream("res/test.jks"), password.toCharArray())
 
                 var gen = CertAndKeyGen("RSA", "SHA1WithRSA")
                 gen.generate(1024)
@@ -59,10 +59,10 @@ class SSLManager {
 
                 keyStore.setKeyEntry("mykey", key, password.toCharArray(), chain)
 
-                keyStore.store(FileOutputStream("test.jks"), password.toCharArray())
+                keyStore.store(FileOutputStream("res/test.jks"), password.toCharArray())
 
                 keyStore = KeyStore.getInstance("JKS")
-                keyStore.load(FileInputStream("test.jks"), password.toCharArray())
+                keyStore.load(FileInputStream("res/test.jks"), password.toCharArray())
 
                 gen = CertAndKeyGen("RSA", "SHA1WithRSA")
                 gen.generate(1024)
@@ -71,7 +71,7 @@ class SSLManager {
 
                 keyStore.setCertificateEntry("single_cert", cert)
 
-                keyStore.store(FileOutputStream("test.jks"), password.toCharArray())
+                keyStore.store(FileOutputStream("res/test.jks"), password.toCharArray())
 
                 //println(cert)
             } catch (ex: Exception) {

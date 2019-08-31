@@ -14,6 +14,8 @@ count = 4
 level = "finest"
 
 [keystore]
+generate = true
+file = ""
 password = "passwd1234"
 
 [security]

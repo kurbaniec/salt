@@ -6,6 +6,11 @@ ip_address = "localhost"
 enable = true
 timeout = 25
 
+[keystore]
+generate = false
+file = "letsencrypt.jks"
+password = "password"
+
 [mongo]
 enable = true
 #uri = "mongodb://Svtmgrleh04.wienkav.at:27017"

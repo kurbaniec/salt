@@ -20,6 +20,8 @@ class NoSuchConfigException(message: String): Exception(message)
 
 class InvalidParameterCountInURL(message: String): Exception(message)
 
+class KeyStoreNotFoundException(message: String): Exception(message)
+
 class ExceptionsTools {
     companion object {
         fun exceptionToString(ex: Exception): String {

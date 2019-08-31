@@ -55,8 +55,14 @@ class PepperServer(
         if (config.findObjectAttribute("server", "https") as Boolean) {
             val port = config.findObjectAttribute("server", "https_port") as Int
             val password = config.findObjectAttribute("keystore", "password") as String
-            SSLManager.createKeyStore(password)
-            val sslContext = SSLManager.createSSLContext(password)
+            val sslContext = if (config.findObjectAttribute("keystore", "generate")) {
+                SSLManager.createKeyStore(password)
+                SSLManager.createSSLContext(password, "res/test.jks")
+            }
+            else {
+                val file = config.findObjectAttribute<String>("keystore", "file")
+                SSLManager.createSSLContext(password, file)
+            }
             val sslServerSocketFactory = sslContext?.serverSocketFactory
             val socket = sslServerSocketFactory?.createServerSocket(port) as SSLServerSocket
             serverHttps = ServerMainThread(executor, socket, mapping, config, security)
