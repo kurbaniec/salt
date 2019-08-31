@@ -1,5 +1,10 @@
 # passwort-manager-dev
 
+# URGENT
+- [ ] Fix kpm script - classpath is static + not working on linux
+- [ ] Make Java-Files system independent, use / instead of \
+. [ ] Test certificate + build script
+
 # TODO
 - [ ] PasswordManager: Support letsencrypt for https keystore
 - [ ] PasswordManager: Don´t load all passwords at once, instead send them on a request basis
