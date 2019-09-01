@@ -8,7 +8,7 @@ redirect = true
 redirect_protocol = "https"
 
 [threads]
-count = 4
+count = 6
 
 [logger]
 level = "finest"

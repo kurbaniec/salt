@@ -1,5 +1,4 @@
 [server]
-# ip_address = "10.20.110.146"
 ip_address = "localhost"
 
 [security]

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
@@ -106,7 +107,7 @@
         <div id="accordion" style="margin-top: 20px" class="shadow">
             <th:block th:each="entry : ${entries}">
                 <div class="card filter" id="card${{entry.organization}}${{entry.name}}">
-                    <div class="card-header" id="entry${{entry.organization}}${{entry.name}}">
+                    <div class="card-header" id="entry${{entry.organization}}${{entry.name}}" style="background-color: white">
                         <h5 class="mb-0">
                             <button class="btn btn-primary touch3" id="name${{entry.organization}}${{entry.name}}" data-toggle="collapse" data-target="#collapse${{entry.organization}}${{entry.name}}" aria-expanded="true" aria-controls="collapse${{entry.organization}}${{entry.name}}"
                                 onclick="closeAll('${{entry.organization}}${{entry.name}}');">
