@@ -121,8 +121,8 @@ class TOMLFile(fileName: String) {
         }
         else {
             val path = System.getProperty("user.dir")
-            log.info("$path\\res\\$fileName")
-            File("$path\\res\\$fileName")
+            log.info("$path/res/$fileName")
+            File("$path/res/$fileName")
         }
         file.forEachLine {
             if(it != "") {

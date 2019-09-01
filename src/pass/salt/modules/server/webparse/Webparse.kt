@@ -3,9 +3,11 @@ package pass.salt.modules.server.webparse
 import com.sun.org.apache.xpath.internal.operations.Bool
 import pass.salt.SaltApplication
 import pass.salt.modules.server.security.SaltSecurity
+import java.util.logging.Logger
 
 class Webparse {
     companion object {
+        val log = Logger.getGlobal()
 
         fun parse(lines: MutableList<String>, model: Model): String {
             val comment = ParserHelp(false, false, "", false)
@@ -81,7 +83,7 @@ class Webparse {
                     }
                     else {
                         var tagParsed = webParseShort(tagRaw, model)
-                        var space = "";
+                        var space = ""
                         for (letter in tagParsed) {
                             if (Character.isWhitespace(letter)) space += " " else break
                         }
@@ -118,6 +120,7 @@ class Webparse {
                     }
                 }
                 else {
+                    log.info("1 " + tagRaw)
                     val tagParsed = webParseShort(tagRaw, model)
                     if (textConf.textFlag) {
                         if (tagParsed.contains(textConf.tagStop)) {
@@ -126,6 +129,8 @@ class Webparse {
                         }
                     }
                     else fullSite += tagParsed
+                    log.info("2 " + tagParsed)
+                    System.exit(1)
                 }
             }
             return fullSite
@@ -191,30 +196,33 @@ class Webparse {
                     tRawParam = tRawParam.trim()
                     val attr = attrRaw.split("=")
                     // check for webparse
-                    val tAttrName = attr[0]
-                    val tAttrVal = attr[1]
-                    when (tAttrName) {
-                        "th:text" -> {
-                            val attrBegin = tAttrVal.indexOf("\${")
-                            val attrEnd = tAttrVal.indexOf("}", attrBegin)
-                            val tAttrValBegin = tAttrVal.substring(1, attrBegin)
-                            val tAttrValEnd = tAttrVal.substring(attrEnd+2)
-                            val modelSearch = tAttrVal.substring(attrBegin+2, attrEnd)
-                            val modelResult = if (modelSearch.contains(".")) {
-                                val tmp = modelSearch.split(".")
-                                if (tmp.size == 2) {
-                                    model.getAttribute(tmp[0], tmp[1])
-                                } else "wrongSyntxError"
-                            } else {
-                                model.getAttribute(modelSearch)
+                    if (attr.size == 2) {
+                        val tAttrName = attr[0]
+                        val tAttrVal = attr[1]
+                        when (tAttrName) {
+                            "th:text" -> {
+                                val attrBegin = tAttrVal.indexOf("\${")
+                                val attrEnd = tAttrVal.indexOf("}", attrBegin)
+                                val tAttrValBegin = tAttrVal.substring(1, attrBegin)
+                                val tAttrValEnd = tAttrVal.substring(attrEnd + 2)
+                                val modelSearch = tAttrVal.substring(attrBegin + 2, attrEnd)
+                                val modelResult = if (modelSearch.contains(".")) {
+                                    val tmp = modelSearch.split(".")
+                                    if (tmp.size == 2) {
+                                        model.getAttribute(tmp[0], tmp[1])
+                                    } else "wrongSyntxError"
+                                } else {
+                                    model.getAttribute(modelSearch)
+                                }
+                                textConf.textFlag = true
+                                textConf.text = tAttrValBegin + modelResult + tAttrValEnd
                             }
-                            textConf.textFlag = true
-                            textConf.text = tAttrValBegin + modelResult + tAttrValEnd
+                            "th:href" -> tAttrParams += " " + parsePath("href", tAttrVal, model, webConf)
+                            "th:src" -> tAttrParams += " " + parsePath("src", tAttrVal, model, webConf)
+                            else -> tAttrParams += " $tAttrName=$tAttrVal"
                         }
-                        "th:href" -> tAttrParams += " " + parsePath("href", tAttrVal, model, webConf)
-                        "th:src" -> tAttrParams += " " + parsePath("src", tAttrVal, model, webConf)
-                        else -> tAttrParams += " $tAttrName=$tAttrVal"
                     }
+                    else tAttrParams += " " + attr[0]
                 }
                 else if (begin == -1 && end == -1) { // for cases like "hidden" at the end of a tag
                     tAttrParams += " $tRawParam"

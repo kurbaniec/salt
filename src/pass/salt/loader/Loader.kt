@@ -34,6 +34,7 @@ class Loader() {
         val pair = getLocation()
         val pack = pair.first
         val location = pair.second
+        logger.info("LOCATION for classes: " + location.absolutePath)
         logger.fine("Project path located")
 
         // Module System -> Single Instance
@@ -60,7 +61,8 @@ class Loader() {
                 // TODO what do do with salt path?
                 if (it.toString().endsWith(".class") &&
                         !((it.toString().endsWith("Kt.class")) || it.toString().endsWith("$1.class") ||
-                                it.toString().contains("salt") || it.toString().contains("$"))) {
+                                it.toString().substring(location.absolutePath.length).contains("salt") ||
+                                it.toString().contains("$"))) {
 
                     val className = getClassName(it.toString(), pack)
 
@@ -86,7 +88,8 @@ class Loader() {
     private fun getClassName(name: String, pack: String): String {
         var ret = name.replace(".class", "")
         ret = ret.substring(ret.indexOf(pack), ret.length)
-        ret = ret.replace("\\", ".")
+        ret = ret.replace("\\", ".") // Windows
+        ret = ret.replace("/", ".") // Linux
         //return ret.substring(ret.lastIndexOf('\\')+1, ret.length)
         return ret
     }
@@ -101,12 +104,12 @@ class Loader() {
 
         logger.info("Application detected following program path: $path")
 
-        if (File("$path\\run.jar").exists()) {
-            val jar = JarFile("$path\\run.jar")
+        if (File("$path/run.jar").exists()) {
+            val jar = JarFile("$path/run.jar")
             val tmpOut = File("tmpout")
             deleteDirectory(tmpOut)
             tmpOut.mkdir()
-            val outPath = "$path\\tmpout"
+            val outPath = "$path/tmpout"
             val entries = jar.entries()
             while (entries.hasMoreElements()) {
                 val entry = entries.nextElement()

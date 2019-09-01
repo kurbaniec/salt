@@ -45,7 +45,8 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
 
     init {
         val path = System.getProperty("user.dir")
-        WEB_ROOT = File(path, "res\\web")
+        WEB_ROOT = File(path, "res/web")
+        log.info("Set WEB_ROOT to: " + WEB_ROOT.absolutePath)
         if (security.first) {
             secOn = security.first
             sec = security.second
@@ -118,6 +119,8 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         }
                     }
                 }
+                log.info("request.path: " + request.path)
+                log.info("GET Mapping: " + server.getGetMapping(request.path))
                 val mapping = when (request.method) {
                     "GET" -> server.getGetMapping(request.path)
                     "POST" -> server.getPostMapping(request.path)
@@ -125,6 +128,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                 }
                 // Don´t allow serving html files without Controller mapping
                 if (mapping == null && (request.file.endsWith(".html") || request.file == "")) {
+                    log.info("1")
                     fileNotFound()
                 }
                 // Look for resources
@@ -132,11 +136,11 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                     //val search = request.path+request.file
                     //val search = request.file
                     //val searchOr = request.file.replace("/", "\\")
-                    val fullSearch = request.file.replace("/", "\\")
-                    var directory = "\\"
+                    val fullSearch = request.file.replace("\\", "/")
+                    var directory = "/"
                     var search = fullSearch
-                    if (fullSearch.contains("\\")) {
-                        directory = fullSearch.substring(0, fullSearch.lastIndexOf("\\")+1)
+                    if (fullSearch.contains("/")) {
+                        directory = fullSearch.substring(0, fullSearch.lastIndexOf("/")+1)
                         search = fullSearch.substring(directory.length)
                     }
                     val type = "." + request.file.split(".")[1]
@@ -158,7 +162,10 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                                 "Server: SaltApplication",
                                 contentType, fileData.second, fileData.first)
                     }
-                    else fileNotFound()
+                    else {
+                        log.info("2")
+                        fileNotFound()
+                    }
                 // Normal mapping via controller
                 } else {
                     //mapping.model = Model() //
