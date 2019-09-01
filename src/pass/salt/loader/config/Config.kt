@@ -10,7 +10,7 @@ import java.util.logging.Logger
 
 class Config() {
     val config: TOMLParser = TOMLParser("default.toml")
-    val logger: Logger = Logger.getGlobal()
+    val logger: Logger = Logger.getLogger("SaltLogger")
 
     init {
         try {

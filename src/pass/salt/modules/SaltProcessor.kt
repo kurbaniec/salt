@@ -24,7 +24,7 @@ interface SaltProcessor {
     fun shutdown()
 
     companion object {
-        val logger = Logger.getLogger("webserver")
+        val logger = Logger.getLogger("SaltLogger")
         /**
          * [name of module][config][container]
          */

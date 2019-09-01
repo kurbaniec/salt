@@ -4,7 +4,6 @@ import pass.salt.annotations.Param
 import pass.salt.exceptions.ExceptionsTools
 import pass.salt.exceptions.InvalidMappingParamException
 import pass.salt.exceptions.InvalidParameterCountInURL
-import pass.salt.loader.logger
 import pass.salt.modules.server.HTTPTransport
 import pass.salt.modules.server.security.SessionUser
 import pass.salt.modules.server.webparse.Model
@@ -13,7 +12,8 @@ import java.util.logging.Logger
 import kotlin.reflect.KFunction
 import kotlin.reflect.full.valueParameters
 
-val log = Logger.getGlobal()
+
+val log = Logger.getLogger("Mapping")
 
 class Mapping(val method: HTTPMethod) {
     // mutableMapOf<String, Pair<Any, KFunction<*>>>()
@@ -41,7 +41,6 @@ class Mapping(val method: HTTPMethod) {
         init {
             funcMapper()
         }
-
 
         private fun funcMapper() {
             val parameters = func.valueParameters

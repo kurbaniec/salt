@@ -4,7 +4,7 @@ import java.util.logging.Logger
 
 class Container() {
     private val elements: MutableMap<String, Any> = mutableMapOf()
-    private val logger = Logger.getGlobal()
+    private val logger = Logger.getLogger("SaltLogger")
 
     init {
         logger.fine("Container initialization done")

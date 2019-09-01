@@ -11,9 +11,9 @@ import java.nio.file.Paths
 import java.util.jar.JarFile
 import java.util.logging.Logger
 
-val logger = Logger.getGlobal()
 
-class Loader() {
+class Loader {
+    val log = Logger.getLogger("SaltLogger")
     val config: Config
     val container: Container
     val singleModules = mutableListOf<SaltProcessor>()
@@ -34,11 +34,11 @@ class Loader() {
         val pair = getLocation()
         val pack = pair.first
         val location = pair.second
-        logger.info("LOCATION for classes: " + location.absolutePath)
-        logger.fine("Project path located")
+        log.fine("Location of compiled classes to scan: " + location.absolutePath)
+        log.fine("Project path located")
 
         // Module System -> Single Instance
-        logger.fine("Loading module System (Single)")
+        log.fine("Loading module System (Single)")
         singleModules.add(SaltProcessor.module(module = "SaltSecurity", config = config, container = container))
         singleModules.add(SaltProcessor.module(module = "SaltThreadPool", config = config, container = container))
         singleModules.add(SaltProcessor.module(module = "PepperServer", config = config, container = container))
@@ -49,7 +49,7 @@ class Loader() {
 
         // Module System -> Process Annotations through all Classes
         // Order of modules is important!
-        logger.fine("Loading module System (Classes)")
+        log.fine("Loading module System (Classes)")
         classModules.add(SaltProcessor.module("ComponentScan", config, container))
         classModules.add(SaltProcessor.module("MongoScan", config, container))
         classModules.add(SaltProcessor.module("AutowiredScan", config, container))
@@ -73,6 +73,8 @@ class Loader() {
         }
         // Delete temporary files if created
         deleteDirectory(File("tmpout"))
+
+        log.fine("SaltApplication fully loaded")
         return this
     }
 
@@ -102,7 +104,7 @@ class Loader() {
             System.getProperty("user.dir")
         } else Paths.get(".").toAbsolutePath().normalize().toString()
 
-        logger.info("Application detected following program path: $path")
+        log.fine("Application detected following program path: $path")
 
         if (File("$path/run.jar").exists()) {
             val jar = JarFile("$path/run.jar")
@@ -139,13 +141,13 @@ class Loader() {
             }
         }
         else {
-            logger.info("No 'jar.run' found, using /out for file scan...")
+            log.info("No 'jar.run' found, using /out for file scan...")
             // TODO safety check
             val pack: String
             try {
                 pack = File("$path/src").list().get(0)!!
             } catch (ex: Exception) {
-                logger.warning(ExceptionsTools.exceptionToString(ex))
+                log.warning(ExceptionsTools.exceptionToString(ex))
                 throw MainPackageNotFoundException("Main package not found under /src/")
             }
             try {
@@ -156,7 +158,7 @@ class Loader() {
                     }
                 }
             } catch (ex: Exception) {
-                logger.warning(ExceptionsTools.exceptionToString(ex))
+                log.warning(ExceptionsTools.exceptionToString(ex))
                 throw MainPackageNotFoundException("No compiled classes found in /out/")
 
             }
@@ -164,7 +166,10 @@ class Loader() {
         }
     }
 
-    fun deleteDirectory(directory: File): Boolean {
+    /**
+     * Deletes a directory, if it exists.
+     */
+    private fun deleteDirectory(directory: File): Boolean {
         if (directory.exists()) {
             val files = directory.listFiles()
             if (null != files) {

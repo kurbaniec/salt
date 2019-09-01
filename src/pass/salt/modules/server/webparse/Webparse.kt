@@ -7,7 +7,7 @@ import java.util.logging.Logger
 
 class Webparse {
     companion object {
-        val log = Logger.getGlobal()
+        val log = Logger.getLogger("SaltLogger")
 
         fun parse(lines: MutableList<String>, model: Model): String {
             val comment = ParserHelp(false, false, "", false)

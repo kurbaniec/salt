@@ -29,7 +29,7 @@ class MongoInit(
     val container: Container
 ): SaltProcessor {
     var enabled = false
-    val log = Logger.getGlobal()
+    val log = Logger.getLogger("SaltLogger")
     lateinit var mongoClient: MongoClient
     lateinit var db: MongoDatabase
     lateinit var collName: String
@@ -68,22 +68,28 @@ class MongoInit(
     }
 
     private fun disableLogger() {
+        Logger.getLogger("org.mongodb.driver").level = Level.OFF
+        Logger.getLogger("JULLogger").level = Level.OFF
+
+        /**
         var mongoLogger = Logger.getLogger("com.mongodb")
-        mongoLogger.level = Level.OFF
+        mongoLogger.level = Level.SEVERE
         mongoLogger = Logger.getLogger("com.mongodb.driver.cluster")
-        mongoLogger.level = Level.OFF
+        mongoLogger.level = Level.SEVERE
         mongoLogger = Logger.getLogger("com.mongodb.driver.connection")
-        mongoLogger.level = Level.OFF
+        mongoLogger.level = Level.SEVERE
         mongoLogger = Logger.getLogger("com.mongodb.driver.management")
-        mongoLogger.level = Level.OFF
+        mongoLogger.level = Level.SEVERE
         mongoLogger = Logger.getLogger("com.mongodb.driver.protocol.insert")
-        mongoLogger.level = Level.OFF
+        mongoLogger.level = Level.SEVERE
         mongoLogger = Logger.getLogger("com.mongodb.driver.protocol.query")
-        mongoLogger.level = Level.OFF
+        mongoLogger.level = Level.SEVERE
         mongoLogger = Logger.getLogger("com.mongodb.driver.protocol.update")
-        mongoLogger.level = Level.OFF
+        mongoLogger.level = Level.SEVERE
         mongoLogger = Logger.getLogger("com.mongodb.driver")
-        mongoLogger.level = Level.OFF
+        mongoLogger.level = Level.SEVERE
+        mongoLogger = Logger.getLogger("com.mongodb.diagnostics.logging.JULLogger")
+        mongoLogger.level = Level.SEVERE*/
     }
 
 }

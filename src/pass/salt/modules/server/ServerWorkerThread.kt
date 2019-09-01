@@ -41,12 +41,11 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     var listening = true
     var secOn = false
     var sec: SaltSecurity? = null
-    val log = Logger.getGlobal()
+    val log = Logger.getLogger("SaltLogger")
 
     init {
         val path = System.getProperty("user.dir")
         WEB_ROOT = File(path, "res/web")
-        log.info("Set WEB_ROOT to: " + WEB_ROOT.absolutePath)
         if (security.first) {
             secOn = security.first
             sec = security.second
@@ -119,8 +118,6 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                         }
                     }
                 }
-                log.info("request.path: " + request.path)
-                log.info("GET Mapping: " + server.getGetMapping(request.path))
                 val mapping = when (request.method) {
                     "GET" -> server.getGetMapping(request.path)
                     "POST" -> server.getPostMapping(request.path)
@@ -128,7 +125,6 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                 }
                 // Don´t allow serving html files without Controller mapping
                 if (mapping == null && (request.file.endsWith(".html") || request.file == "")) {
-                    log.info("1")
                     fileNotFound()
                 }
                 // Look for resources
@@ -163,7 +159,6 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                                 contentType, fileData.second, fileData.first)
                     }
                     else {
-                        log.info("2")
                         fileNotFound()
                     }
                 // Normal mapping via controller
