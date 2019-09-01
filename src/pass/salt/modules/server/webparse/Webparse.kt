@@ -120,7 +120,6 @@ class Webparse {
                     }
                 }
                 else {
-                    log.info("1 " + tagRaw)
                     val tagParsed = webParseShort(tagRaw, model)
                     if (textConf.textFlag) {
                         if (tagParsed.contains(textConf.tagStop)) {
@@ -129,8 +128,6 @@ class Webparse {
                         }
                     }
                     else fullSite += tagParsed
-                    log.info("2 " + tagParsed)
-                    System.exit(1)
                 }
             }
             return fullSite

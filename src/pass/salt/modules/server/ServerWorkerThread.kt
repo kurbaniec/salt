@@ -288,9 +288,10 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     @Throws(IOException::class)
     private fun readFileData(file: File, model: Model?): Pair<ByteArray, Int> {
         val bytes = if (getContentType(file) == "text/html" && file.name.endsWith(".html")) {
+            val lineSep = System.getProperty("line.separator")
             val raw = file.readText(Charsets.UTF_8)
             try {
-                val lines = raw.split("\r\n").toMutableList()
+                val lines = raw.split(lineSep).toMutableList()
                 val site: String
                 site = if (model != null) {
                     Webparse.parse(lines, model)
