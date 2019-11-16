@@ -47,6 +47,11 @@ application {
     mainClassName = 'salt.AppKt'
 }
 
+task initSalt(type: Copy) {
+    from('init/resources')
+    into('../../../resources')
+}
+
 dokka {
     outputFormat = 'html'
     outputDirectory = "docs"

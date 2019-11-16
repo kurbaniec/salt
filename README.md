@@ -11,7 +11,7 @@
 
    > Note: Do not work directly in the `salt` package! Create a second package for your code.
 
-4. Use `gradle init` under `src/main/kotlin/[main-package]/salt` to initialize the framework
+4. Use `gradle initSalt` under `src/main/kotlin/[main-package]/salt` to initialize the framework
 
 Explain build.gradle
 
