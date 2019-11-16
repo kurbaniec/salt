@@ -2,6 +2,7 @@ package pass.salt.code.modules.server.encryption
 
 import sun.security.tools.keytool.CertAndKeyGen
 import sun.security.x509.X500Name
+import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.security.KeyStore
@@ -39,14 +40,17 @@ class SSLManager {
 
         fun createKeyStore(password: String) {
             try {
+                val keyStoreFile = File(
+                    Thread.currentThread().contextClassLoader.getResource("test.jks")!!.toURI())
+
                 var keyStore = KeyStore.getInstance("JKS")
                 keyStore.load(null, null)
 
-                keyStore.store(FileOutputStream("res/test.jks"), password.toCharArray())
+                keyStore.store(FileOutputStream(keyStoreFile), password.toCharArray())
 
 
                 keyStore = KeyStore.getInstance("JKS")
-                keyStore.load(FileInputStream("res/test.jks"), password.toCharArray())
+                keyStore.load(FileInputStream(keyStoreFile), password.toCharArray())
 
                 var gen = CertAndKeyGen("RSA", "SHA1WithRSA")
                 gen.generate(1024)
@@ -59,10 +63,10 @@ class SSLManager {
 
                 keyStore.setKeyEntry("mykey", key, password.toCharArray(), chain)
 
-                keyStore.store(FileOutputStream("res/test.jks"), password.toCharArray())
+                keyStore.store(FileOutputStream(keyStoreFile), password.toCharArray())
 
                 keyStore = KeyStore.getInstance("JKS")
-                keyStore.load(FileInputStream("res/test.jks"), password.toCharArray())
+                keyStore.load(FileInputStream(keyStoreFile), password.toCharArray())
 
                 gen = CertAndKeyGen("RSA", "SHA1WithRSA")
                 gen.generate(1024)
@@ -71,7 +75,7 @@ class SSLManager {
 
                 keyStore.setCertificateEntry("single_cert", cert)
 
-                keyStore.store(FileOutputStream("res/test.jks"), password.toCharArray())
+                keyStore.store(FileOutputStream(keyStoreFile), password.toCharArray())
 
                 //println(cert)
             } catch (ex: Exception) {

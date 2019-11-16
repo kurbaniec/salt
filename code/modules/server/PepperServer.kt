@@ -8,6 +8,7 @@ import pass.salt.code.modules.server.encryption.SSLManager
 import pass.salt.code.modules.server.mapping.HTTPMethod
 import pass.salt.code.modules.server.mapping.Mapping
 import pass.salt.code.modules.server.security.SaltSecurity
+import java.io.File
 import java.net.ServerSocket
 import javax.net.ssl.SSLServerSocket
 import java.util.logging.Logger
@@ -49,9 +50,11 @@ class PepperServer(
             log.fine("Starting https-port...")
             val port = config.findObjectAttribute("server", "https_port") as Int
             val password = config.findObjectAttribute("keystore", "password") as String
+            val keyStoreFile = File(
+                Thread.currentThread().contextClassLoader.getResource("test.jks")!!.toURI())
             val sslContext = if (config.findObjectAttribute("keystore", "generate")) {
                 SSLManager.createKeyStore(password)
-                SSLManager.createSSLContext(password, "res/test.jks")
+                SSLManager.createSSLContext(password, keyStoreFile.absolutePath)
             }
             else {
                 val file = config.findObjectAttribute<String>("keystore", "file")

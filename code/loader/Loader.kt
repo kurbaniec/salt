@@ -145,21 +145,21 @@ class Loader {
             // TODO safety check
             val pack: String
             try {
-                pack = File("$path/src").list().get(0)!!
+                pack = File("$path/src/main/kotlin").list().get(0)!!
             } catch (ex: Exception) {
                 log.warning(ExceptionsTools.exceptionToString(ex))
                 throw MainPackageNotFoundException("Main package not found under /src/")
             }
             try {
-                val check = File("$path/out")
-                File("$path/out").walk().forEach {
+                //val check = File("$path/out")
+                File("$path/build").walk().forEach {
                     if (it.toString().endsWith(pack)) {
                         return Pair(pack, it)
                     }
                 }
             } catch (ex: Exception) {
                 log.warning(ExceptionsTools.exceptionToString(ex))
-                throw MainPackageNotFoundException("No compiled classes found in /out/")
+                throw MainPackageNotFoundException("No compiled classes found in /build/")
 
             }
             throw MainPackageNotFoundException("Something went wrong, check your project structure\nTry to use or use not the buidled 'run.jar'")

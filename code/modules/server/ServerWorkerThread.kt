@@ -41,8 +41,8 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     val log = Logger.getLogger("SaltLogger")
 
     init {
-        val path = System.getProperty("user.dir")
-        WEB_ROOT = File(path, "res/web")
+        WEB_ROOT = File(
+            Thread.currentThread().contextClassLoader.getResource("web")!!.toURI())
         if (security.first) {
             secOn = security.first
             sec = security.second

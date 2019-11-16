@@ -1,5 +1,8 @@
-.idea/
 *.jks
 out/
 run.jar
 .venv/
+/build/
+/.gradle/
+/.idea/
+/out/

@@ -1,11 +1,9 @@
-# passwort-manager-dev
-
-# URGENT
-- [ ] Fix kpm script - classpath is static + not working on linux
-- [ ] Make Java-Files system independent, use slash / instead of backslash \
-- [ ] Test certificate + build script
+# salt
 
 # TODO
+
+Explain build.gradle
+
 - [ ] PasswordManager: Support letsencrypt for https keystore
 - [ ] PasswordManager: Don´t load all passwords at once, instead send them on a request basis
 - [ ] Terminator-service
@@ -23,11 +21,9 @@
 
 # Notes
 ## Running
-``python kpm build``
+`gradle run`
 
-``python kpm run``
-
-## Project Structure
+## Project Structure TODO Update
 Following project structure is needed.
 ```bash    
 .    
@@ -58,7 +54,7 @@ Classes can for now not end with `Kt` or `$1` (because kotlin creates `[classNam
 The custom template parser is inspired by Thymeleaf and supports for now following functionality:  
 * ```js
   <span th:text="Hello, ${message}"></span>
-  ```   
+  ```
   The `th:text` attribute will replace the value between tags eg. `span`. `${message}` stands for an object that
   is added in the controller via `model.addAttribute("message", "baum")`. So the ouput, when parsed will be `<span>Hello, baum</span>`.
   If baum is for example not a String but an other object like `User` added as `user` with a attribute `login`, you can also acces it     via `${user.login}`.
@@ -78,7 +74,7 @@ The custom template parser is inspired by Thymeleaf and supports for now followi
         <td th:text="${user.address}">...</td>
     </tr>
   </th:block>
-  ```   
+  ```
   Creates a loop of a block marked with `th:block`. `users` is a list added via a model in the controller. For every entry of `users`     marked as `user` the block will be dynamically created. Note: No `<th:block>` will be seen on the parsed site.
 
 ## TOML-Parser (for config-files)
