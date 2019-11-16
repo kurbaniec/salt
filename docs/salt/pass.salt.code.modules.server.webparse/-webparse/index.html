@@ -1,0 +1,103 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Webparse - salt</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">salt</a>&nbsp;/&nbsp;<a href="../index.html">pass.salt.code.modules.server.webparse</a>&nbsp;/&nbsp;<a href="./index.html">Webparse</a><br/>
+<br/>
+<h1>Webparse</h1>
+<code><span class="keyword">class </span><span class="identifier">Webparse</span></code>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-parser-help/index.html">ParserHelp</a></h4>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">ParserHelp</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-web-conf/index.html">WebConf</a></h4>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">WebConf</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-web-parse-loop/index.html">WebParseLoop</a></h4>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">WebParseLoop</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-web-parse-text/index.html">WebParseText</a></h4>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">WebParseText</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<code><span class="identifier">Webparse</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="log.html">log</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">log</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/util/logging/Logger.html"><span class="identifier">Logger</span></a><span class="symbol">!</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="parse.html">parse</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">parse</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.server.webparse.Webparse.Companion$parse(kotlin.collections.MutableList((kotlin.String)), pass.salt.code.modules.server.webparse.Model)/lines">lines</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.server.webparse.Webparse.Companion$parse(kotlin.collections.MutableList((kotlin.String)), pass.salt.code.modules.server.webparse.Model)/model">model</span><span class="symbol">:</span>&nbsp;<a href="../-model/index.html"><span class="identifier">Model</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="parse-line.html">parseLine</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">parseLine</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.server.webparse.Webparse.Companion$parseLine(kotlin.String, pass.salt.code.modules.server.webparse.Webparse.Companion.ParserHelp)/line">line</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.server.webparse.Webparse.Companion$parseLine(kotlin.String, pass.salt.code.modules.server.webparse.Webparse.Companion.ParserHelp)/help">help</span><span class="symbol">:</span>&nbsp;<span class="identifier">ParserHelp</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="parse-path.html">parsePath</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">parsePath</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.server.webparse.Webparse.Companion$parsePath(kotlin.String, kotlin.String, pass.salt.code.modules.server.webparse.Model, pass.salt.code.modules.server.webparse.Webparse.Companion.WebConf)/tag">tag</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.server.webparse.Webparse.Companion$parsePath(kotlin.String, kotlin.String, pass.salt.code.modules.server.webparse.Model, pass.salt.code.modules.server.webparse.Webparse.Companion.WebConf)/attrVal">attrVal</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.server.webparse.Webparse.Companion$parsePath(kotlin.String, kotlin.String, pass.salt.code.modules.server.webparse.Model, pass.salt.code.modules.server.webparse.Webparse.Companion.WebConf)/model">model</span><span class="symbol">:</span>&nbsp;<a href="../-model/index.html"><span class="identifier">Model</span></a><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.server.webparse.Webparse.Companion$parsePath(kotlin.String, kotlin.String, pass.salt.code.modules.server.webparse.Model, pass.salt.code.modules.server.webparse.Webparse.Companion.WebConf)/webConf">webConf</span><span class="symbol">:</span>&nbsp;<span class="identifier">WebConf</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="web-parse.html">webParse</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">webParse</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.server.webparse.Webparse.Companion$webParse(kotlin.collections.MutableList((kotlin.String)), pass.salt.code.modules.server.webparse.Model)/site">site</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.server.webparse.Webparse.Companion$webParse(kotlin.collections.MutableList((kotlin.String)), pass.salt.code.modules.server.webparse.Model)/model">model</span><span class="symbol">:</span>&nbsp;<a href="../-model/index.html"><span class="identifier">Model</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

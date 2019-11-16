@@ -1,0 +1,152 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ServerWorkerThread - salt</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">salt</a>&nbsp;/&nbsp;<a href="../index.html">pass.salt.code.modules.server</a>&nbsp;/&nbsp;<a href="./index.html">ServerWorkerThread</a><br/>
+<br/>
+<h1>ServerWorkerThread</h1>
+<code><span class="keyword">class </span><span class="identifier">ServerWorkerThread</span><span class="symbol">&lt;</span><span class="identifier">P</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/net/ServerSocket.html"><span class="identifier">ServerSocket</span></a><span class="symbol">, </span><span class="identifier">S</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/net/Socket.html"><span class="identifier">Socket</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Runnable.html"><span class="identifier">Runnable</span></a></code>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-request/index.html">Request</a></h4>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Request</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<code><span class="identifier">ServerWorkerThread</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.server.ServerWorkerThread$<init>(pass.salt.code.modules.server.ServerWorkerThread.S, pass.salt.code.modules.server.ServerMainThread((pass.salt.code.modules.server.ServerWorkerThread.P)), pass.salt.code.loader.config.Config, kotlin.Pair((kotlin.Boolean, pass.salt.code.modules.server.security.SaltSecurity)))/socket">socket</span><span class="symbol">:</span>&nbsp;<span class="identifier">S</span><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.server.ServerWorkerThread$<init>(pass.salt.code.modules.server.ServerWorkerThread.S, pass.salt.code.modules.server.ServerMainThread((pass.salt.code.modules.server.ServerWorkerThread.P)), pass.salt.code.loader.config.Config, kotlin.Pair((kotlin.Boolean, pass.salt.code.modules.server.security.SaltSecurity)))/server">server</span><span class="symbol">:</span>&nbsp;<a href="../-server-main-thread/index.html"><span class="identifier">ServerMainThread</span></a><span class="symbol">&lt;</span><span class="identifier">P</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.server.ServerWorkerThread$<init>(pass.salt.code.modules.server.ServerWorkerThread.S, pass.salt.code.modules.server.ServerMainThread((pass.salt.code.modules.server.ServerWorkerThread.P)), pass.salt.code.loader.config.Config, kotlin.Pair((kotlin.Boolean, pass.salt.code.modules.server.security.SaltSecurity)))/config">config</span><span class="symbol">:</span>&nbsp;<a href="../../pass.salt.code.loader.config/-config/index.html"><span class="identifier">Config</span></a><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.server.ServerWorkerThread$<init>(pass.salt.code.modules.server.ServerWorkerThread.S, pass.salt.code.modules.server.ServerMainThread((pass.salt.code.modules.server.ServerWorkerThread.P)), pass.salt.code.loader.config.Config, kotlin.Pair((kotlin.Boolean, pass.salt.code.modules.server.security.SaltSecurity)))/security">security</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">,</span>&nbsp;<a href="../../pass.salt.code.modules.server.security/-salt-security/index.html"><span class="identifier">SaltSecurity</span></a><span class="symbol">?</span><span class="symbol">&gt;</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="config.html">config</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">config</span><span class="symbol">: </span><a href="../../pass.salt.code.loader.config/-config/index.html"><span class="identifier">Config</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="data.html">data</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">data</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/io/BufferedOutputStream.html"><span class="identifier">BufferedOutputStream</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-f-i-l-e_-n-o-t_-f-o-u-n-d.html">FILE_NOT_FOUND</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">FILE_NOT_FOUND</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="inp.html">inp</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">inp</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/io/BufferedReader.html"><span class="identifier">BufferedReader</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="listening.html">listening</a></h4>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">listening</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="log.html">log</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">log</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/util/logging/Logger.html"><span class="identifier">Logger</span></a><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-m-e-t-h-o-d_-n-o-t_-s-u-p-p-o-r-t-e-d.html">METHOD_NOT_SUPPORTED</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">METHOD_NOT_SUPPORTED</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="out.html">out</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">out</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/io/PrintWriter.html"><span class="identifier">PrintWriter</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="sec.html">sec</a></h4>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">sec</span><span class="symbol">: </span><a href="../../pass.salt.code.modules.server.security/-salt-security/index.html"><span class="identifier">SaltSecurity</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="sec-on.html">secOn</a></h4>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">secOn</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="server.html">server</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">server</span><span class="symbol">: </span><a href="../-server-main-thread/index.html"><span class="identifier">ServerMainThread</span></a><span class="symbol">&lt;</span><span class="identifier">P</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="socket.html">socket</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">socket</span><span class="symbol">: </span><span class="identifier">S</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-w-e-b_-r-o-o-t.html">WEB_ROOT</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">WEB_ROOT</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><span class="identifier">File</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="run.html">run</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">run</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="shutdown.html">shutdown</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">shutdown</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

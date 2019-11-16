@@ -2,6 +2,17 @@
 
 # TODO
 
+# Usage 
+1. Create new Gradle project with Kotlin/JVM as main language
+
+2. Create a main package under ``src/main/kotlin``  
+
+3. Insert the Salt framework with `` git submodule add https://github.com/kurbaniec-tgm/salt.git salt`` under `src/main/kotlin/[main-package]`
+
+   > Note: Do not work directly in the `salt` package! Create a second package for your code.
+
+4. Use `gradle init` under `src/main/kotlin/[main-package]/salt` to initialize the framework
+
 Explain build.gradle
 
 - [ ] PasswordManager: Support letsencrypt for https keystore

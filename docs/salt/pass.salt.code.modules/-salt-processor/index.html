@@ -1,0 +1,168 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>SaltProcessor - salt</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">salt</a>&nbsp;/&nbsp;<a href="../index.html">pass.salt.code.modules</a>&nbsp;/&nbsp;<a href="./index.html">SaltProcessor</a><br/>
+<br/>
+<h1>SaltProcessor</h1>
+<code><span class="keyword">interface </span><span class="identifier">SaltProcessor</span></code>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="process.html">process</a></h4>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">process</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.SaltProcessor$process(kotlin.String)/className">className</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="shutdown.html">shutdown</a></h4>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">shutdown</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="logger.html">logger</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">logger</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/util/logging/Logger.html"><span class="identifier">Logger</span></a><span class="symbol">!</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="module.html">module</a></h4>
+</td>
+<td>
+<p><a href="module.html#pass.salt.code.modules.SaltProcessor.Companion$module(kotlin.String, pass.salt.code.loader.config.Config, pass.salt.code.container.Container)/config">name of module</a><a href="module.html#pass.salt.code.modules.SaltProcessor.Companion$module(kotlin.String, pass.salt.code.loader.config.Config, pass.salt.code.container.Container)/container">container</a></p>
+<code><span class="keyword">fun </span><span class="identifier">module</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.SaltProcessor.Companion$module(kotlin.String, pass.salt.code.loader.config.Config, pass.salt.code.container.Container)/module">module</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;""<span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.SaltProcessor.Companion$module(kotlin.String, pass.salt.code.loader.config.Config, pass.salt.code.container.Container)/config">config</span><span class="symbol">:</span>&nbsp;<a href="../../pass.salt.code.loader.config/-config/index.html"><span class="identifier">Config</span></a><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.SaltProcessor.Companion$module(kotlin.String, pass.salt.code.loader.config.Config, pass.salt.code.container.Container)/container">container</span><span class="symbol">:</span>&nbsp;<a href="../../pass.salt.code.container/-container/index.html"><span class="identifier">Container</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="process-class.html">processClass</a></h4>
+</td>
+<td>
+<p>Returns classname when a class with the specified Annotation is found, else null.</p>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">C</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">&gt;</span> <span class="identifier">processClass</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.SaltProcessor.Companion$processClass(kotlin.String)/className">className</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="process-class-func.html">processClassFunc</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">C</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">, </span><span class="identifier">A</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">&gt;</span> <span class="identifier">processClassFunc</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.SaltProcessor.Companion$processClassFunc(kotlin.String)/className">className</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-function/index.html"><span class="identifier">KFunction</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="process-class-func-param.html">processClassFuncParam</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">C</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">, </span><span class="identifier">F</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">, </span><span class="identifier">P</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">&gt;</span> <span class="identifier">processClassFuncParam</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.SaltProcessor.Companion$processClassFuncParam(kotlin.String)/className">className</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-function/index.html"><span class="identifier">KFunction</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="process-class-prop.html">processClassProp</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">C</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">, </span><span class="identifier">A</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">&gt;</span> <span class="identifier">processClassProp</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.SaltProcessor.Companion$processClassProp(kotlin.String)/className">className</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="process-prop.html">processProp</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">A</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html"><span class="identifier">Annotation</span></a><span class="symbol">&gt;</span> <span class="identifier">processProp</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.SaltProcessor.Companion$processProp(kotlin.String)/className">className</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-mutable-property/index.html"><span class="identifier">KMutableProperty</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-autowired-scan/index.html">AutowiredScan</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">AutowiredScan</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../-component-scan/index.html">ComponentScan</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ComponentScan</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../pass.salt.code.modules.server.mapping/-mapping-scan/index.html">MappingScan</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">MappingScan</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../-module-not-found/index.html">ModuleNotFound</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">ModuleNotFound</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../pass.salt.code.modules.db.mongo/-mongo-init/index.html">MongoInit</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">MongoInit</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../pass.salt.code.modules.db.mongo/-mongo-scan/index.html">MongoScan</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">MongoScan</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../pass.salt.code.modules.server/-pepper-server/index.html">PepperServer</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">PepperServer</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../pass.salt.code.modules.server.security/-salt-security/index.html">SaltSecurity</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">SaltSecurity</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../-salt-thread-pool-factory/index.html">SaltThreadPoolFactory</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">SaltThreadPoolFactory</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../../pass.salt.code.modules.server.security/-security-scan/index.html">SecurityScan</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">SecurityScan</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SaltProcessor</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

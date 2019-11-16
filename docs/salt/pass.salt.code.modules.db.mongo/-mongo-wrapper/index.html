@@ -1,0 +1,122 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>MongoWrapper - salt</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">salt</a>&nbsp;/&nbsp;<a href="../index.html">pass.salt.code.modules.db.mongo</a>&nbsp;/&nbsp;<a href="./index.html">MongoWrapper</a><br/>
+<br/>
+<h1>MongoWrapper</h1>
+<code><span class="keyword">class </span><span class="identifier">MongoWrapper</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/lang/reflect/InvocationHandler.html"><span class="identifier">InvocationHandler</span></a></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<code><span class="identifier">MongoWrapper</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="clazz.html">clazz</a></h4>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">clazz</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="collection.html">collection</a></h4>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">collection</span><span class="symbol">: </span><span class="identifier">MongoCollection</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="coll-name.html">collName</a></h4>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">collName</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="db.html">db</a></h4>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">db</span><span class="symbol">: </span><span class="identifier">MongoDatabase</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="log.html">log</a></h4>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">log</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/util/logging/Logger.html"><span class="identifier">Logger</span></a><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="type.html">type</a></h4>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">type</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="types.html">types</a></h4>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">types</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">,</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="invoke.html">invoke</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">invoke</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.db.mongo.MongoWrapper$invoke(kotlin.Any, java.lang.reflect.Method, kotlin.Array((kotlin.Any)))/proxy">proxy</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.db.mongo.MongoWrapper$invoke(kotlin.Any, java.lang.reflect.Method, kotlin.Array((kotlin.Any)))/method">method</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html"><span class="identifier">Method</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.db.mongo.MongoWrapper$invoke(kotlin.Any, java.lang.reflect.Method, kotlin.Array((kotlin.Any)))/args">args</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html"><span class="identifier">Array</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="config.html">config</a></h4>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">config</span><span class="symbol">: </span><a href="../../pass.salt.code.loader.config/-config/index.html"><span class="identifier">Config</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="get-wrapper.html">getWrapper</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">W</span><span class="symbol">&gt;</span> <span class="identifier">getWrapper</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.db.mongo.MongoWrapper.Companion$getWrapper(java.lang.Class((pass.salt.code.modules.db.mongo.MongoWrapper.Companion.getWrapper.W)), com.mongodb.client.MongoDatabase, kotlin.String)/cls">cls</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="identifier">W</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.db.mongo.MongoWrapper.Companion$getWrapper(java.lang.Class((pass.salt.code.modules.db.mongo.MongoWrapper.Companion.getWrapper.W)), com.mongodb.client.MongoDatabase, kotlin.String)/db">db</span><span class="symbol">:</span>&nbsp;<span class="identifier">MongoDatabase</span><span class="symbol">, </span><span class="identifier" id="pass.salt.code.modules.db.mongo.MongoWrapper.Companion$getWrapper(java.lang.Class((pass.salt.code.modules.db.mongo.MongoWrapper.Companion.getWrapper.W)), com.mongodb.client.MongoDatabase, kotlin.String)/collName">collName</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">W</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="init.html">init</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">init</span><span class="symbol">(</span><span class="identifier" id="pass.salt.code.modules.db.mongo.MongoWrapper.Companion$init(pass.salt.code.modules.db.mongo.MongoWrapper)/wrappy">wrappy</span><span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">MongoWrapper</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
