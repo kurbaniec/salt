@@ -11,7 +11,7 @@
 
 4. Use `gradle initSalt` under `src/main/kotlin/[main-package]/salt` to initialize the framework
 
-5. Then add the following dependencies to your `build.gradle`:
+5. Add the following dependencies to your `build.gradle`:
 
    ```
    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.3.60'
@@ -19,7 +19,7 @@
    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.9.1'
    ```
 
-6. Lastly define a `main`-method that starts the Salt application:
+6. Lastly, define a `main`-method that starts the Salt application:
 
    ```kotlin
    class Main {
