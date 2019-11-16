@@ -1,7 +1,5 @@
 # salt
 
-# TODO
-
 # Usage 
 1. Create new Gradle project with Kotlin/JVM as main language
 
@@ -11,7 +9,30 @@
 
    > Note: Do not work directly in the `salt` package! Create a second package for your code.
 
-4. Use `gradle initSalt` under `src/main/kotlin/[main-package]/salt` to initialize the framework
+4. Use `gradle initSalt` under `src/main/kotlin/[main-package]/salt` to initialize the framework
+
+5. Then add the following dependencies to your `build.gradle`:
+
+   ```
+   compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.3.60'
+   
+   compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.9.1'
+   ```
+
+6. Lastly define a `main`-method that starts the Salt application:
+
+   ```kotlin
+   class Main {
+       companion object {
+           @JvmStatic
+           fun main(args: Array<String>) {
+               val app = SaltApplication()
+           }
+       }
+   }
+   ```
+
+# TODO
 
 Explain build.gradle
 
