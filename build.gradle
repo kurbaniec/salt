@@ -52,6 +52,19 @@ task initSalt(type: Copy) {
     into('../../../resources')
 }
 
+task initTests() {
+    copy {
+        from('code')
+        into('tests/default/src/main/kotlin/def/salt')
+    }
+    copy {
+        from('init/resources') {
+            exclude 'config.toml'
+        }
+        into('tests/default/src/main/resources')
+    }
+}
+
 dokka {
     outputFormat = 'html'
     outputDirectory = "docs"

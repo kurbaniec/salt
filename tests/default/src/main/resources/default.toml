@@ -1,0 +1,33 @@
+[server]
+ip_address = "localhost"
+http = true
+https = true
+http_port = 8079
+https_port = 8080
+redirect = true
+redirect_protocol = "https"
+
+[threads]
+count = 6
+
+[logger]
+level = "finest"
+
+[keystore]
+generate = true
+file = ""
+password = "passwd1234"
+
+[security]
+enable = false
+timeout = 15
+password_timeout = 5
+password_fails = 3
+
+[mongo]
+enable = false
+uri = "mongodb://localhost:27017"
+db = "dev"
+collection = "test"
+
+

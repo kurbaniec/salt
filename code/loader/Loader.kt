@@ -89,10 +89,8 @@ class Loader {
 
     private fun getClassName(name: String, pack: String): String {
         var ret = name.replace(".class", "")
-        ret = ret.substring(ret.indexOf(pack), ret.length)
-        ret = ret.replace("\\", ".") // Windows
-        ret = ret.replace("/", ".") // Linux
-        //return ret.substring(ret.lastIndexOf('\\')+1, ret.length)
+        ret = ret.substring(ret.lastIndexOf(File.separator + pack + File.separator)+1, ret.length)
+        ret = ret.replace(File.separator, ".")
         return ret
     }
 
