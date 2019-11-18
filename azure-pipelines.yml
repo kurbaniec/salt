@@ -1,0 +1,22 @@
+# Salt Pipeline
+trigger:
+  branches:
+    include:
+    - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+ - job: Test_Salt_Default
+   displayName: "Test_Salt_Default"
+   steps:
+    - task: Gradle@2
+      inputs:
+        gradleWrapperFile: '$(Build.SourcesDirectory)/gradlew'
+        workingDirectory: '$(Build.SourcesDirectory)/'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.8'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: false
+        tasks: 'initTests testDefault'
