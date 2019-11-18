@@ -12,6 +12,7 @@ jobs:
    displayName: "Test_Salt_Default"
    steps:
     - task: Gradle@2
+      displayName: "Initialize tests"
       inputs:
         gradleWrapperFile: '$(Build.SourcesDirectory)/gradlew'
         workingDirectory: '$(Build.SourcesDirectory)/'
@@ -19,4 +20,14 @@ jobs:
         jdkVersionOption: '1.8'
         jdkArchitectureOption: 'x64'
         publishJUnitResults: false
-        tasks: 'initTests testDefault'
+        tasks: 'initTests'
+    - task: Gradle@2
+      displayName: "Run tests for default Salt configuration"
+      inputs:
+        gradleWrapperFile: '$(Build.SourcesDirectory)/tests/default/gradlew'
+        workingDirectory: '$(Build.SourcesDirectory)/tests/default/'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.8'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: false
+        tasks: 'test'
