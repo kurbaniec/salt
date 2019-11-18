@@ -66,6 +66,18 @@ task initTests() {
 }
 
 dokka {
-    outputFormat = 'html'
+    outputFormat = 'gfm'
     outputDirectory = "docs"
+}
+
+task docs(dependsOn: 'dokka') {
+    doLast {
+        copy {
+            from("docs/salt")
+            into("docs")
+        }
+        delete {
+            delete 'docs/salt'
+        }
+    }
 }
