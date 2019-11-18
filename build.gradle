@@ -70,7 +70,7 @@ task testDefault(type: Exec) {
     if (System.getProperty("os.name").toLowerCase().contains("windows")) {
         commandLine "cmd", "/c", "gradlew", "test"
     } else {
-        commandLine "bash", "-c", "gradlew", "test"
+        commandLine "bash", "-c", "./gradlew test"
     }
 }
 
