@@ -1,25 +1,27 @@
-# salt
+# Salt
 
 # Usage 
 1. Create new Gradle project with Kotlin/JVM as main language
 
-2. Create a main package under ``src/main/kotlin``  
-
-3. Insert the Salt framework with `` git submodule add https://github.com/kurbaniec-tgm/salt.git salt`` under `src/main/kotlin/[main-package]`
+2. Insert the Salt framework with `` git submodule add https://github.com/kurbaniec-tgm/salt.git salt`` under `src/main/kotlin/[main-package]`
 
    > Note: Do not work directly in the `salt` package! Create a second package for your code.
 
-4. Use `gradle initSalt` under `src/main/kotlin/[main-package]/salt` to initialize the framework
+3. Use `gradle initSalt` under `src/main/kotlin/[main-package]/salt` to initialize the framework
 
-5. Add the following dependencies to your `build.gradle`:
+4. Add the following dependencies to your `build.gradle`:
 
    ```
+   implementation platform('org.jetbrains.kotlin:kotlin-bom')
+   implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+   compile 'org.jetbrains.kotlin:kotlin-test'
+   compile 'org.jetbrains.kotlin:kotlin-test-junit'
    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.3.60'
-   
    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.9.1'
+   compile 'net.sourceforge.htmlunit:htmlunit:2.36.0'
    ```
 
-6. Lastly, define a `main`-method that starts the Salt application:
+5. Lastly, define a `main`-method that starts the Salt application:
 
    ```kotlin
    class Main {
@@ -32,29 +34,9 @@
    }
    ```
 
-# TODO
+# Working with Salt
 
-Explain build.gradle
-
-- [ ] PasswordManager: Support letsencrypt for https keystore
-- [ ] PasswordManager: Don´t load all passwords at once, instead send them on a request basis
-- [ ] Terminator-service
-- [ ] ssl certificate renew -> swap socket?
-- [X] PasswordManager: Account page / update password (with old one as test) and delete user
-- [X] PasswordManager: copy to clipboard / update links / delete entries
-- [X] Logout functionality
-- [X] Database-mongo wrapper for salt
-- [X] convert login in script to th:login
-- [X] Config default page when logged on
-- [x] Thymeleaf Parser?
-- [x] Autherization header + session + cookie
-- [x] cookie session key
-- [x] redirect http->https
-
-# Notes
-## Running
-`gradle run`
-
+<!--
 ## Project Structure TODO Update
 Following project structure is needed.
 ```bash    
@@ -72,6 +54,7 @@ Following project structure is needed.
 |   └── main_package_!important
 |       └── other_packages_and_classes 
 ```
+-->
 
 ## Naming conventions
 Classes can for now not end with `Kt` or `$1` (because kotlin creates `[className](Kt|$1).class` files).
@@ -119,3 +102,21 @@ Supports:
 
 ## MongoDB
 MongoDB is used as a database, therefore the mongo-java-driver is needed. You can find him [here](http://central.maven.org/maven2/org/mongodb/mongo-java-driver/).
+
+# TODO
+
+- [ ] Write Test Cases
+- [ ] PasswordManager: Support letsencrypt for https keystore
+- [ ] PasswordManager: Don´t load all passwords at once, instead send them on a request basis
+- [ ] Terminator-service
+- [ ] ssl certificate renew -> swap socket?
+- [X] PasswordManager: Account page / update password (with old one as test) and delete user
+- [X] PasswordManager: copy to clipboard / update links / delete entries
+- [X] Logout functionality
+- [X] Database-mongo wrapper for salt
+- [X] convert login in script to th:login
+- [X] Config default page when logged on
+- [x] Thymeleaf Parser?
+- [x] Autherization header + session + cookie
+- [x] cookie session key
+- [x] redirect http->https

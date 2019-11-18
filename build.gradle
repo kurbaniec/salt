@@ -65,6 +65,15 @@ task initTests() {
     }
 }
 
+task testDefault(type: Exec) {
+    workingDir "tests/default"
+    if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+        commandLine "cmd", "/c", "gradlew", "test"
+    } else commandLine "gradlew", "test"
+}
+
+
+
 dokka {
     outputFormat = 'gfm'
     outputDirectory = "docs"
