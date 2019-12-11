@@ -5,7 +5,7 @@ import pass.salt.code.loader.Loader
 import pass.salt.code.loader.config.Config
 
 /**
- * Defines a new application that uses the Salt framework.
+ * Initializes a new application that utilises the Salt framework.
  */
 class SaltApplication() {
     val loader: Loader

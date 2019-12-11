@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `WebSecurity()`
+
+Marks a class as a security configurator.
+

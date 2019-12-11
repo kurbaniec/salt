@@ -8,6 +8,9 @@ import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 
+/**
+ * Handles the configuration of the Salt framework.
+ */
 class Config() {
     val config: TOMLParser = TOMLParser("default.toml")
     val logger: Logger = Logger.getLogger("SaltLogger")
@@ -23,8 +26,9 @@ class Config() {
         logger.fine("Config loaded")
     }
 
-
-
+    /**
+     * Returns the value of an attribute found in the configuration.
+     */
     @Throws(NoSuchConfigException::class, InvalidConfigTypeGivenException::class)
     inline fun <reified T>findAttribute(name: String): T {
         val found =  config.findAttribute(name)
@@ -46,6 +50,9 @@ class Config() {
         }
     }
 
+    /**
+     * Returns the value of an object attribute found in the configuration.
+     */
     @Throws(NoSuchConfigException::class, InvalidConfigTypeGivenException::class)
     inline fun <reified T>findObjectAttribute(obj: String, attr: String): T {
         val found = config.findObjectAttribute(obj, attr)
@@ -67,6 +74,9 @@ class Config() {
         }
     }
 
+    /**
+     * Set the logging level of the Salt application.
+     */
     fun setLoggerLevel(level: String) {
         val systemOut = ConsoleHandler()
         val lvl: Level =  when (level.toLowerCase()) {
@@ -82,8 +92,8 @@ class Config() {
             else -> Level.ALL
         }
         systemOut.level = lvl
-        logger.addHandler( systemOut );
-        logger.level = lvl;
+        logger.addHandler( systemOut )
+        logger.level = lvl
     }
 
 }

@@ -11,7 +11,9 @@ import java.nio.file.Paths
 import java.util.jar.JarFile
 import java.util.logging.Logger
 
-
+/**
+ * Loads the Salt application.
+ */
 class Loader {
     val log = Logger.getLogger("SaltLogger")
     val config: Config
@@ -27,8 +29,8 @@ class Loader {
     }
 
     /**
-     * Look for annotations in "out/.../pack" (compile output) and process them.
-     * Also adds all classes to the "container".
+     * Look for annotations in compilation output and process them.
+     * Also adds all classes to the [Container].
      */
     private fun load(): Loader {
         val pair = getLocation()
@@ -87,6 +89,9 @@ class Loader {
         }
     }
 
+    /**
+     * Creates fully qualified class name from path.
+     */
     private fun getClassName(name: String, pack: String): String {
         var ret = name.replace(".class", "")
         ret = ret.substring(ret.lastIndexOf(File.separator + pack + File.separator)+1, ret.length)
@@ -95,6 +100,7 @@ class Loader {
     }
 
     /**
+     * Returns main package name and path.
      * [pack] is the name of the main package.
      */
     private fun getLocation(): Pair<String, File> {
@@ -139,8 +145,7 @@ class Loader {
             }
         }
         else {
-            log.info("No 'jar.run' found, using /out for file scan...")
-            // TODO safety check
+            log.info("No 'jar.run' found, using /build for file scan...")
             val pack: String
             try {
                 pack = File("$path/src/main/kotlin").list().get(0)!!
@@ -149,7 +154,6 @@ class Loader {
                 throw MainPackageNotFoundException("Main package not found under /src/")
             }
             try {
-                //val check = File("$path/out")
                 File("$path/build").walk().forEach {
                     if (it.toString().endsWith(pack)) {
                         return Pair(pack, it)

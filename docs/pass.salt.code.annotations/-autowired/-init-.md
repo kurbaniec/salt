@@ -3,3 +3,7 @@
 # &lt;init&gt;
 
 `Autowired()`
+
+Used to mark a dependency injection, a value that should be filled
+with a corresponding value from the Salt Container.
+

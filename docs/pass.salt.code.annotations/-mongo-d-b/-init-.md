@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `MongoDB()`
+
+Marks a class as MongoRepo for MongoDB access.
+

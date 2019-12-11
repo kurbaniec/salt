@@ -3,6 +3,10 @@ package pass.salt.code.loader.parser
 import java.io.File
 import java.util.logging.Logger
 
+/**
+ * Parses a TOML-File with [TOMLFile] and features functions to
+ * interact with the found data.
+ */
 class TOMLParser(fileName: String) {
     private var hierarchy = TOMLFile(fileName)
     private val log = Logger.getGlobal()
@@ -76,7 +80,6 @@ class TOMLParser(fileName: String) {
 
     /**
      * Overwrite this config with the [other] one.
-     * TODO test overdrive - highly experimental
      */
     fun overdrive(other: TOMLParser) {
         // Replace attributes
@@ -106,6 +109,9 @@ class TOMLParser(fileName: String) {
     }
 }
 
+/**
+ * Parses a TOML-File from a given filename.
+ */
 class TOMLFile(fileName: String) {
     var attributes: HashMap<String, Any> = hashMapOf()
     var objects: HashMap<String, TOMLObject> = hashMapOf()
@@ -195,8 +201,9 @@ class TOMLFile(fileName: String) {
     }
 }
 
-
-
+/**
+ * Representation of a TOML-Object.
+ */
 class TOMLObject() {
     var name = ""
     var attributes: HashMap<String, Any> = HashMap()

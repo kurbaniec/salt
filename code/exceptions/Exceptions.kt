@@ -14,8 +14,14 @@ class InvalidMappingParamException(message: String) : Exception(message)
 
 class InvalidSecurityConfigurationException(message: String) : Exception(message)
 
+/**
+ * Is thrown, when the given attribute type does not match the type of the found attribute.
+ */
 class InvalidConfigTypeGivenException(message: String): Exception(message)
 
+/**
+ * Is thrown, when the given attribute is not found in the Salt configuration file.
+ */
 class NoSuchConfigException(message: String): Exception(message)
 
 class InvalidParameterCountInURL(message: String): Exception(message)

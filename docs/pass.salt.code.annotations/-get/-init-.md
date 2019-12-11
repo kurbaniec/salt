@@ -3,3 +3,7 @@
 # &lt;init&gt;
 
 `Get(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
+
+Mapping for GET-Request endpoint.
+Only viable in classes marked with @Controller.
+

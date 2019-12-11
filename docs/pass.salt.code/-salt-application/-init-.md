@@ -4,5 +4,5 @@
 
 `SaltApplication()`
 
-Defines a new application that uses the Salt framework.
+Initializes a new application that utilises the Salt framework.
 

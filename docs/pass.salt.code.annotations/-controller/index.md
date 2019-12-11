@@ -4,8 +4,10 @@
 
 `@Target([AnnotationTarget.CLASS]) annotation class Controller`
 
+Marks a class as a Controller configurator for requests.
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `Controller()` |
+| [&lt;init&gt;](-init-.md) | Marks a class as a Controller configurator for requests.`Controller()` |

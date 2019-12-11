@@ -4,13 +4,13 @@
 
 `class SaltApplication`
 
-Defines a new application that uses the Salt framework.
+Initializes a new application that utilises the Salt framework.
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | Defines a new application that uses the Salt framework.`SaltApplication()` |
+| [&lt;init&gt;](-init-.md) | Initializes a new application that utilises the Salt framework.`SaltApplication()` |
 
 ### Properties
 

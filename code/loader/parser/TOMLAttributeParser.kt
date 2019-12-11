@@ -1,13 +1,19 @@
 package pass.salt.code.loader.parser
 
+/**
+ * Interfaces that defines parsing behaviour.
+ * Also, includes a method for correct parsing of an given String.
+ */
 interface AttributeParser {
+    /**
+     * Parse String value to correct type of given value.
+     */
     fun parse(attribute: String): Any
     companion object {
         fun check(attribute: String): AttributeParser {
             val intRegex = """[+-]?[0-9]+""".toRegex()
             val floatRegex = """[+-]?[0-9]+[.][0-9]+""".toRegex()
             return when {
-                //attribute[0] == '"' && attribute[attribute.length] == '"' -> StringParser()
                 attribute[0] == '[' && attribute[attribute.length-1] == ']' -> ArrayParser()
                 attribute.toLowerCase() == "true" || attribute.toLowerCase() == "false" -> BooleanParser()
                 floatRegex.matches(attribute) -> FloatParser()
@@ -18,6 +24,9 @@ interface AttributeParser {
     }
 }
 
+/**
+ * Used for parsing Arrays.
+ */
 class ArrayParser: AttributeParser {
     override fun parse(attribute: String): Any {
         return convert(attribute)
@@ -37,13 +46,6 @@ class ArrayParser: AttributeParser {
             attribute.trim().removeSurrounding("[", "]").split(",").map {it.trim()}
         }
 
-        /**for (el in result) {
-            val test = el.toString().trim()
-            if (test[0] == '[' || test[test.length-1] == ']') {
-                flag = true
-                break
-            }
-        }*/
         if (flag) {
             val list = result.toMutableList()
             for (i in list.indices) {
@@ -66,24 +68,36 @@ class ArrayParser: AttributeParser {
     }
 }
 
+/**
+ * Used for parsing booleans.
+ */
 class BooleanParser: AttributeParser {
     override fun parse(attribute: String): Boolean {
         return attribute.toBoolean()
     }
 }
 
+/**
+ * Used for parsing String.
+ */
 class StringParser: AttributeParser {
     override fun parse(attribute: String): String {
         return attribute.substring(1, attribute.length-1)
     }
 }
 
+/**
+ * Used for parsing Integers.
+ */
 class IntegerParser: AttributeParser {
     override fun parse(attribute: String): Int {
         return attribute.toInt()
     }
 }
 
+/**
+ * Used for parsing Floats.
+ */
 class FloatParser: AttributeParser {
     override fun parse(attribute: String): Float {
         return attribute.toFloat()

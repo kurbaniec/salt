@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `Scan()`
+
+Used to mark classes that should be configured with the Salt.
+

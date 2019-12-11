@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `Controller()`
+
+Marks a class as a Controller configurator for requests.
+

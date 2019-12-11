@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [SaltApplication](-salt-application/index.md) | Defines a new application that uses the Salt framework.`class SaltApplication` |
+| [SaltApplication](-salt-application/index.md) | Initializes a new application that utilises the Salt framework.`class SaltApplication` |

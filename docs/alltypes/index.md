@@ -18,6 +18,9 @@
 
 ##### [pass.salt.code.annotations.Autowired](../pass.salt.code.annotations/-autowired/index.md)
 
+Used to mark a dependency injection, a value that should be filled
+with a corresponding value from the Salt Container.
+
 
 |
 
@@ -27,6 +30,9 @@
 |
 
 ##### [pass.salt.code.annotations.Bean](../pass.salt.code.annotations/-bean/index.md)
+
+Used to mark a function, that returns an object that should be
+managed by the Salt [Container](../pass.salt.code.container/-container/index.md).
 
 
 |
@@ -58,6 +64,8 @@
 
 ##### [pass.salt.code.annotations.Controller](../pass.salt.code.annotations/-controller/index.md)
 
+Marks a class as a Controller configurator for requests.
+
 
 |
 
@@ -72,6 +80,9 @@
 |
 
 ##### [pass.salt.code.annotations.Get](../pass.salt.code.annotations/-get/index.md)
+
+Mapping for GET-Request endpoint.
+Only viable in classes marked with @Controller.
 
 
 |
@@ -148,6 +159,8 @@
 
 ##### [pass.salt.code.annotations.MongoDB](../pass.salt.code.annotations/-mongo-d-b/index.md)
 
+Marks a class as MongoRepo for MongoDB access.
+
 
 |
 
@@ -178,6 +191,10 @@
 
 ##### [pass.salt.code.annotations.Param](../pass.salt.code.annotations/-param/index.md)
 
+Mapping for Parameters that are expected from the request.
+Can be used on functions mapped with @Get or @Post.
+Only viable in classes marked with @Controller.
+
 
 |
 
@@ -187,6 +204,9 @@
 |
 
 ##### [pass.salt.code.annotations.Post](../pass.salt.code.annotations/-post/index.md)
+
+Mapping for POST-Request endpoint.
+Only viable in classes marked with @Controller.
 
 
 |
@@ -198,7 +218,7 @@
 
 ##### [pass.salt.code.SaltApplication](../pass.salt.code/-salt-application/index.md)
 
-Defines a new application that uses the Salt framework.
+Initializes a new application that utilises the Salt framework.
 
 
 |
@@ -224,6 +244,8 @@ Defines a new application that uses the Salt framework.
 |
 
 ##### [pass.salt.code.annotations.Scan](../pass.salt.code.annotations/-scan/index.md)
+
+Used to mark classes that should be configured with the Salt.
 
 
 |
@@ -279,6 +301,8 @@ Defines a new application that uses the Salt framework.
 |
 
 ##### [pass.salt.code.annotations.WebSecurity](../pass.salt.code.annotations/-web-security/index.md)
+
+Marks a class as a security configurator.
 
 
 |

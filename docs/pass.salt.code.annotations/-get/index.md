@@ -4,11 +4,14 @@
 
 `@Target([AnnotationTarget.FUNCTION]) annotation class Get`
 
+Mapping for GET-Request endpoint.
+Only viable in classes marked with @Controller.
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `Get(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)` |
+| [&lt;init&gt;](-init-.md) | Mapping for GET-Request endpoint. Only viable in classes marked with @Controller.`Get(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)` |
 
 ### Properties
 
