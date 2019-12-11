@@ -3,3 +3,6 @@
 # findObjectAttribute
 
 `fun <reified T> findObjectAttribute(obj: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, attr: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): T`
+
+Returns the value of an object attribute found in the configuration.
+

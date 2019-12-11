@@ -5,5 +5,5 @@
 `Post(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
 
 Mapping for POST-Request endpoint.
-Only viable in classes marked with @Controller.
+Only viable in classes marked with [Controller](../-controller/index.md).
 

@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `StringParser()`
+
+Used for parsing String.
+

@@ -2,5 +2,7 @@
 
 # &lt;init&gt;
 
-`TOMLObject(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
-`TOMLObject()`
+`TOMLObject(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)``TOMLObject()`
+
+Representation of a TOML-Object.
+

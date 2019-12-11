@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `BooleanParser()`
+
+Used for parsing booleans.
+

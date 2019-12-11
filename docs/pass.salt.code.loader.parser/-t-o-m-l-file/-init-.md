@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `TOMLFile(fileName: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
+
+Parses a TOML-File from a given filename.
+

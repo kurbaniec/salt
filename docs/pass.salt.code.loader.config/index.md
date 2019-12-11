@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [Config](-config/index.md) | `class Config` |
+| [Config](-config/index.md) | Handles the configuration of the Salt framework.`class Config` |

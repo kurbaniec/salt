@@ -4,11 +4,13 @@
 
 `class TOMLObject`
 
+Representation of a TOML-Object.
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `TOMLObject(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`<br>`TOMLObject()` |
+| [&lt;init&gt;](-init-.md) | `TOMLObject(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`<br>Representation of a TOML-Object.`TOMLObject()` |
 
 ### Properties
 

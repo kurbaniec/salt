@@ -5,6 +5,6 @@
 `Param(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)`
 
 Mapping for Parameters that are expected from the request.
-Can be used on functions mapped with @Get or @Post.
-Only viable in classes marked with @Controller.
+Can be used on functions mapped with [Get](../-get/index.md) or [Post](../-post/index.md) annotations.
+Only viable in classes marked with [Controller](../-controller/index.md).
 

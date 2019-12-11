@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [Loader](-loader/index.md) | `class Loader` |
+| [Loader](-loader/index.md) | Loads the Salt application.`class Loader` |

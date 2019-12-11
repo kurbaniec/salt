@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `Loader()`
+
+Loads the Salt application.
+

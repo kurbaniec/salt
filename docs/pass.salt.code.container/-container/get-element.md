@@ -3,3 +3,6 @@
 # getElement
 
 `fun getElement(className: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?`
+
+Returns an element through its associated name or classname.
+

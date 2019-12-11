@@ -4,8 +4,10 @@
 
 `class InvalidConfigTypeGivenException : `[`Exception`](https://docs.oracle.com/javase/6/docs/api/java/lang/Exception.html)
 
+Is thrown, when the given attribute type does not match the type of the found attribute.
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `InvalidConfigTypeGivenException(message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)` |
+| [&lt;init&gt;](-init-.md) | Is thrown, when the given attribute type does not match the type of the found attribute.`InvalidConfigTypeGivenException(message: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)` |

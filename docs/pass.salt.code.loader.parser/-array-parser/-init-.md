@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `ArrayParser()`
+
+Used for parsing Arrays.
+

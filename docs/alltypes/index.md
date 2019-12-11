@@ -8,10 +8,15 @@
 
 ##### [pass.salt.code.loader.parser.ArrayParser](../pass.salt.code.loader.parser/-array-parser/index.md)
 
+Used for parsing Arrays.
+
 
 |
 
 ##### [pass.salt.code.loader.parser.AttributeParser](../pass.salt.code.loader.parser/-attribute-parser/index.md)
+
+Interfaces that defines parsing behaviour.
+Also, includes a method for correct parsing of an given String.
 
 
 |
@@ -19,7 +24,7 @@
 ##### [pass.salt.code.annotations.Autowired](../pass.salt.code.annotations/-autowired/index.md)
 
 Used to mark a dependency injection, a value that should be filled
-with a corresponding value from the Salt Container.
+with a corresponding value from the Salt [Container](../pass.salt.code.container/-container/index.md).
 
 
 |
@@ -39,6 +44,8 @@ managed by the Salt [Container](../pass.salt.code.container/-container/index.md)
 
 ##### [pass.salt.code.loader.parser.BooleanParser](../pass.salt.code.loader.parser/-boolean-parser/index.md)
 
+Used for parsing booleans.
+
 
 |
 
@@ -49,6 +56,8 @@ managed by the Salt [Container](../pass.salt.code.container/-container/index.md)
 
 ##### [pass.salt.code.loader.config.Config](../pass.salt.code.loader.config/-config/index.md)
 
+Handles the configuration of the Salt framework.
+
 
 |
 
@@ -58,6 +67,9 @@ managed by the Salt [Container](../pass.salt.code.container/-container/index.md)
 |
 
 ##### [pass.salt.code.container.Container](../pass.salt.code.container/-container/index.md)
+
+Handles all values managed by the Salt Framework.
+Enables "Inversion of Control" and therefore Dependency Injection.
 
 
 |
@@ -76,13 +88,15 @@ Marks a class as a Controller configurator for requests.
 
 ##### [pass.salt.code.loader.parser.FloatParser](../pass.salt.code.loader.parser/-float-parser/index.md)
 
+Used for parsing Floats.
+
 
 |
 
 ##### [pass.salt.code.annotations.Get](../pass.salt.code.annotations/-get/index.md)
 
 Mapping for GET-Request endpoint.
-Only viable in classes marked with @Controller.
+Only viable in classes marked with [Controller](../pass.salt.code.annotations/-controller/index.md).
 
 
 |
@@ -99,10 +113,14 @@ Only viable in classes marked with @Controller.
 
 ##### [pass.salt.code.loader.parser.IntegerParser](../pass.salt.code.loader.parser/-integer-parser/index.md)
 
+Used for parsing Integers.
+
 
 |
 
 ##### [pass.salt.code.exceptions.InvalidConfigTypeGivenException](../pass.salt.code.exceptions/-invalid-config-type-given-exception/index.md)
+
+Is thrown, when the given attribute type does not match the type of the found attribute.
 
 
 |
@@ -128,6 +146,8 @@ Only viable in classes marked with @Controller.
 |
 
 ##### [pass.salt.code.loader.Loader](../pass.salt.code.loader/-loader/index.md)
+
+Loads the Salt application.
 
 
 |
@@ -186,14 +206,16 @@ Marks a class as MongoRepo for MongoDB access.
 
 ##### [pass.salt.code.exceptions.NoSuchConfigException](../pass.salt.code.exceptions/-no-such-config-exception/index.md)
 
+Is thrown, when the given attribute is not found in the Salt configuration file.
+
 
 |
 
 ##### [pass.salt.code.annotations.Param](../pass.salt.code.annotations/-param/index.md)
 
 Mapping for Parameters that are expected from the request.
-Can be used on functions mapped with @Get or @Post.
-Only viable in classes marked with @Controller.
+Can be used on functions mapped with [Get](../pass.salt.code.annotations/-get/index.md) or [Post](../pass.salt.code.annotations/-post/index.md) annotations.
+Only viable in classes marked with [Controller](../pass.salt.code.annotations/-controller/index.md).
 
 
 |
@@ -206,7 +228,7 @@ Only viable in classes marked with @Controller.
 ##### [pass.salt.code.annotations.Post](../pass.salt.code.annotations/-post/index.md)
 
 Mapping for POST-Request endpoint.
-Only viable in classes marked with @Controller.
+Only viable in classes marked with [Controller](../pass.salt.code.annotations/-controller/index.md).
 
 
 |
@@ -277,20 +299,29 @@ Used to mark classes that should be configured with the Salt.
 
 ##### [pass.salt.code.loader.parser.StringParser](../pass.salt.code.loader.parser/-string-parser/index.md)
 
+Used for parsing String.
+
 
 |
 
 ##### [pass.salt.code.loader.parser.TOMLFile](../pass.salt.code.loader.parser/-t-o-m-l-file/index.md)
+
+Parses a TOML-File from a given filename.
 
 
 |
 
 ##### [pass.salt.code.loader.parser.TOMLObject](../pass.salt.code.loader.parser/-t-o-m-l-object/index.md)
 
+Representation of a TOML-Object.
+
 
 |
 
 ##### [pass.salt.code.loader.parser.TOMLParser](../pass.salt.code.loader.parser/-t-o-m-l-parser/index.md)
+
+Parses a TOML-File with [TOMLFile](../pass.salt.code.loader.parser/-t-o-m-l-file/index.md) and features functions to
+interact with the found data.
 
 
 |

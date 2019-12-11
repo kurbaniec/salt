@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `IntegerParser()`
+
+Used for parsing Integers.
+

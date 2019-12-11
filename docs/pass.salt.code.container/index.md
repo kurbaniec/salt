@@ -6,4 +6,4 @@
 
 | Name | Summary |
 |---|---|
-| [Container](-container/index.md) | `class Container` |
+| [Container](-container/index.md) | Handles all values managed by the Salt Framework. Enables "Inversion of Control" and therefore Dependency Injection.`class Container` |

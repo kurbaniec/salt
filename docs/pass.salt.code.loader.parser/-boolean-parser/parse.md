@@ -3,3 +3,6 @@
 # parse
 
 `fun parse(attribute: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
+
+Parse String value to correct type of given value.
+

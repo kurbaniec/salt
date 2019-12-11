@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `FloatParser()`
+
+Used for parsing Floats.
+

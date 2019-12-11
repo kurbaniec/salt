@@ -4,11 +4,14 @@
 
 `interface AttributeParser`
 
+Interfaces that defines parsing behaviour.
+Also, includes a method for correct parsing of an given String.
+
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [parse](parse.md) | `abstract fun parse(attribute: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html) |
+| [parse](parse.md) | Parse String value to correct type of given value.`abstract fun parse(attribute: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html) |
 
 ### Companion Object Functions
 
@@ -20,8 +23,8 @@
 
 | Name | Summary |
 |---|---|
-| [ArrayParser](../-array-parser/index.md) | `class ArrayParser : `[`AttributeParser`](./index.md) |
-| [BooleanParser](../-boolean-parser/index.md) | `class BooleanParser : `[`AttributeParser`](./index.md) |
-| [FloatParser](../-float-parser/index.md) | `class FloatParser : `[`AttributeParser`](./index.md) |
-| [IntegerParser](../-integer-parser/index.md) | `class IntegerParser : `[`AttributeParser`](./index.md) |
-| [StringParser](../-string-parser/index.md) | `class StringParser : `[`AttributeParser`](./index.md) |
+| [ArrayParser](../-array-parser/index.md) | Used for parsing Arrays.`class ArrayParser : `[`AttributeParser`](./index.md) |
+| [BooleanParser](../-boolean-parser/index.md) | Used for parsing booleans.`class BooleanParser : `[`AttributeParser`](./index.md) |
+| [FloatParser](../-float-parser/index.md) | Used for parsing Floats.`class FloatParser : `[`AttributeParser`](./index.md) |
+| [IntegerParser](../-integer-parser/index.md) | Used for parsing Integers.`class IntegerParser : `[`AttributeParser`](./index.md) |
+| [StringParser](../-string-parser/index.md) | Used for parsing String.`class StringParser : `[`AttributeParser`](./index.md) |

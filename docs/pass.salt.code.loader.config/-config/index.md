@@ -4,11 +4,13 @@
 
 `class Config`
 
+Handles the configuration of the Salt framework.
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `Config()` |
+| [&lt;init&gt;](-init-.md) | Handles the configuration of the Salt framework.`Config()` |
 
 ### Properties
 
@@ -21,6 +23,6 @@
 
 | Name | Summary |
 |---|---|
-| [findAttribute](find-attribute.md) | `fun <T> findAttribute(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): T` |
-| [findObjectAttribute](find-object-attribute.md) | `fun <T> findObjectAttribute(obj: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, attr: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): T` |
-| [setLoggerLevel](set-logger-level.md) | `fun setLoggerLevel(level: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [findAttribute](find-attribute.md) | Returns the value of an attribute found in the configuration.`fun <T> findAttribute(name: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): T` |
+| [findObjectAttribute](find-object-attribute.md) | Returns the value of an object attribute found in the configuration.`fun <T> findObjectAttribute(obj: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, attr: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): T` |
+| [setLoggerLevel](set-logger-level.md) | Set the logging level of the Salt application.`fun setLoggerLevel(level: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |

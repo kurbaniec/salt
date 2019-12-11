@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `Config()`
+
+Handles the configuration of the Salt framework.
+

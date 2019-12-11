@@ -4,14 +4,16 @@
 
 `class FloatParser : `[`AttributeParser`](../-attribute-parser/index.md)
 
+Used for parsing Floats.
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `FloatParser()` |
+| [&lt;init&gt;](-init-.md) | Used for parsing Floats.`FloatParser()` |
 
 ### Functions
 
 | Name | Summary |
 |---|---|
-| [parse](parse.md) | `fun parse(attribute: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Float`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html) |
+| [parse](parse.md) | Parse String value to correct type of given value.`fun parse(attribute: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Float`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html) |

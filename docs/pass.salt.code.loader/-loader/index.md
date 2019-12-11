@@ -4,11 +4,13 @@
 
 `class Loader`
 
+Loads the Salt application.
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `Loader()` |
+| [&lt;init&gt;](-init-.md) | Loads the Salt application.`Loader()` |
 
 ### Properties
 

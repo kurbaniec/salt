@@ -5,5 +5,5 @@
 `Autowired()`
 
 Used to mark a dependency injection, a value that should be filled
-with a corresponding value from the Salt Container.
+with a corresponding value from the Salt [Container](../../pass.salt.code.container/-container/index.md).
 

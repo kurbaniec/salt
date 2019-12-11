@@ -3,3 +3,7 @@
 # &lt;init&gt;
 
 `Container()`
+
+Handles all values managed by the Salt Framework.
+Enables "Inversion of Control" and therefore Dependency Injection.
+
