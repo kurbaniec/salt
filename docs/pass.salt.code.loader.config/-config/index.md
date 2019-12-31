@@ -2,7 +2,7 @@
 
 # Config
 
-`class Config`
+`class Config` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/loader/config/Config.kt#L14)
 
 Handles the configuration of the Salt framework.
 

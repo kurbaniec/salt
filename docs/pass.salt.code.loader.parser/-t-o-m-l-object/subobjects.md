@@ -2,4 +2,4 @@
 
 # subobjects
 
-`var subobjects: `[`HashMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, `[`TOMLObject`](index.md)`>`
+`var subobjects: `[`HashMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, `[`TOMLObject`](index.md)`>` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/loader/parser/TOMLParser.kt#L210)

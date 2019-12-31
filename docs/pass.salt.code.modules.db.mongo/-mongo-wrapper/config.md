@@ -2,4 +2,4 @@
 
 # config
 
-`lateinit var config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)
+`lateinit var config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/db/mongo/MongoWrapper.kt#L32)

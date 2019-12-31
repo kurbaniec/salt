@@ -2,7 +2,7 @@
 
 # TOMLObject
 
-`class TOMLObject`
+`class TOMLObject` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/loader/parser/TOMLParser.kt#L207)
 
 Representation of a TOML-Object.
 

@@ -2,4 +2,4 @@
 
 # tagStop
 
-`var tagStop: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
+`var tagStop: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/Webparse.kt#L23)

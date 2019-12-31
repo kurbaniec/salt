@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.modules.server.webparse
 
+Contains the HTML-parser of the server module.
+
 ### Types
 
 | Name | Summary |

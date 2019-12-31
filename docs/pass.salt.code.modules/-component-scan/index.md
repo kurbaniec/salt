@@ -2,7 +2,7 @@
 
 # ComponentScan
 
-`class ComponentScan : `[`SaltProcessor`](../-salt-processor/index.md)
+`class ComponentScan : `[`SaltProcessor`](../-salt-processor/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/ComponentScan.kt#L8)
 
 ### Constructors
 

@@ -2,7 +2,7 @@
 
 # StringParser
 
-`class StringParser : `[`AttributeParser`](../-attribute-parser/index.md)
+`class StringParser : `[`AttributeParser`](../-attribute-parser/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/loader/parser/TOMLAttributeParser.kt#L83)
 
 Used for parsing String.
 

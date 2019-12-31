@@ -2,7 +2,7 @@
 
 # Bean
 
-`@Target([AnnotationTarget.FUNCTION]) annotation class Bean`
+`@Target([AnnotationTarget.FUNCTION]) annotation class Bean` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/annotations/AnnoContainer.kt#L17)
 
 Used to mark a function, that returns an object that should be
 managed by the Salt [Container](../../pass.salt.code.container/-container/index.md).

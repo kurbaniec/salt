@@ -2,7 +2,7 @@
 
 # MappingFunction
 
-`class MappingFunction`
+`class MappingFunction` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/Mapping.kt#L29)
 
 ### Constructors
 

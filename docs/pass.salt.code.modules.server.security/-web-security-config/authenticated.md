@@ -2,4 +2,4 @@
 
 # authenticated
 
-`fun authenticated(): `[`WebSecurityConfig`](index.md)
+`fun authenticated(): `[`WebSecurityConfig`](index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L48)

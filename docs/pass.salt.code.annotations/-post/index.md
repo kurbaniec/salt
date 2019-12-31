@@ -2,7 +2,7 @@
 
 # Post
 
-`@Target([AnnotationTarget.FUNCTION]) annotation class Post`
+`@Target([AnnotationTarget.FUNCTION]) annotation class Post` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/annotations/AnnoController.kt#L25)
 
 Mapping for POST-Request endpoint.
 Only viable in classes marked with [Controller](../-controller/index.md).

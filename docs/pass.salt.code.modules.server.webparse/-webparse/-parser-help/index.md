@@ -2,7 +2,7 @@
 
 # ParserHelp
 
-`data class ParserHelp`
+`data class ParserHelp` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/Webparse.kt#L26)
 
 ### Constructors
 

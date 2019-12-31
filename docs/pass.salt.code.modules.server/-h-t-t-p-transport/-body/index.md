@@ -2,7 +2,7 @@
 
 # Body
 
-`class Body`
+`class Body` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/HTTPTransport.kt#L10)
 
 ### Constructors
 

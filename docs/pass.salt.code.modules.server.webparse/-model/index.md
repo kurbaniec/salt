@@ -2,7 +2,7 @@
 
 # Model
 
-`class Model`
+`class Model` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/Model.kt#L5)
 
 ### Constructors
 

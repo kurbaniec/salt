@@ -2,7 +2,7 @@
 
 # PepperServer
 
-`class PepperServer : `[`SaltProcessor`](../../pass.salt.code.modules/-salt-processor/index.md)
+`class PepperServer : `[`SaltProcessor`](../../pass.salt.code.modules/-salt-processor/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/PepperServer.kt#L18)
 
 ### Constructors
 

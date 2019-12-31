@@ -2,4 +2,4 @@
 
 # POST
 
-`POST`
+`POST` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/HTTPMethod.kt#L5)

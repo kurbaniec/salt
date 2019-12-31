@@ -2,7 +2,7 @@
 
 # SaltThreadPool
 
-`class SaltThreadPool`
+`class SaltThreadPool` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/SaltThreadPool.kt#L42)
 
 ### Constructors
 

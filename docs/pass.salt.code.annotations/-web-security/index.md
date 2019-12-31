@@ -2,7 +2,7 @@
 
 # WebSecurity
 
-`@Target([AnnotationTarget.CLASS]) annotation class WebSecurity`
+`@Target([AnnotationTarget.CLASS]) annotation class WebSecurity` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/annotations/AnnoSecurity.kt#L9)
 
 Marks a class as a security configurator.
 

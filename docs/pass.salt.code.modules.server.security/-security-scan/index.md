@@ -2,7 +2,7 @@
 
 # SecurityScan
 
-`class SecurityScan : `[`SaltProcessor`](../../pass.salt.code.modules/-salt-processor/index.md)
+`class SecurityScan : `[`SaltProcessor`](../../pass.salt.code.modules/-salt-processor/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SecurityScan.kt#L8)
 
 ### Constructors
 

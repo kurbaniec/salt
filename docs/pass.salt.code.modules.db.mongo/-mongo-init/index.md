@@ -2,7 +2,7 @@
 
 # MongoInit
 
-`class MongoInit : `[`SaltProcessor`](../../pass.salt.code.modules/-salt-processor/index.md)
+`class MongoInit : `[`SaltProcessor`](../../pass.salt.code.modules/-salt-processor/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/db/mongo/MongoInit.kt#L25)
 
 Initializes the Salt application to work with MongoDB.
 

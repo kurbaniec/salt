@@ -2,7 +2,7 @@
 
 # Loader
 
-`class Loader`
+`class Loader` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/loader/Loader.kt#L17)
 
 Loads the Salt application.
 

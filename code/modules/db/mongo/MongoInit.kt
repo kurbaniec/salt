@@ -54,7 +54,7 @@ class MongoInit(
                 MongoWrapper.config = config
             }
             catch (ex: Exception) {
-                log.warning("Could not establish database connection, MongoDB will not bes used")
+                log.warning("Could not establish database connection, MongoDB will not be used")
                 log.warning("Check your [mongo] configuration in config.toml")
                 enabled = false
                 // TODO add try-catch to loader and shutdown all threads on exception

@@ -2,4 +2,4 @@
 
 # inp
 
-`val inp: `[`BufferedReader`](https://docs.oracle.com/javase/6/docs/api/java/io/BufferedReader.html)
+`val inp: `[`BufferedReader`](https://docs.oracle.com/javase/6/docs/api/java/io/BufferedReader.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L32)

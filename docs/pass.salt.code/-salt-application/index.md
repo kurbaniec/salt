@@ -2,7 +2,7 @@
 
 # SaltApplication
 
-`class SaltApplication`
+`class SaltApplication` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/SaltApplication.kt#L10)
 
 Initializes a new application that utilises the Salt framework.
 

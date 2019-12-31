@@ -2,7 +2,7 @@
 
 # MainPackageNotFoundException
 
-`class MainPackageNotFoundException : `[`Exception`](https://docs.oracle.com/javase/6/docs/api/java/lang/Exception.html)
+`class MainPackageNotFoundException : `[`Exception`](https://docs.oracle.com/javase/6/docs/api/java/lang/Exception.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/exceptions/Exceptions.kt#L11)
 
 ### Constructors
 

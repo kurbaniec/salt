@@ -2,7 +2,7 @@
 
 # ServerWorkerThread
 
-`class ServerWorkerThread<P : `[`ServerSocket`](https://docs.oracle.com/javase/6/docs/api/java/net/ServerSocket.html)`, S : `[`Socket`](https://docs.oracle.com/javase/6/docs/api/java/net/Socket.html)`> : `[`Runnable`](https://docs.oracle.com/javase/6/docs/api/java/lang/Runnable.html)
+`class ServerWorkerThread<P : `[`ServerSocket`](https://docs.oracle.com/javase/6/docs/api/java/net/ServerSocket.html)`, S : `[`Socket`](https://docs.oracle.com/javase/6/docs/api/java/net/Socket.html)`> : `[`Runnable`](https://docs.oracle.com/javase/6/docs/api/java/lang/Runnable.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L26)
 
 ### Types
 

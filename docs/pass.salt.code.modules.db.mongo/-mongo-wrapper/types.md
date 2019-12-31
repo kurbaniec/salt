@@ -2,4 +2,4 @@
 
 # types
 
-`lateinit var types: `[`Pair`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html)`<`[`Class`](https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>, `[`Class`](https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>>`
+`lateinit var types: `[`Pair`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html)`<`[`Class`](https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>, `[`Class`](https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html)`<*>>` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/db/mongo/MongoWrapper.kt#L27)

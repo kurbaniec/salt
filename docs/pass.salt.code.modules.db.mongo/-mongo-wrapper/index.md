@@ -2,7 +2,7 @@
 
 # MongoWrapper
 
-`class MongoWrapper : `[`InvocationHandler`](https://docs.oracle.com/javase/6/docs/api/java/lang/reflect/InvocationHandler.html)
+`class MongoWrapper : `[`InvocationHandler`](https://docs.oracle.com/javase/6/docs/api/java/lang/reflect/InvocationHandler.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/db/mongo/MongoWrapper.kt#L22)
 
 Defines the logic for the proxy that will be used with [MongoRepo](../-mongo-repo/index.md).
 That means all CRUD-operations will be invoked and processed through

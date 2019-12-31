@@ -2,4 +2,4 @@
 
 # collection
 
-`lateinit var collection: MongoCollection<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>`
+`lateinit var collection: MongoCollection<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/db/mongo/MongoWrapper.kt#L26)

@@ -2,7 +2,7 @@
 
 # SaltSecurity
 
-`class SaltSecurity : `[`SaltProcessor`](../../pass.salt.code.modules/-salt-processor/index.md)
+`class SaltSecurity : `[`SaltProcessor`](../../pass.salt.code.modules/-salt-processor/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SaltSecurity.kt#L12)
 
 ### Types
 

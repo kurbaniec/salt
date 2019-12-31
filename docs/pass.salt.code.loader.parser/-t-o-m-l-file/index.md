@@ -2,7 +2,7 @@
 
 # TOMLFile
 
-`class TOMLFile`
+`class TOMLFile` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/loader/parser/TOMLParser.kt#L115)
 
 Parses a TOML-File from a given filename.
 

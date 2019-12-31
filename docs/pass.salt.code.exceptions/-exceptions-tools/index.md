@@ -2,7 +2,7 @@
 
 # ExceptionsTools
 
-`class ExceptionsTools`
+`class ExceptionsTools` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/exceptions/Exceptions.kt#L36)
 
 ### Constructors
 

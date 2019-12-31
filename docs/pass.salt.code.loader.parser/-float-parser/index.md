@@ -2,7 +2,7 @@
 
 # FloatParser
 
-`class FloatParser : `[`AttributeParser`](../-attribute-parser/index.md)
+`class FloatParser : `[`AttributeParser`](../-attribute-parser/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/loader/parser/TOMLAttributeParser.kt#L101)
 
 Used for parsing Floats.
 

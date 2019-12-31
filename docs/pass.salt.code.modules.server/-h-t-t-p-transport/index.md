@@ -2,7 +2,7 @@
 
 # HTTPTransport
 
-`class HTTPTransport`
+`class HTTPTransport` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/HTTPTransport.kt#L5)
 
 ### Types
 

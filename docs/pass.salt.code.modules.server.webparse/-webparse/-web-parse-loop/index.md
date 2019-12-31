@@ -2,7 +2,7 @@
 
 # WebParseLoop
 
-`data class WebParseLoop`
+`data class WebParseLoop` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/Webparse.kt#L24)
 
 ### Constructors
 

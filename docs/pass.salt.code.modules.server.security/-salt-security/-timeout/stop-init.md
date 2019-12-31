@@ -2,4 +2,4 @@
 
 # stopInit
 
-`var stopInit: LocalDateTime?`
+`var stopInit: LocalDateTime?` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SaltSecurity.kt#L135)

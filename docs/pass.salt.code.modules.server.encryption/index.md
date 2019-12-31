@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.modules.server.encryption
 
+Contains the HTTPS-encryption of the server module.
+
 ### Types
 
 | Name | Summary |

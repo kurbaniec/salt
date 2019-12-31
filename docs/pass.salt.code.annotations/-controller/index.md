@@ -2,7 +2,7 @@
 
 # Controller
 
-`@Target([AnnotationTarget.CLASS]) annotation class Controller`
+`@Target([AnnotationTarget.CLASS]) annotation class Controller` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/annotations/AnnoController.kt#L9)
 
 Marks a class as a Controller configurator for requests.
 

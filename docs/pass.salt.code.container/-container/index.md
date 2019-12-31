@@ -2,7 +2,7 @@
 
 # Container
 
-`class Container`
+`class Container` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/container/Container.kt#L9)
 
 Handles all values managed by the Salt Framework.
 Enables "Inversion of Control" and therefore Dependency Injection.

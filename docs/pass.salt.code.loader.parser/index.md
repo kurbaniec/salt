@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.loader.parser
 
+Contains the Salt TOML-parser.
+
 ### Types
 
 | Name | Summary |

@@ -2,7 +2,7 @@
 
 # Mapping
 
-`class Mapping`
+`class Mapping` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/Mapping.kt#L17)
 
 ### Types
 

@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.modules.server.mapping
 
+Contains the request-mapping of the server module.
+
 ### Types
 
 | Name | Summary |

@@ -2,4 +2,4 @@
 
 # container
 
-`val container: `[`Container`](../../pass.salt.code.container/-container/index.md)
+`val container: `[`Container`](../../pass.salt.code.container/-container/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/db/mongo/MongoInit.kt#L27)

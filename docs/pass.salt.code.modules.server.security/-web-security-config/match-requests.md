@@ -2,4 +2,4 @@
 
 # matchRequests
 
-`fun matchRequests(vararg paths: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`WebSecurityConfig`](index.md)
+`fun matchRequests(vararg paths: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`WebSecurityConfig`](index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L23)

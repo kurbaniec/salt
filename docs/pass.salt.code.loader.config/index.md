@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.loader.config
 
+Contains the Salt configuration system.
+
 ### Types
 
 | Name | Summary |

@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code
 
+Root package with main application class.
+
 ### Types
 
 | Name | Summary |

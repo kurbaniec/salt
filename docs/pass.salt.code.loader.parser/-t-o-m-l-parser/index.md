@@ -2,7 +2,7 @@
 
 # TOMLParser
 
-`class TOMLParser`
+`class TOMLParser` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/loader/parser/TOMLParser.kt#L10)
 
 Parses a TOML-File with [TOMLFile](../-t-o-m-l-file/index.md) and features functions to
 interact with the found data.

@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.modules.server
 
+Server module of Salt.
+
 ### Types
 
 | Name | Summary |

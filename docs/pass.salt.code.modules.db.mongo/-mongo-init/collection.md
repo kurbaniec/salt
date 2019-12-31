@@ -2,4 +2,4 @@
 
 # collection
 
-`lateinit var collection: MongoCollection<Document>`
+`lateinit var collection: MongoCollection<Document>` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/db/mongo/MongoInit.kt#L34)

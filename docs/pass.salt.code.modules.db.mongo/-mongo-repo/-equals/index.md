@@ -2,7 +2,7 @@
 
 # Equals
 
-`class Equals`
+`class Equals` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/db/mongo/MongoRepo.kt#L7)
 
 ### Constructors
 

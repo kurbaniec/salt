@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.loader
 
+Contains the Salt loader system.
+
 ### Types
 
 | Name | Summary |

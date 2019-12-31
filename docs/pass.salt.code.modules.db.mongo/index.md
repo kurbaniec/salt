@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.modules.db.mongo
 
+MongoDB module of Salt.
+
 ### Types
 
 | Name | Summary |

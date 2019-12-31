@@ -2,7 +2,7 @@
 
 # WebSecurityConfig
 
-`class WebSecurityConfig`
+`class WebSecurityConfig` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L10)
 
 ### Constructors
 

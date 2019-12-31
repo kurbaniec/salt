@@ -2,4 +2,4 @@
 
 # METHOD_NOT_SUPPORTED
 
-`val METHOD_NOT_SUPPORTED: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)
+`val METHOD_NOT_SUPPORTED: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L36)

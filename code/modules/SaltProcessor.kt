@@ -31,8 +31,9 @@ interface SaltProcessor {
 
     companion object {
         val logger = Logger.getLogger("SaltLogger")
+
         /**
-         * [name of module][config][container]
+         * Simple module factory. All modules are created and returned through this method.
          */
         fun module(module: String = "",
                    config: Config,
@@ -57,7 +58,7 @@ interface SaltProcessor {
         }
 
         /**
-         * Returns classname when a class with the specified Annotation is found, else null.
+         * Returns classname when a class with the specified annotation is found, else null.
          */
         inline fun<reified C : Annotation> processClass(className: String): String? {
             val cls = Class.forName(className)
@@ -79,6 +80,9 @@ interface SaltProcessor {
             return null
         }
 
+        /**
+         * Returns properties of a class that are annotated with the given annotation.
+         */
         inline fun<reified A : Annotation> processProp(className: String): MutableList<KMutableProperty<*>>? {
             val cls = Class.forName(className)
             val properties = cls.kotlin.memberProperties
@@ -92,6 +96,10 @@ interface SaltProcessor {
             return if (list.size > 0) list else null
         }
 
+        /**
+         * Searches for specific functions annotated with annotation A in a class that is annotated with annotation C.
+         * Found functions will be returned as Pairs with their annotation
+         */
         inline fun<reified C : Annotation, reified A : Annotation> processClassFunc(className: String): MutableList<Pair<Annotation, KFunction<*>>>? {
             val cls = Class.forName(className)
             val annotations = cls.kotlin.annotations

@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.container
 
+Contains the Salt container system.
+
 ### Types
 
 | Name | Summary |

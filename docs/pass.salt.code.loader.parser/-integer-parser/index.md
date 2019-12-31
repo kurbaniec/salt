@@ -2,7 +2,7 @@
 
 # IntegerParser
 
-`class IntegerParser : `[`AttributeParser`](../-attribute-parser/index.md)
+`class IntegerParser : `[`AttributeParser`](../-attribute-parser/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/loader/parser/TOMLAttributeParser.kt#L92)
 
 Used for parsing Integers.
 

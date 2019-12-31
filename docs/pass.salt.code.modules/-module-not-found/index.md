@@ -2,7 +2,7 @@
 
 # ModuleNotFound
 
-`class ModuleNotFound : `[`SaltProcessor`](../-salt-processor/index.md)
+`class ModuleNotFound : `[`SaltProcessor`](../-salt-processor/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/ModuleNotFound.kt#L5)
 
 ### Constructors
 

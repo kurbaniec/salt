@@ -2,7 +2,7 @@
 
 # MongoRepo
 
-`interface MongoRepo<T, I>`
+`interface MongoRepo<T, I>` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/db/mongo/MongoRepo.kt#L6)
 
 Defines basic CRUD-operations to interact with MongoDB.
 

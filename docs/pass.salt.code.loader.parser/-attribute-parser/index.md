@@ -2,7 +2,7 @@
 
 # AttributeParser
 
-`interface AttributeParser`
+`interface AttributeParser` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/loader/parser/TOMLAttributeParser.kt#L7)
 
 Interfaces that defines parsing behaviour.
 Also, includes a method for correct parsing of an given String.

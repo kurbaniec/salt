@@ -79,6 +79,14 @@ task testDefault(type: Exec) {
 dokka {
     outputFormat = 'gfm'
     outputDirectory = "docs"
+    configuration {
+        includes = ['packages.md']
+        sourceLink {
+            path = "code"
+            url = "https://github.com/kurbaniec-tgm/salt/tree/master/code"
+            lineSuffix = "#L"
+        }
+    }
 }
 
 task docs(dependsOn: 'dokka') {

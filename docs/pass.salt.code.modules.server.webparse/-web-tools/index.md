@@ -2,7 +2,7 @@
 
 # WebTools
 
-`class WebTools`
+`class WebTools` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/WebTools.kt#L5)
 
 ### Constructors
 

@@ -2,7 +2,7 @@
 
 # WebConf
 
-`data class WebConf`
+`data class WebConf` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/Webparse.kt#L25)
 
 ### Constructors
 

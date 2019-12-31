@@ -2,7 +2,7 @@
 
 # SaltThreadPoolFactory
 
-`class SaltThreadPoolFactory : `[`SaltProcessor`](../-salt-processor/index.md)
+`class SaltThreadPoolFactory : `[`SaltProcessor`](../-salt-processor/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/SaltThreadPool.kt#L13)
 
 ### Constructors
 

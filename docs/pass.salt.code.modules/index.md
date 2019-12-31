@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.modules
 
+Contains all the Salt modules.
+
 ### Types
 
 | Name | Summary |

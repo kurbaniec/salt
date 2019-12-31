@@ -2,4 +2,4 @@
 
 # mongo
 
-`val mongo: `[`MongoInit`](../-mongo-init/index.md)`?`
+`val mongo: `[`MongoInit`](../-mongo-init/index.md)`?` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/db/mongo/MongoScan.kt#L19)

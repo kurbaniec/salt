@@ -2,7 +2,7 @@
 
 # Request
 
-`data class Request`
+`data class Request` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L52)
 
 ### Constructors
 

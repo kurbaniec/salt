@@ -2,7 +2,7 @@
 
 # MongoDB
 
-`@Target([AnnotationTarget.CLASS]) annotation class MongoDB`
+`@Target([AnnotationTarget.CLASS]) annotation class MongoDB` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/annotations/AnnoDB.kt#L8)
 
 Marks a class as MongoRepo for MongoDB access.
 

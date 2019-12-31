@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.annotations
 
+Contains all Annotations of Salt.
+
 ### Annotations
 
 | Name | Summary |

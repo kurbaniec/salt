@@ -2,7 +2,7 @@
 
 # Webparse
 
-`class Webparse`
+`class Webparse` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/Webparse.kt#L7)
 
 ### Types
 

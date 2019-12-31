@@ -2,7 +2,7 @@
 
 # WebSecurityConfigurator
 
-`interface WebSecurityConfigurator`
+`interface WebSecurityConfigurator` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L5)
 
 ### Functions
 

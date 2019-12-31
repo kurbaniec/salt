@@ -1,5 +1,7 @@
 
 
+Salt is a simple application framework that features an inversion of control container for usage with Kotlin.
+
 ### All Types
 
 | Name | Summary |
@@ -187,6 +189,13 @@ Marks a class as MongoRepo for MongoDB access.
 ##### [pass.salt.code.modules.db.mongo.MongoInit](../pass.salt.code.modules.db.mongo/-mongo-init/index.md)
 
 Initializes the Salt application to work with MongoDB.
+
+
+|
+
+##### [pass.salt.code.exceptions.MongoInitExecption](../pass.salt.code.exceptions/-mongo-init-execption/index.md)
+
+Is thrown, when connection to MongoDB cannot be established.
 
 
 |

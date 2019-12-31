@@ -2,4 +2,4 @@
 
 # permitAll
 
-`fun permitAll(): `[`WebSecurityConfig`](index.md)
+`fun permitAll(): `[`WebSecurityConfig`](index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L40)

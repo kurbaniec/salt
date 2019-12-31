@@ -2,7 +2,7 @@
 
 # AutowiredScan
 
-`class AutowiredScan : `[`SaltProcessor`](../-salt-processor/index.md)
+`class AutowiredScan : `[`SaltProcessor`](../-salt-processor/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/AutowiredScan.kt#L6)
 
 ### Constructors
 

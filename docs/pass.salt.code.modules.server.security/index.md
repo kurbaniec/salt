@@ -2,6 +2,8 @@
 
 ## Package pass.salt.code.modules.server.security
 
+Contains the security-system of the server module.
+
 ### Types
 
 | Name | Summary |

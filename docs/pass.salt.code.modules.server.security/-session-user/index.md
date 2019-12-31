@@ -2,7 +2,7 @@
 
 # SessionUser
 
-`class SessionUser`
+`class SessionUser` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SessionUser.kt#L5)
 
 ### Constructors
 

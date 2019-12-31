@@ -2,7 +2,7 @@
 
 # Get
 
-`@Target([AnnotationTarget.FUNCTION]) annotation class Get`
+`@Target([AnnotationTarget.FUNCTION]) annotation class Get` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/annotations/AnnoController.kt#L17)
 
 Mapping for GET-Request endpoint.
 Only viable in classes marked with [Controller](../-controller/index.md).
