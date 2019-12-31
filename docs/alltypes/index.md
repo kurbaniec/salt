@@ -33,6 +33,9 @@ with a corresponding value from the Salt [Container](../pass.salt.code.container
 
 ##### [pass.salt.code.modules.AutowiredScan](../pass.salt.code.modules/-autowired-scan/index.md)
 
+Scans classes and injects values to the class properties from the [Container](../pass.salt.code.container/-container/index.md) if the property contains the
+[Autowired](../pass.salt.code.annotations/-autowired/index.md) annotation.
+
 
 |
 
@@ -52,6 +55,8 @@ Used for parsing booleans.
 |
 
 ##### [pass.salt.code.modules.ComponentScan](../pass.salt.code.modules/-component-scan/index.md)
+
+Scans classes and adds them to the [Container](../pass.salt.code.container/-container/index.md) if they contain the [Scan](../pass.salt.code.annotations/-scan/index.md) annotation.
 
 
 |
@@ -176,6 +181,8 @@ Loads the Salt application.
 
 ##### [pass.salt.code.modules.ModuleNotFound](../pass.salt.code.modules/-module-not-found/index.md)
 
+Dummy class that is created when an unknown module is requested.
+
 
 |
 
@@ -283,10 +290,14 @@ A class module enables functionality through processing classes.
 
 ##### [pass.salt.code.modules.SaltThreadPool](../pass.salt.code.modules/-salt-thread-pool/index.md)
 
+Representation of an executor service that initializes a concrete one from a given type.
+
 
 |
 
 ##### [pass.salt.code.modules.SaltThreadPoolFactory](../pass.salt.code.modules/-salt-thread-pool-factory/index.md)
+
+Initializes executor service and thread pool for Salt.
 
 
 |

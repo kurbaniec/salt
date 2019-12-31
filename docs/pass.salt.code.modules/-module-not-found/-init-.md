@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `ModuleNotFound()`
+
+Dummy class that is created when an unknown module is requested.
+

@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `SaltThreadPool(type: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, threadCount: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`)`
+
+Representation of an executor service that initializes a concrete one from a given type.
+

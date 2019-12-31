@@ -10,35 +10,36 @@ import kotlin.system.exitProcess
 
 val logger = Logger.getLogger("webserver")
 
+/**
+ * Initializes executor service and thread pool for Salt.
+ */
 class SaltThreadPoolFactory(
         val config: Config,
         val container: Container
 ): SaltProcessor {
     lateinit var executor: SaltThreadPool
 
+    /**
+     * Initialize executor service.
+     */
     override fun process(className: String) {
         val count = config.findObjectAttribute<Int>("threads", "count")
-        /**val count: Int
-        count = if (configCount is Int) {
-            configCount
-        }
-        else if (configCount is String) {
-            val res = configCount.toIntOrNull()
-            if (res is Int) {
-                res
-            } else throw ConfigException("Could not parse [threads.count] in config.toml")
-        }
-        else throw ConfigException("Could not parse [threads.count] in config.toml")*/
         // TODO more ThreadPool types
         executor = SaltThreadPool("FixedThreadPool", count)
         container.addElement("saltThreadPool", executor)
     }
 
+    /**
+     * Shutdown executor service.
+     */
     override fun shutdown() {
         executor.shutdown()
     }
 }
 
+/**
+ * Representation of an executor service that initializes a concrete one from a given type.
+ */
 class SaltThreadPool(
         private val type: String,
         private val threadCount: Int
@@ -53,10 +54,16 @@ class SaltThreadPool(
         }
     }
 
+    /**
+     * Submit new task to executor.
+     */
     fun submit(task: Runnable) {
         executor.submit(task)
     }
 
+    /**
+     * Shutdown executor service.
+     */
     fun shutdown() {
         executor.shutdownNow()
         if (!executor.awaitTermination(1, TimeUnit.SECONDS)) {

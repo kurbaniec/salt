@@ -2,4 +2,4 @@
 
 # executor
 
-`lateinit var executor: `[`SaltThreadPool`](../-salt-thread-pool/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/SaltThreadPool.kt#L17)
+`lateinit var executor: `[`SaltThreadPool`](../-salt-thread-pool/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/SaltThreadPool.kt#L20)

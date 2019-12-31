@@ -25,8 +25,14 @@ import kotlin.reflect.full.memberProperties
  */
 interface SaltProcessor {
 
+    /**
+     * Process module.
+     */
     fun process(className: String = "")
 
+    /**
+     * Shutdown module.
+     */
     fun shutdown()
 
     companion object {
@@ -114,45 +120,6 @@ interface SaltProcessor {
                         }
                     }
                     return list
-                }
-            }
-            return null
-        }
-
-        inline fun<reified C : Annotation, reified F : Annotation, reified P: Annotation >
-                processClassFuncParam(className: String): MutableList<Pair<Annotation, KFunction<*>>>? {
-            val cls = Class.forName(className)
-            val annotations = cls.kotlin.annotations
-            for (a in annotations) {
-                if (a is C) {
-                    val list = mutableListOf<Pair<Annotation, KFunction<*>>>()
-                    val functions = cls.kotlin.functions
-                    for (f in functions) {
-                        val b = f.findAnnotation<F>()
-                        if (b != null) {
-                            list.add(Pair(b, f))
-                        }
-                    }
-                    return list
-                }
-            }
-            return null
-        }
-
-        inline fun<reified C : Annotation, reified A : Annotation> processClassProp(className: String): Pair<Any, MutableList<Any>>? {
-            val cls = Class.forName(className)
-            val annotations = cls.kotlin.annotations
-            for (a in annotations) {
-                if (a is C) {
-                    val list = mutableListOf<Any>()
-                    val properties = cls.kotlin.memberProperties
-                    for (p in properties) {
-                        val b = p.findAnnotation<A>()
-                        if (b != null) {
-                            list.add(p)
-                        }
-                    }
-                    return Pair(className, list)
                 }
             }
             return null

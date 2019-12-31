@@ -2,4 +2,4 @@
 
 # config
 
-`val config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/SaltThreadPool.kt#L14)
+`val config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/SaltThreadPool.kt#L17)

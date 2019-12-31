@@ -3,7 +3,16 @@ package pass.salt.code.modules
 import pass.salt.code.annotations.Autowired
 import pass.salt.code.container.Container
 
+/**
+ * Scans classes and injects values to the class properties from the [Container] if the property contains the
+ * [Autowired] annotation.
+ */
 class AutowiredScan(val container: Container): SaltProcessor {
+
+    /**
+     * Scans a given class and injects values to the class properties from the [Container] if the property contains the
+     * [Autowired] annotation.
+     */
     override fun process(className: String) {
         val props = SaltProcessor.processProp<Autowired>(className)
         if (props != null) {
@@ -38,6 +47,9 @@ class AutowiredScan(val container: Container): SaltProcessor {
         }
     }
 
+    /**
+     * Not used.
+     */
     override fun shutdown() {
 
     }
