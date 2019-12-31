@@ -14,7 +14,10 @@ import javax.net.ssl.SSLServerSocket
 import java.util.logging.Logger
 import kotlin.reflect.KFunction
 
-
+/**
+ * Represents the Pepper webserver that is used by the Salt framework.
+ * Pepper consist of two [ServerMainThread]s that serve http and https.
+ */
 class PepperServer(
         val config: Config,
         val container: Container
@@ -31,6 +34,10 @@ class PepperServer(
         mapping["get"] = getMapping
         mapping["post"] = postMapping
     }
+
+    /**
+     * Initialize the Webserver.
+     */
     override fun process(className: String) {
         container.addElement("pepperServer", this)
         if (config.findObjectAttribute("security", "enable") as Boolean) {
@@ -69,15 +76,23 @@ class PepperServer(
         }
     }
 
+    /**
+     * Add mapping, a function call, when a given get request is received.
+     */
     fun addGetMapping(path: String, call: Pair<Any, KFunction<*>>) {
         mapping["get"]?.addMapping(path, Mapping.MappingFunction(path, call.first, call.second))
     }
 
+    /**
+     * Add mapping, a function call, when a given post request is received.
+     */
     fun addPostMapping(path: String, call: Pair<Any, KFunction<*>>) {
-        //mapping["post"]?.set(path, call)
         mapping["post"]?.addMapping(path, Mapping.MappingFunction(path, call.first, call.second))
     }
 
+    /**
+     * Shutdown webserver.
+     */
     override fun shutdown() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -22,7 +22,9 @@ import java.net.URLDecoder
 import java.nio.file.Files
 import java.util.logging.Logger
 
-
+/**
+ * Represents a worker that handles the connection and operations with one client.
+ */
 class ServerWorkerThread<P: ServerSocket, S: Socket>(
         val socket: S,
         val server: ServerMainThread<P>,
@@ -51,6 +53,9 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
 
     data class Request(val method: String, val path: String, val file: String, val params: MutableMap<String, String>, val ipaddress: String)
 
+    /**
+     * Listen for client request and serve corresponding files or data.
+     */
     override fun run() {
         if (socket is SSLSocket) {
             socket.enabledCipherSuites = socket.supportedCipherSuites;
@@ -126,9 +131,6 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                 }
                 // Look for resources
                 else if (mapping == null) {
-                    //val search = request.path+request.file
-                    //val search = request.file
-                    //val searchOr = request.file.replace("/", "\\")
                     val fullSearch = request.file.replace("\\", "/")
                     var directory = "/"
                     var search = fullSearch
@@ -160,7 +162,6 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                     }
                 // Normal mapping via controller
                 } else {
-                    //mapping.model = Model() //
                     if (mapping.model != null) {
                         mapping.model!!.clear()
                         mapping.model!!.addAttribute("ipaddress", request.ipaddress)
@@ -209,6 +210,9 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         //socket.close()
     }
 
+    /**
+     * Check client authentication status.
+     */
     private fun authenticate(header: MutableMap<String, String>) {
         // Check url
         val check = sec!!.checkAuthorization(header["Authorization"]!!)

@@ -14,18 +14,29 @@ import kotlin.reflect.full.valueParameters
 
 val log = Logger.getLogger("Mapping")
 
+/**
+ * Stores all request mappings for a given [HTTPMethod].
+ */
 class Mapping(val method: HTTPMethod) {
-    // mutableMapOf<String, Pair<Any, KFunction<*>>>()
     private val mapping = mutableMapOf<String, MappingFunction>()
 
+    /**
+     * Adds wrapped function for a specific request path.
+     */
     fun addMapping(path: String, data: MappingFunction) {
         mapping[path] = data
     }
 
+    /**
+     * Returns wrapped function for a specific request path.
+     */
     fun getMapping(path: String): MappingFunction? {
         return mapping[path]
     }
 
+    /**
+     * Wraps a function so that it can be easily called.
+     */
     class MappingFunction(
         val path: String,
         val instance: Any,
@@ -41,6 +52,9 @@ class Mapping(val method: HTTPMethod) {
             funcMapper()
         }
 
+        /**
+         * Initializes function wrapping.
+         */
         private fun funcMapper() {
             val parameters = func.valueParameters
             // TODO better string type check
@@ -79,6 +93,9 @@ class Mapping(val method: HTTPMethod) {
             }
         }
 
+        /**
+         * Adds parameter to wrapper that will be used in function call.
+         */
         fun addParams(params: Map<String, String>) {
             for ((k, v) in params) {
                 if (this.params.containsKey(k)) this.params[k] = v
@@ -86,16 +103,12 @@ class Mapping(val method: HTTPMethod) {
 
         }
 
+        /**
+         * Invokes wrapped function.
+         */
         fun call(): Any {
             val array = mutableListOf<Any>(instance)
             // TODO check if param mapping still works
-            /**
-            val file = if(func.valueParameters.size == params.values.size) {
-                for (v in params.values) {
-                    array.add(v)
-                }
-                func.call(*array.toTypedArray()) as String
-            } else "404"*/
             var file: Any? = null
             if(func.valueParameters.size == params.values.size) {
                 for (v in params.values) {
@@ -119,12 +132,6 @@ class Mapping(val method: HTTPMethod) {
         fun hasModel(): Boolean {
             return hasModel
         }
-
-        /**
-        private fun Pair<Any, KFunction<*>>.call(vararg args: Any?): Any? {
-            val (instance, func) = this
-            return func.call(instance, *args)
-        }*/
     }
 
 }

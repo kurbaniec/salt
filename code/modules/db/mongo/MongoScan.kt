@@ -23,6 +23,11 @@ class MongoScan (
         enabled = mongo?.enabled ?: false
     }
 
+    /**
+     * Scans a class for the [MongoDB] annotations.
+     * If the class contains it, a concrete [MongoRepo] will be initialized,
+     * that contains the custom CRUD-operations from the scanned class.
+     */
     override fun process(className: String) {
         if (enabled && mongo != null) {
             val valid = SaltProcessor.processClass<MongoDB>(className)
@@ -41,6 +46,9 @@ class MongoScan (
         }
     }
 
+    /**
+     * Not used.
+     */
     override fun shutdown() {
 
     }

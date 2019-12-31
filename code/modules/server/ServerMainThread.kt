@@ -13,22 +13,17 @@ import javax.net.ssl.SSLSocket
 class ServerMainThread<P: ServerSocket>(
         val executor: SaltThreadPool,
         val serverSocket: P,
-        //val mapping: MutableMap<String, MutableMap<String, Pair<Any, KFunction<*>>>>,
         val mapping: MutableMap<String, Mapping>,
         val config: Config,
         val security: Pair<Boolean, SaltSecurity?>
 ): Runnable {
-    //val mapping = mutableMapOf<String, MutableMap<String, Pair<Any, KFunction<*>>>>()
     var listening = true
 
     /**
-    init {
-        val getMapping = mutableMapOf<String, Pair<Any, KFunction<*>>>()
-        val postMapping = mutableMapOf<String, Pair<Any, KFunction<*>>>()
-        mapping["get"] = getMapping
-        mapping["post"] = postMapping
-    }*/
-
+     * Start server main thread.
+     * If it is the https server, an [SSLServerSocket] is used,
+     * which uses the configured keystore from the [SSLManager].
+     */
     override fun run() {
         if (serverSocket is SSLServerSocket) {
             val password = config.findObjectAttribute("keystore", "password") as String
@@ -42,45 +37,40 @@ class ServerMainThread<P: ServerSocket>(
                 executor.submit(ServerWorkerThread(serverSocket.accept(), this, config, security))
             }
         }
-
     }
 
+    /**
+     * Add mapping, a function call, when a given get request is received.
+     */
     fun addGetMapping(path: String, call: Pair<Any, KFunction<*>>) {
         mapping["get"]?.addMapping(path, Mapping.MappingFunction(path, call.first, call.second))
     }
 
+    /**
+     * Add mapping, a function call, when a given post request is received.
+     */
     fun addPostMapping(path: String, call: Pair<Any, KFunction<*>>) {
         mapping["post"]?.addMapping(path, Mapping.MappingFunction(path, call.first, call.second))
     }
 
+    /**
+     * Return get mapping for a request path.
+     */
     fun getGetMapping(path: String): Mapping.MappingFunction? {
-        //return mapping["get"]?.get(path)
         return getMapping(path, "get")
     }
 
+    /**
+     * Return post mapping for a request path.
+     */
     fun getPostMapping(path: String): Mapping.MappingFunction? {
-        //return mapping["post"]?.get(path)
         return getMapping(path, "post")
     }
 
-    fun getMapping(path: String, method: String): Mapping.MappingFunction? {
+    /**
+     * Return either a get or post mapping for a request path.
+     */
+    private fun getMapping(path: String, method: String): Mapping.MappingFunction? {
         return mapping[method]?.getMapping(path)
-        //val pair = mapping[method]?.get(path)
-        /**val pair = mapping[method]?.getMapping(path)
-        if (pair != null) {
-            val file = pair.call()
-            if (file != null && file is String) {
-                return if (file.endsWith(".html")) file
-                else "$file.html"
-            }
-        }
-        return null*/
     }
-
-    private fun Pair<Any, KFunction<*>>.call(vararg args: Any?): Any? {
-        val (instance, func) = this
-        return func.call(instance, *args)
-    }
-
-
 }

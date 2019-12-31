@@ -10,10 +10,16 @@ import java.security.cert.X509Certificate
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
+import pass.salt.code.modules.server.ServerMainThread
 
+/**
+ * Contains all SSL-Configuration for the HTTPS-[ServerMainThread].
+ */
 class SSLManager {
     companion object {
-        // Create the and initialize the SSLContext
+        /**
+         * Create the and initialize the SSLContext
+         */
         fun createSSLContext(password: String, file: String): SSLContext? {
             try {
                 val keyStore = KeyStore.getInstance("JKS")
@@ -38,6 +44,9 @@ class SSLManager {
             return null
         }
 
+        /**
+         * Create keystore.
+         */
         fun createKeyStore(password: String) {
             try {
                 val keyStoreFile = File(
@@ -47,7 +56,6 @@ class SSLManager {
                 keyStore.load(null, null)
 
                 keyStore.store(FileOutputStream(keyStoreFile), password.toCharArray())
-
 
                 keyStore = KeyStore.getInstance("JKS")
                 keyStore.load(FileInputStream(keyStoreFile), password.toCharArray())

@@ -33,6 +33,9 @@ class MongoInit(
     lateinit var collName: String
     lateinit var collection: MongoCollection<Document>
 
+    /**
+     * Establish connection to MongoDB.
+     */
     override fun process(className: String) {
         enabled = config.findObjectAttribute("mongo", "enable")
         if (enabled) {
@@ -64,8 +67,11 @@ class MongoInit(
         }
     }
 
+    /**
+     * Close MongoDB connection.
+     */
     override fun shutdown() {
-
+        // TODO MongoDb shutdown
     }
 
     private fun disableLogger() {

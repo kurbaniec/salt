@@ -76,7 +76,7 @@ class MongoWrapper: InvocationHandler {
     }
 
     /**
-     * Method that is called when a method is invoked on the proxy.
+     * This method is called when an instance method is invoked on the proxy.
      */
     override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any? {
         if (method != null) {
