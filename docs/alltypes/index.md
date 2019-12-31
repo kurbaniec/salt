@@ -186,20 +186,32 @@ Marks a class as MongoRepo for MongoDB access.
 
 ##### [pass.salt.code.modules.db.mongo.MongoInit](../pass.salt.code.modules.db.mongo/-mongo-init/index.md)
 
+Initializes the Salt application to work with MongoDB.
+
 
 |
 
 ##### [pass.salt.code.modules.db.mongo.MongoRepo](../pass.salt.code.modules.db.mongo/-mongo-repo/index.md)
+
+Defines basic CRUD-operations to interact with MongoDB.
 
 
 |
 
 ##### [pass.salt.code.modules.db.mongo.MongoScan](../pass.salt.code.modules.db.mongo/-mongo-scan/index.md)
 
+Scans classes for [MongoDB](../pass.salt.code.annotations/-mongo-d-b/index.md) annotations.
+If a class contains it, a concrete [MongoRepo](../pass.salt.code.modules.db.mongo/-mongo-repo/index.md) will be initialized,
+that contains the custom CRUD-operations from the scanned class.
+
 
 |
 
 ##### [pass.salt.code.modules.db.mongo.MongoWrapper](../pass.salt.code.modules.db.mongo/-mongo-wrapper/index.md)
+
+Defines the logic for the proxy that will be used with [MongoRepo](../pass.salt.code.modules.db.mongo/-mongo-repo/index.md).
+That means all CRUD-operations will be invoked and processed through
+this class.
 
 
 |
@@ -246,6 +258,11 @@ Initializes a new application that utilises the Salt framework.
 |
 
 ##### [pass.salt.code.modules.SaltProcessor](../pass.salt.code.modules/-salt-processor/index.md)
+
+Defines an interface that all Salt modules are build on.
+A module can be used as a single module or class module.
+A single module enables functionality through itself.
+A class module enables functionality through processing classes.
 
 
 |

@@ -14,6 +14,11 @@ import java.lang.reflect.*
 import java.lang.reflect.ParameterizedType
 import java.util.logging.Logger
 
+/**
+ * Defines the logic for the proxy that will be used with [MongoRepo].
+ * That means all CRUD-operations will be invoked and processed through
+ * this class.
+ */
 class MongoWrapper: InvocationHandler {
     lateinit var clazz: Class<*>
     lateinit var db: MongoDatabase
@@ -26,6 +31,9 @@ class MongoWrapper: InvocationHandler {
     companion object {
         lateinit var config: Config
 
+        /**
+         * Returns a new Proxy.
+         */
         fun  <W>getWrapper(cls: Class<W>, db: MongoDatabase, collName: String): W {
             val wrappy = MongoWrapper()
             wrappy.clazz = cls
@@ -35,6 +43,9 @@ class MongoWrapper: InvocationHandler {
             return Proxy.newProxyInstance(cls.classLoader, arrayOf(cls), wrappy) as W
         }
 
+        /*+
+         * Initializes the wrapper.
+         */
         fun init(wrappy: MongoWrapper): Boolean {
             var types: Array<Type>? = null
             val ifaces = wrappy.clazz.genericInterfaces
@@ -56,7 +67,7 @@ class MongoWrapper: InvocationHandler {
                 }
                 catch (ex: Exception) {
                     wrappy.log.warning("No collection configured for Repository ${wrappy.clazz.simpleName}. Default database will be used.")
-                    wrappy.log.warning(" If you want to specify one, add ${wrappy.clazz.simpleName} = \"[collection_name]\" to your config.toml in the mongo-section.")
+                    wrappy.log.warning("If you want to specify one, add ${wrappy.clazz.simpleName} = \"[collection_name]\" to your config.toml in the mongo-section.")
                 }
                 wrappy.collection = wrappy.db.getCollection<Any>(collection, types.first() as Class<Any>)
                 true
@@ -64,6 +75,9 @@ class MongoWrapper: InvocationHandler {
         }
     }
 
+    /**
+     * Method that is called when a method is invoked on the proxy.
+     */
     override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any? {
         if (method != null) {
             // Query

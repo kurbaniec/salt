@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `MongoInit(config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`, container: `[`Container`](../../pass.salt.code.container/-container/index.md)`)`
+
+Initializes the Salt application to work with MongoDB.
+

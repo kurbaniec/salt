@@ -1,5 +1,8 @@
 package pass.salt.code.modules.db.mongo
 
+/**
+ * Defines basic CRUD-operations to interact with MongoDB.
+ */
 interface MongoRepo<T, I> {
     class Equals(vararg val eq: Pair<String, Any>)
     class Set(vararg val set: Pair<String, Any>)
@@ -10,7 +13,6 @@ interface MongoRepo<T, I> {
 
     fun countAll(): Long
 
-    //fun updateAll(field: String, match: Any, vararg update: Pair<String, Any>)
     fun updateAll(fields: Equals, update: Set)
 
     fun deleteAll(field: Equals)

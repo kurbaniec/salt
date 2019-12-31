@@ -28,6 +28,11 @@ class InvalidParameterCountInURL(message: String): Exception(message)
 
 class KeyStoreNotFoundException(message: String): Exception(message)
 
+/**
+ * Is thrown, when connection to MongoDB cannot be established.
+ */
+class MongoInitExecption(message: String): Exception(message)
+
 class ExceptionsTools {
     companion object {
         fun exceptionToString(ex: Exception): String {

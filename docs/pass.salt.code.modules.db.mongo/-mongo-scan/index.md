@@ -4,11 +4,15 @@
 
 `class MongoScan : `[`SaltProcessor`](../../pass.salt.code.modules/-salt-processor/index.md)
 
+Scans classes for [MongoDB](../../pass.salt.code.annotations/-mongo-d-b/index.md) annotations.
+If a class contains it, a concrete [MongoRepo](../-mongo-repo/index.md) will be initialized,
+that contains the custom CRUD-operations from the scanned class.
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `MongoScan(config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`, container: `[`Container`](../../pass.salt.code.container/-container/index.md)`)` |
+| [&lt;init&gt;](-init-.md) | Scans classes for [MongoDB](../../pass.salt.code.annotations/-mongo-d-b/index.md) annotations. If a class contains it, a concrete [MongoRepo](../-mongo-repo/index.md) will be initialized, that contains the custom CRUD-operations from the scanned class.`MongoScan(config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`, container: `[`Container`](../../pass.salt.code.container/-container/index.md)`)` |
 
 ### Properties
 

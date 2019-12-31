@@ -6,6 +6,11 @@ import pass.salt.code.loader.config.Config
 import pass.salt.code.modules.SaltProcessor
 import kotlin.reflect.full.isSubclassOf
 
+/**
+ * Scans classes for [MongoDB] annotations.
+ * If a class contains it, a concrete [MongoRepo] will be initialized,
+ * that contains the custom CRUD-operations from the scanned class.
+ */
 class MongoScan (
     val config: Config,
     val container: Container
@@ -27,11 +32,6 @@ class MongoScan (
                     val type = Class.forName(className)
                     val proxy = MongoWrapper.getWrapper(clz.java, mongo.db, mongo.collName)
                     if (proxy != null) {
-                        /**
-                        val t2 = clz.cast(test)
-                        val t3 = t2 as UserRepo
-                        val t4 = Proxy.getInvocationHandler(test)
-                        val t5 = test.javaClass.interfaces*/
                         val tmp = className.split(".").last()
                         val name = tmp.substring(0, 1).toLowerCase() + tmp.substring(1)
                         container.addElement(name, proxy)

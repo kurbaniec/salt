@@ -4,11 +4,13 @@
 
 `class MongoInit : `[`SaltProcessor`](../../pass.salt.code.modules/-salt-processor/index.md)
 
+Initializes the Salt application to work with MongoDB.
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `MongoInit(config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`, container: `[`Container`](../../pass.salt.code.container/-container/index.md)`)` |
+| [&lt;init&gt;](-init-.md) | Initializes the Salt application to work with MongoDB.`MongoInit(config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`, container: `[`Container`](../../pass.salt.code.container/-container/index.md)`)` |
 
 ### Properties
 

@@ -9,7 +9,7 @@
 | [AutowiredScan](-autowired-scan/index.md) | `class AutowiredScan : `[`SaltProcessor`](-salt-processor/index.md) |
 | [ComponentScan](-component-scan/index.md) | `class ComponentScan : `[`SaltProcessor`](-salt-processor/index.md) |
 | [ModuleNotFound](-module-not-found/index.md) | `class ModuleNotFound : `[`SaltProcessor`](-salt-processor/index.md) |
-| [SaltProcessor](-salt-processor/index.md) | `interface SaltProcessor` |
+| [SaltProcessor](-salt-processor/index.md) | Defines an interface that all Salt modules are build on. A module can be used as a single module or class module. A single module enables functionality through itself. A class module enables functionality through processing classes.`interface SaltProcessor` |
 | [SaltThreadPool](-salt-thread-pool/index.md) | `class SaltThreadPool` |
 | [SaltThreadPoolFactory](-salt-thread-pool-factory/index.md) | `class SaltThreadPoolFactory : `[`SaltProcessor`](-salt-processor/index.md) |
 

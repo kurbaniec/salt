@@ -4,6 +4,8 @@
 
 `interface MongoRepo<T, I>`
 
+Defines basic CRUD-operations to interact with MongoDB.
+
 ### Types
 
 | Name | Summary |

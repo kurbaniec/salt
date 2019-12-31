@@ -3,3 +3,6 @@
 # invoke
 
 `fun invoke(proxy: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?, method: `[`Method`](https://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Method.html)`?, args: `[`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html)`<out `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>?): `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`?`
+
+Method that is called when a method is invoked on the proxy.
+

@@ -3,3 +3,8 @@
 # &lt;init&gt;
 
 `MongoWrapper()`
+
+Defines the logic for the proxy that will be used with [MongoRepo](../-mongo-repo/index.md).
+That means all CRUD-operations will be invoked and processed through
+this class.
+

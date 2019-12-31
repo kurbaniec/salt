@@ -17,6 +17,12 @@ import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.functions
 import kotlin.reflect.full.memberProperties
 
+/**
+ * Defines an interface that all Salt modules are build on.
+ * A module can be used as a single module or class module.
+ * A single module enables functionality through itself.
+ * A class module enables functionality through processing classes.
+ */
 interface SaltProcessor {
 
     fun process(className: String = "")

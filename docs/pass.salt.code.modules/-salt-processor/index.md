@@ -4,6 +4,11 @@
 
 `interface SaltProcessor`
 
+Defines an interface that all Salt modules are build on.
+A module can be used as a single module or class module.
+A single module enables functionality through itself.
+A class module enables functionality through processing classes.
+
 ### Functions
 
 | Name | Summary |
@@ -36,8 +41,8 @@
 | [ComponentScan](../-component-scan/index.md) | `class ComponentScan : `[`SaltProcessor`](./index.md) |
 | [MappingScan](../../pass.salt.code.modules.server.mapping/-mapping-scan/index.md) | `class MappingScan : `[`SaltProcessor`](./index.md) |
 | [ModuleNotFound](../-module-not-found/index.md) | `class ModuleNotFound : `[`SaltProcessor`](./index.md) |
-| [MongoInit](../../pass.salt.code.modules.db.mongo/-mongo-init/index.md) | `class MongoInit : `[`SaltProcessor`](./index.md) |
-| [MongoScan](../../pass.salt.code.modules.db.mongo/-mongo-scan/index.md) | `class MongoScan : `[`SaltProcessor`](./index.md) |
+| [MongoInit](../../pass.salt.code.modules.db.mongo/-mongo-init/index.md) | Initializes the Salt application to work with MongoDB.`class MongoInit : `[`SaltProcessor`](./index.md) |
+| [MongoScan](../../pass.salt.code.modules.db.mongo/-mongo-scan/index.md) | Scans classes for [MongoDB](../../pass.salt.code.annotations/-mongo-d-b/index.md) annotations. If a class contains it, a concrete [MongoRepo](../../pass.salt.code.modules.db.mongo/-mongo-repo/index.md) will be initialized, that contains the custom CRUD-operations from the scanned class.`class MongoScan : `[`SaltProcessor`](./index.md) |
 | [PepperServer](../../pass.salt.code.modules.server/-pepper-server/index.md) | `class PepperServer : `[`SaltProcessor`](./index.md) |
 | [SaltSecurity](../../pass.salt.code.modules.server.security/-salt-security/index.md) | `class SaltSecurity : `[`SaltProcessor`](./index.md) |
 | [SaltThreadPoolFactory](../-salt-thread-pool-factory/index.md) | `class SaltThreadPoolFactory : `[`SaltProcessor`](./index.md) |
