@@ -4,7 +4,6 @@ import com.mongodb.BasicDBObject
 import com.mongodb.ConnectionString
 import com.mongodb.client.MongoClient
 import com.mongodb.MongoClient as MHelp
-import com.mongodb.MongoSocketException
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
@@ -18,7 +17,6 @@ import com.mongodb.MongoClientSettings
 import org.bson.codecs.configuration.CodecRegistries.fromProviders
 import org.bson.codecs.configuration.CodecRegistries.fromRegistries
 import org.bson.codecs.pojo.PojoCodecProvider
-import pass.salt.code.exceptions.MongoInitExecption
 import kotlin.system.exitProcess
 
 /**
@@ -55,7 +53,7 @@ class MongoInit(
                 container.addElement("mongoInit", this)
                 MongoWrapper.config = config
             }
-            catch (ex: MongoSocketException) {
+            catch (ex: Exception) {
                 log.warning("Could not establish database connection, MongoDB will not bes used")
                 log.warning("Check your [mongo] configuration in config.toml")
                 enabled = false
