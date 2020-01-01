@@ -30,12 +30,12 @@ Enables easy building of HTTP responses in Salt.
 
 | Name | Summary |
 |---|---|
-| [do200](do200.md) | `fun do200(): `[`HTTPTransport`](./index.md) |
-| [do403](do403.md) | `fun do403(): `[`HTTPTransport`](./index.md) |
-| [do423](do423.md) | `fun do423(): `[`HTTPTransport`](./index.md) |
-| [do424](do424.md) | `fun do424(): `[`HTTPTransport`](./index.md) |
-| [failedDependency](failed-dependency.md) | `fun failedDependency(): `[`HTTPTransport`](./index.md) |
-| [forbidden](forbidden.md) | `fun forbidden(): `[`HTTPTransport`](./index.md) |
-| [locked](locked.md) | `fun locked(): `[`HTTPTransport`](./index.md) |
+| [do200](do200.md) | Build 200 - OK response.`fun do200(): `[`HTTPTransport`](./index.md) |
+| [do403](do403.md) | Build 403 - Forbidden response.`fun do403(): `[`HTTPTransport`](./index.md) |
+| [do423](do423.md) | Build 423 - Locked response.`fun do423(): `[`HTTPTransport`](./index.md) |
+| [do424](do424.md) | Build 424 - Failed Dependency response.`fun do424(): `[`HTTPTransport`](./index.md) |
+| [failedDependency](failed-dependency.md) | Build 424 - Failed Dependency response.`fun failedDependency(): `[`HTTPTransport`](./index.md) |
+| [forbidden](forbidden.md) | Build 403 - Forbidden response.`fun forbidden(): `[`HTTPTransport`](./index.md) |
+| [locked](locked.md) | Build 423 - Locked response.`fun locked(): `[`HTTPTransport`](./index.md) |
 | [ok](ok.md) | Build 200 - Ok response.`fun ok(): `[`HTTPTransport`](./index.md) |
 | [transport](transport.md) | Sends builded response.`fun transport(out: `[`PrintWriter`](https://docs.oracle.com/javase/6/docs/api/java/io/PrintWriter.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |

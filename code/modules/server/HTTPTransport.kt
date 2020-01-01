@@ -33,7 +33,7 @@ class HTTPTransport(
         out.flush()
     }
 
-    /*
+    /**
      * Build 200 - OK response.
      */
     fun do200(): HTTPTransport {
@@ -61,14 +61,14 @@ class HTTPTransport(
         return this
     }
 
-    /*
+    /**
      * Build 403 - Forbidden response.
      */
     fun do403(): HTTPTransport {
         return this.forbidden()
     }
 
-    /*
+    /**
      * Build 403 - Forbidden response.
      */
     fun forbidden(): HTTPTransport {
@@ -89,14 +89,14 @@ class HTTPTransport(
         return this
     }
 
-    /*
+    /**
      * Build 424 - Failed Dependency response.
      */
     fun do424(): HTTPTransport {
         return this.failedDependency()
     }
 
-    /*
+    /**
      * Build 424 - Failed Dependency response.
      */
     fun failedDependency(): HTTPTransport {
@@ -117,14 +117,14 @@ class HTTPTransport(
         return this
     }
 
-    /*
+    /**
      * Build 423 - Locked response.
      */
     fun do423(): HTTPTransport {
         return this.locked()
     }
 
-    /*
+    /**
      * Build 423 - Locked response.
      */
     fun locked(): HTTPTransport {
