@@ -4,5 +4,7 @@
 
 `HTTPTransport(header: Header)`
 `HTTPTransport(body: Body)`
-`HTTPTransport()`
-`HTTPTransport(header: Header, body: Body)`
+`HTTPTransport()``HTTPTransport(header: Header, body: Body)`
+
+Enables easy building of HTTP responses in Salt.
+

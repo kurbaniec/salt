@@ -2,7 +2,7 @@
 
 # WebParseText
 
-`data class WebParseText` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/Webparse.kt#L23)
+`data class WebParseText` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/Webparse.kt#L54)
 
 ### Constructors
 

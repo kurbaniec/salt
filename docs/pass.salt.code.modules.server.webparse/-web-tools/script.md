@@ -2,4 +2,4 @@
 
 # script
 
-`val script: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/WebTools.kt#L44)
+`val script: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/WebTools.kt#L56)

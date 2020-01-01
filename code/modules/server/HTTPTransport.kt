@@ -2,6 +2,9 @@ package pass.salt.code.modules.server
 
 import java.io.PrintWriter
 
+/**
+ * Enables easy building of HTTP responses in Salt.
+ */
 class HTTPTransport(
     val header: Header,
     val body: Body
@@ -15,6 +18,9 @@ class HTTPTransport(
 
     constructor(): this(Header(), Body())
 
+    /**
+     * Sends builded response.
+     */
     fun transport(out: PrintWriter) {
         for (el in header.header) {
             out.println(el)
@@ -27,10 +33,16 @@ class HTTPTransport(
         out.flush()
     }
 
+    /*
+     * Build 200 - OK response.
+     */
     fun do200(): HTTPTransport {
         return this.ok()
     }
 
+    /**
+     * Build 200 - Ok response.
+     */
     fun ok(): HTTPTransport {
         var msg = ""
         for ((i, el) in body.body.withIndex()) {
@@ -49,10 +61,16 @@ class HTTPTransport(
         return this
     }
 
+    /*
+     * Build 403 - Forbidden response.
+     */
     fun do403(): HTTPTransport {
         return this.forbidden()
     }
 
+    /*
+     * Build 403 - Forbidden response.
+     */
     fun forbidden(): HTTPTransport {
         var msg = ""
         for ((i, el) in body.body.withIndex()) {
@@ -71,11 +89,17 @@ class HTTPTransport(
         return this
     }
 
+    /*
+     * Build 424 - Failed Dependency response.
+     */
     fun do424(): HTTPTransport {
-        return this.failedDependecy()
+        return this.failedDependency()
     }
 
-    fun failedDependecy(): HTTPTransport {
+    /*
+     * Build 424 - Failed Dependency response.
+     */
+    fun failedDependency(): HTTPTransport {
         var msg = ""
         for ((i, el) in body.body.withIndex()) {
             msg += if (i != body.body.size-1) {
@@ -93,10 +117,16 @@ class HTTPTransport(
         return this
     }
 
+    /*
+     * Build 423 - Locked response.
+     */
     fun do423(): HTTPTransport {
-        return this.failedDependecy()
+        return this.locked()
     }
 
+    /*
+     * Build 423 - Locked response.
+     */
     fun locked(): HTTPTransport {
         var msg = ""
         for ((i, el) in body.body.withIndex()) {
@@ -114,6 +144,5 @@ class HTTPTransport(
         body.body = b.toTypedArray()
         return this
     }
-
 
 }

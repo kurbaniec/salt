@@ -2,4 +2,4 @@
 
 # security
 
-`val security: `[`SaltSecurity`](../../../pass.salt.code.modules.server.security/-salt-security/index.md)`?` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/Webparse.kt#L25)
+`val security: `[`SaltSecurity`](../../../pass.salt.code.modules.server.security/-salt-security/index.md)`?` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/Webparse.kt#L56)

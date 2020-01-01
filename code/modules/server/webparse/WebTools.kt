@@ -2,9 +2,15 @@ package pass.salt.code.modules.server.webparse
 
 import pass.salt.code.loader.config.Config
 
+/**
+ * Utility functions for advanced HTML-template functionality.
+ */
 class WebTools {
     companion object {
 
+        /**
+         * Returns js login script when `<th:login/>` is found in a HTML-site.
+         */
         fun buildLogin(preUrl: String, login: String, success: String): String {
             var lg = script + "\"" + preUrl + login + "\""
             lg += script2 + "console.log(\"Wrong credentials\");"
@@ -12,13 +18,19 @@ class WebTools {
             return lg
         }
 
+        /**
+         * Returns js logout script when `<th:logout/>` is found in a HTML-site.
+         */
         fun buildLogout(preUrl: String, logout: String, login: String): String {
             var lgo = lo + "\"" + preUrl + logout + "\""
             lgo += lo2 +  "window.location.href = \"" + preUrl + login + "\"" + lo3
             return lgo
         }
 
-        fun getIPAdress(conf: Config): String {
+        /**
+         * Returns the ip-address of the Salt application.
+         */
+        fun getIPAddress(conf: Config): String {
             val ipAddress = conf.findObjectAttribute("server", "ip_address") as String
             val redirect = conf.findObjectAttribute("server", "redirect") as Boolean
             if (redirect) {

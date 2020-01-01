@@ -2,4 +2,7 @@
 
 # ok
 
-`fun ok(): `[`HTTPTransport`](index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/HTTPTransport.kt#L34)
+`fun ok(): `[`HTTPTransport`](index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/HTTPTransport.kt#L46)
+
+Build 200 - Ok response.
+

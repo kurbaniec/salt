@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `WebTools()`
+
+Utility functions for advanced HTML-template functionality.
+

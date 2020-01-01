@@ -2,13 +2,15 @@
 
 # WebTools
 
-`class WebTools` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/WebTools.kt#L5)
+`class WebTools` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/webparse/WebTools.kt#L8)
+
+Utility functions for advanced HTML-template functionality.
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `WebTools()` |
+| [&lt;init&gt;](-init-.md) | Utility functions for advanced HTML-template functionality.`WebTools()` |
 
 ### Companion Object Properties
 
@@ -26,6 +28,6 @@
 
 | Name | Summary |
 |---|---|
-| [buildLogin](build-login.md) | `fun buildLogin(preUrl: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, login: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, success: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
-| [buildLogout](build-logout.md) | `fun buildLogout(preUrl: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, logout: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, login: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
-| [getIPAdress](get-i-p-adress.md) | `fun getIPAdress(conf: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
+| [buildLogin](build-login.md) | Returns js login script when `<th:login/>` is found in a HTML-site.`fun buildLogin(preUrl: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, login: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, success: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
+| [buildLogout](build-logout.md) | Returns js logout script when `<th:logout/>` is found in a HTML-site.`fun buildLogout(preUrl: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, logout: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, login: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
+| [getIPAddress](get-i-p-address.md) | Returns the ip-address of the Salt application.`fun getIPAddress(conf: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`): `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |

@@ -405,7 +405,7 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
                 tmp[0] to tmp[1]
             }.toMap().toMutableMap()
         }
-        val ipaddress = WebTools.getIPAdress(config)
+        val ipaddress = WebTools.getIPAddress(config)
         return Request(method, path, file, params, ipaddress)
     }
 

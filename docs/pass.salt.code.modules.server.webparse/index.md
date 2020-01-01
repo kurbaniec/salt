@@ -9,5 +9,5 @@ Contains the HTML-parser of the server module.
 | Name | Summary |
 |---|---|
 | [Model](-model/index.md) | Supplies attributes that are used when parsing a html-site with [Webparse](-webparse/index.md).`class Model` |
-| [Webparse](-webparse/index.md) | `class Webparse` |
-| [WebTools](-web-tools/index.md) | `class WebTools` |
+| [Webparse](-webparse/index.md) | Handles parsing of HTML-sites using the Salt template syntax.`class Webparse` |
+| [WebTools](-web-tools/index.md) | Utility functions for advanced HTML-template functionality.`class WebTools` |

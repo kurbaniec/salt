@@ -4,17 +4,48 @@ import pass.salt.code.SaltApplication
 import pass.salt.code.modules.server.security.SaltSecurity
 import java.util.logging.Logger
 
+/**
+ * Handles parsing of HTML-sites using the Salt template syntax.
+ *
+ * Template parser functionality:
+ *
+ * ```js
+ * <span th:text="Hello, ${message}"></span>
+ * ```
+ * The `th:text` attribute will replace the value between tags eg. `span`. `${message}` stands for an object that
+ * is added in the controller via `model.addAttribute("message", "baum")`. So the ouput, when parsed will be `<span>Hello, baum</span>`.
+ * If baum is for example not a String but an other object like `User` added as `user` with a attribute `login`, you can also acces it     via `${user.login}`.
+ *
+ * ```js
+ * <a th:href="@{/some/path/${testo}}">Link!</a>
+ * ```
+ * Creates a link that can refer to other pages or resources of the application. As seen, you can add also models like `${testo}` that     will be resolved to create a dynamic link.
+ *
+ * ```js
+ * <th:block th:each="user : ${users}">
+ *   <tr style="border: 1px solid black">
+ *     <td style="border: 1px solid black" th:text="${user.login}">...</td>
+ *     <td th:text="${user.name}">...</td>
+ *   </tr>
+ *   <tr>
+ *     <td th:text="${user.address}">...</td>
+ *   </tr>
+ * </th:block>
+ * ```
+ * Creates a loop of a block marked with `th:block`. `users` is a list added via a model in the controller. For every entry of `users`     marked as `user` the block will be dynamically created. Note: No `<th:block>` will be seen on the parsed site.
+ */
 class Webparse {
     companion object {
         val log = Logger.getLogger("SaltLogger")
 
+        /**
+         * Parses a file that is given as a list of lines. Also a [Model] is given to inject values to the template.
+         */
         fun parse(lines: MutableList<String>, model: Model): String {
             val comment = ParserHelp(false, false, "", false)
-            //val tagRx = Regex.fromLiteral("<((?=!\\-\\-)!\\-\\-[\\s\\S]*\\-\\-|((?=\\?)\\?[\\s\\S]*\\?|((?=\\/)\\/[^.\\-\\d][^\\/\\]'\"[!#\$%&()*+,;<=>?@^`{|}~ ]*|[^.\\-\\d][^\\/\\]'\"[!#\$%&()*+,;<=>?@^`{|}~ ]*(?:\\s[^.\\-\\d][^\\/\\]'\"[!#\$%&()*+,;<=>?@^`{|}~ ]*(?:=(?:\"[^\"]*\"|'[^']*'|[^'\"<\\s]*))?)*)\\s?\\/?))>")
             val full = mutableListOf<String>()
             for (line in lines) {
                 val tmp = parseLine(line, comment)
-                //webParse(tmp)
                 full.addAll(tmp)
             }
             return webParse(full, model)
@@ -25,6 +56,9 @@ class Webparse {
         data class WebConf(var ipAddress: String, var method: String, var port: String, var preUrl: String, val security: SaltSecurity?)
         data class ParserHelp(var comment: Boolean, var notFinished: Boolean, var cache: String, var notFinishedScript: Boolean)
 
+        /**
+         * Parses the file truly through the list of HTML-elements.
+         */
         fun webParse(site: MutableList<String>, model: Model): String {
             val webConf = readWebConf()
             val textConf = WebParseText(false, "", "")
@@ -132,6 +166,9 @@ class Webparse {
             return fullSite
         }
 
+        /**
+         * Webparse helper method.
+         */
         private fun testLoopTagStop(tag: String, conf: WebParseLoop): Boolean {
             val tName = if (tag.contains(" ")) {
                 tag.substring(0, tag.indexOf(" ")).replace("<", "").replace("</", "").replace(">", "")
@@ -148,6 +185,9 @@ class Webparse {
             return count % 2 == 0 && tag.contains(conf.tagStop)
         }
 
+        /**
+         * Webparse helper method.
+         */
         private fun webParseShort(element: String, model: Model): String {
             var line = ""+element
             // TODO short thymeleaf
@@ -172,6 +212,9 @@ class Webparse {
             return line
         }
 
+        /**
+         * Webparse helper method.
+         */
         private fun webParseHelp(param: String, model: Model, webConf: WebConf, textConf: WebParseText): String {
             var tRawParam = param
             var tAttrParams = ""
@@ -228,6 +271,9 @@ class Webparse {
             return tAttrParams
         }
 
+        /**
+         * Webparse helper method.
+         */
         fun parsePath(tag: String, attrVal: String, model: Model, webConf: WebConf): String {
             var newVal = attrVal.replace("\"@{", "")
             var begin = newVal.indexOf("\${")
@@ -251,6 +297,9 @@ class Webparse {
             return tag + "=\"" + webConf.preUrl + newVal
         }
 
+        /**
+         * Parses a line and returns a list of HTML elements.
+         */
         fun parseLine(line: String, help: ParserHelp): MutableList<String> {
             var tmp = "" + line
             var length = tmp.length
@@ -350,6 +399,9 @@ class Webparse {
             return list
         }
 
+        /**
+         * Returns necessary parts of the Salt configuration.
+         */
         private fun readWebConf(): WebConf {
             val conf = SaltApplication.config
             val security = SaltApplication.container.getElement("saltSecurity") as SaltSecurity?

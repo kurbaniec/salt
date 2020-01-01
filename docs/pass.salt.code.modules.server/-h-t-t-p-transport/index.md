@@ -2,7 +2,9 @@
 
 # HTTPTransport
 
-`class HTTPTransport` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/HTTPTransport.kt#L5)
+`class HTTPTransport` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/HTTPTransport.kt#L8)
+
+Enables easy building of HTTP responses in Salt.
 
 ### Types
 
@@ -15,7 +17,7 @@
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `HTTPTransport(header: Header)`<br>`HTTPTransport(body: Body)`<br>`HTTPTransport()`<br>`HTTPTransport(header: Header, body: Body)` |
+| [&lt;init&gt;](-init-.md) | `HTTPTransport(header: Header)`<br>`HTTPTransport(body: Body)`<br>`HTTPTransport()`<br>Enables easy building of HTTP responses in Salt.`HTTPTransport(header: Header, body: Body)` |
 
 ### Properties
 
@@ -32,8 +34,8 @@
 | [do403](do403.md) | `fun do403(): `[`HTTPTransport`](./index.md) |
 | [do423](do423.md) | `fun do423(): `[`HTTPTransport`](./index.md) |
 | [do424](do424.md) | `fun do424(): `[`HTTPTransport`](./index.md) |
-| [failedDependecy](failed-dependecy.md) | `fun failedDependecy(): `[`HTTPTransport`](./index.md) |
+| [failedDependency](failed-dependency.md) | `fun failedDependency(): `[`HTTPTransport`](./index.md) |
 | [forbidden](forbidden.md) | `fun forbidden(): `[`HTTPTransport`](./index.md) |
 | [locked](locked.md) | `fun locked(): `[`HTTPTransport`](./index.md) |
-| [ok](ok.md) | `fun ok(): `[`HTTPTransport`](./index.md) |
-| [transport](transport.md) | `fun transport(out: `[`PrintWriter`](https://docs.oracle.com/javase/6/docs/api/java/io/PrintWriter.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [ok](ok.md) | Build 200 - Ok response.`fun ok(): `[`HTTPTransport`](./index.md) |
+| [transport](transport.md) | Sends builded response.`fun transport(out: `[`PrintWriter`](https://docs.oracle.com/javase/6/docs/api/java/io/PrintWriter.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |

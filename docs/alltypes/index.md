@@ -117,6 +117,8 @@ Enum for alls supported http methods by Salt.
 
 ##### [pass.salt.code.modules.server.HTTPTransport](../pass.salt.code.modules.server/-h-t-t-p-transport/index.md)
 
+Enables easy building of HTTP responses in Salt.
+
 
 |
 
@@ -388,6 +390,8 @@ interact with the found data.
 
 ##### [pass.salt.code.modules.server.webparse.Webparse](../pass.salt.code.modules.server.webparse/-webparse/index.md)
 
+Handles parsing of HTML-sites using the Salt template syntax.
+
 
 |
 
@@ -413,5 +417,7 @@ Interface that every class marked with [WebSecurity](../pass.salt.code.annotatio
 |
 
 ##### [pass.salt.code.modules.server.webparse.WebTools](../pass.salt.code.modules.server.webparse/-web-tools/index.md)
+
+Utility functions for advanced HTML-template functionality.
 
 
