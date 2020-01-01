@@ -69,7 +69,7 @@ Following project structure is needed.
 
 ## Dependency Injection
 
-Just mark a class with `@Scan` and use `@Autowired` on a property with the same name/type in another class to automatically inject an instance of the scanned class to the property. Note, the class in which the object is injected also needs to be marked with `@Scan` or a annotation that includes it like `@Controller`.
+Just mark a class with `@Scan` and use `@Autowired` on a property with the same name/type in another class to automatically inject an instance of the scanned class to the property. Note, the class in which the object is injected also needs to be marked with `@Scan` or a annotation that includes it like `@Controller`.
 
 ```kotlin
 @Scan
@@ -94,7 +94,7 @@ To configure request mappings for HTML-files create a new Controller class (anno
 
 A mapping functions consists of a method type annotation (`@Get` or `@Post` ) that contains the request path. The function itself returns a String, that is the filename of the page that should be returned without `.html`.
 
-Following code shows how to return a HTML page on the request path `/` based on the file `index.html`-
+Following code shows how to return a HTML page on the request path `/` based on the file `index.html`-
 
 ```kotlin
 @Controller
@@ -161,7 +161,7 @@ You have a page that contains following template code:
 </th:block>
 ```
 
-Then you can use following code to return the page at `/template` with injected values.
+Then you can use following code to return the page at `/template` with injected values.
 
 ```kotlin
 @Controller
@@ -229,7 +229,15 @@ In this case that would look like that:
 lateinit var userRepo: UserRepo
 ```
 
-## Configure Salt
+## Naming conventions
+
+Classes can for now not end with `Kt` or `$1` because Kotlin creates `[className](Kt|$1).class` files, that are ignored while scanning for annotations.
+
+## More...
+
+The Salt framework includes many more features. Visit the complete documentation [here](https://kurbaniec-tgm.github.io/salt/) or check out the source code of fully fledged Salt-applications like [KPM](https://github.com/kurbaniec-tgm/kpm).
+
+# Configure Salt
 
 Some aspects of the application can be configured in the configuration file found under`resources\config.toml`. Here are some of the most important ones:
 
@@ -257,9 +265,6 @@ Some aspects of the application can be configured in the configuration file foun
 * `uri`: The connection description to your MongoDB-database in the "String URI Format". Click [here][5] for more information.
 * `UserRepo`: Name of your collection that will store user-accounts.
 * `PasswordRepo`: Name of your collection that will store password-entity data.
-
-## Naming conventions
-Classes can for now not end with `Kt` or `$1` (because kotlin creates `[className](Kt|$1).class` files).
 
 <!--
 
