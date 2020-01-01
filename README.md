@@ -1,13 +1,12 @@
 <h1 align="center">
   <br>
-  <img src="init/resources/web/favicon.ico" alt="solar-system" width="500"></a>
+  <img src="init/resources/web/favicon.ico" alt="solar-system" width="250"></a>
   <br>
   <br>
    Salt
    <h3>
        Salt is a simple application framework that features an inversion of control container for usage with Kotlin.
    </h3>
-  <br>
 </h1>
 
 # 🛠️Setup
