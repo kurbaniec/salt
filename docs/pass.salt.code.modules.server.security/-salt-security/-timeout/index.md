@@ -2,13 +2,16 @@
 
 # Timeout
 
-`class Timeout` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SaltSecurity.kt#L133)
+`class Timeout` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SaltSecurity.kt#L168)
+
+Handles timeout of clients that cannot use the application service because of too many failed authentication
+requests.
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `Timeout(timeout: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, fails: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`)` |
+| [&lt;init&gt;](-init-.md) | Handles timeout of clients that cannot use the application service because of too many failed authentication requests.`Timeout(timeout: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, fails: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`)` |
 
 ### Properties
 
@@ -23,6 +26,6 @@
 
 | Name | Summary |
 |---|---|
-| [addStrike](add-strike.md) | `fun addStrike(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
-| [clear](clear.md) | `fun clear(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [process](process.md) | `fun process(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
+| [addStrike](add-strike.md) | Add failed authentication event.`fun addStrike(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |
+| [clear](clear.md) | Clear timeout.`fun clear(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [process](process.md) | Check if timeout for a client persists or is still in place.`fun process(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |

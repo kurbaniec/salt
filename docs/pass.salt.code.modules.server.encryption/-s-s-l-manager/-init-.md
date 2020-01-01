@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `SSLManager()`
+
+Contains all SSL-Configuration for the HTTPS-[ServerMainThread](../../pass.salt.code.modules.server/-server-main-thread/index.md).
+

@@ -2,13 +2,15 @@
 
 # MappingFunction
 
-`class MappingFunction` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/Mapping.kt#L29)
+`class MappingFunction` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/Mapping.kt#L40)
+
+Wraps a function so that it can be easily called.
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `MappingFunction(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, instance: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`, func: `[`KFunction`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-function/index.html)`<*>)` |
+| [&lt;init&gt;](-init-.md) | Wraps a function so that it can be easily called.`MappingFunction(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, instance: `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`, func: `[`KFunction`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-function/index.html)`<*>)` |
 
 ### Properties
 
@@ -28,6 +30,6 @@
 
 | Name | Summary |
 |---|---|
-| [addParams](add-params.md) | `fun addParams(params: `[`Map`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [call](call.md) | `fun call(): `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html) |
+| [addParams](add-params.md) | Adds parameter to wrapper that will be used in function call.`fun addParams(params: `[`Map`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [call](call.md) | Invokes wrapped function.`fun call(): `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html) |
 | [hasModel](has-model.md) | `fun hasModel(): `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) |

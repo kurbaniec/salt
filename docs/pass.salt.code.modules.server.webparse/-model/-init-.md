@@ -3,3 +3,6 @@
 # &lt;init&gt;
 
 `Model()`
+
+Supplies attributes that are used when parsing a html-site with [Webparse](../-webparse/index.md).
+

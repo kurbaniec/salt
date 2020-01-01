@@ -2,13 +2,20 @@
 
 # WebSecurityConfig
 
-`class WebSecurityConfig` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L10)
+`class WebSecurityConfig` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L51)
+
+Configures authentication on request paths. Also configures login/logout and success path.
+
+If [permitAll](permit-all.md) is called on a [matchRequests](match-requests.md), the configuration is open, only mapped entries are secured.
+
+If [authenticated](authenticated.md) is called on a [matchRequests](match-requests.md), the configuration is not open, mapped entries will not secured
+but every other request.
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `WebSecurityConfig()` |
+| [&lt;init&gt;](-init-.md) | Configures authentication on request paths. Also configures login/logout and success path.`WebSecurityConfig()` |
 
 ### Properties
 
@@ -24,10 +31,10 @@
 
 | Name | Summary |
 |---|---|
-| [anyRequest](any-request.md) | `fun anyRequest(): `[`WebSecurityConfig`](./index.md) |
-| [authenticated](authenticated.md) | `fun authenticated(): `[`WebSecurityConfig`](./index.md) |
-| [loginPath](login-path.md) | `fun loginPath(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`WebSecurityConfig`](./index.md) |
-| [logoutPath](logout-path.md) | `fun logoutPath(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`WebSecurityConfig`](./index.md) |
-| [matchRequests](match-requests.md) | `fun matchRequests(vararg paths: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`WebSecurityConfig`](./index.md) |
-| [permitAll](permit-all.md) | `fun permitAll(): `[`WebSecurityConfig`](./index.md) |
-| [successfulLoginPath](successful-login-path.md) | `fun successfulLoginPath(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`WebSecurityConfig`](./index.md) |
+| [anyRequest](any-request.md) | Used to select any request path beside mapped ones.`fun anyRequest(): `[`WebSecurityConfig`](./index.md) |
+| [authenticated](authenticated.md) | Permit only authenticated access on selected request paths.`fun authenticated(): `[`WebSecurityConfig`](./index.md) |
+| [loginPath](login-path.md) | Configure login request path.`fun loginPath(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`WebSecurityConfig`](./index.md) |
+| [logoutPath](logout-path.md) | Configure logout request path.`fun logoutPath(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`WebSecurityConfig`](./index.md) |
+| [matchRequests](match-requests.md) | Used to select multiple request path manually.`fun matchRequests(vararg paths: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`WebSecurityConfig`](./index.md) |
+| [permitAll](permit-all.md) | Permit access on selected request paths.`fun permitAll(): `[`WebSecurityConfig`](./index.md) |
+| [successfulLoginPath](successful-login-path.md) | Configure request path the client will be redirected when successfully loggend in.`fun successfulLoginPath(path: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`WebSecurityConfig`](./index.md) |

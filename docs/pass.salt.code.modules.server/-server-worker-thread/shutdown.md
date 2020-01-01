@@ -2,4 +2,7 @@
 
 # shutdown
 
-`fun shutdown(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L339)
+`fun shutdown(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L457)
+
+Shutdown server worker.
+

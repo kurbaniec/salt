@@ -2,4 +2,4 @@
 
 # model
 
-`var model: `[`Model`](../../../pass.salt.code.modules.server.webparse/-model/index.md)`?` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/Mapping.kt#L33)
+`var model: `[`Model`](../../../pass.salt.code.modules.server.webparse/-model/index.md)`?` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/Mapping.kt#L44)

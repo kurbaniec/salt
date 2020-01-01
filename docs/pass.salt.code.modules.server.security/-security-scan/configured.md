@@ -2,4 +2,4 @@
 
 # configured
 
-`var configured: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SecurityScan.kt#L13)
+`var configured: `[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SecurityScan.kt#L18)

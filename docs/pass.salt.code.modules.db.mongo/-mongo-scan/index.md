@@ -27,5 +27,5 @@ that contains the custom CRUD-operations from the scanned class.
 
 | Name | Summary |
 |---|---|
-| [process](process.md) | Process module.`fun process(className: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [shutdown](shutdown.md) | Shutdown module.`fun shutdown(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [process](process.md) | Scans a class for the [MongoDB](../../pass.salt.code.annotations/-mongo-d-b/index.md) annotations. If the class contains it, a concrete [MongoRepo](../-mongo-repo/index.md) will be initialized, that contains the custom CRUD-operations from the scanned class.`fun process(className: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [shutdown](shutdown.md) | Not used.`fun shutdown(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |

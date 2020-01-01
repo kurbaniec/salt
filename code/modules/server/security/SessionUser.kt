@@ -2,6 +2,9 @@ package pass.salt.code.modules.server.security
 
 import java.time.LocalDateTime
 
+/**
+ * Contains the client information for the session at runtime.
+ */
 class SessionUser() {
     lateinit var username: String
     private lateinit var sid: String
@@ -14,6 +17,9 @@ class SessionUser() {
         this.sec = sec
     }
 
+    /**
+     * End client session.
+     */
     fun endSession() {
         sec.removeSession(sid)
     }

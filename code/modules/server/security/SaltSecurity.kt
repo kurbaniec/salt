@@ -9,7 +9,10 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 import kotlin.reflect.KFunction
 
-
+/**
+ * Handles all security functionality of Salt.
+ * This includes authentication and authentication of requests.
+ */
 class SaltSecurity(
     val config: Config,
     val container: Container
@@ -26,6 +29,9 @@ class SaltSecurity(
     val sessionTimeout = mutableMapOf<String, Timeout>()
     lateinit var auth: Pair<Any, KFunction<*>>
 
+    /**
+     * Process security configuration.
+     */
     override fun process(className: String) {
         if (config.findObjectAttribute<Boolean>("security", "enable")) {
             timeout = config.findObjectAttribute<Int>("security", "timeout")
@@ -35,6 +41,9 @@ class SaltSecurity(
         }
     }
 
+    /**
+     * Set configuration via [WebSecurityConfig].
+     */
     fun setConfiguration(conf: WebSecurityConfig, auth: Pair<Any, KFunction<*>>) {
         this.auth = auth
         open = conf.open
@@ -48,6 +57,9 @@ class SaltSecurity(
         }
     }
 
+    /**
+     * Add new authenticated session for a client.
+     */
     fun addSession(username: String): String {
         val nameSpace = ('0'..'z').toList().toTypedArray()
         val sessionID = (1..101).map { nameSpace.random() }.joinToString("").replace(";", "/")
@@ -55,10 +67,16 @@ class SaltSecurity(
         return sessionID
     }
 
+    /**
+     * Remove a client session.
+     */
     fun removeSession(sid: String) {
         sessions.remove(sid)
     }
 
+    /**
+     * Check if session is valid through session ID.
+     */
     fun isValidSession(sid: String): Boolean {
         if (sessions.containsKey(sid)) {
             val user = sessions[sid]
@@ -76,11 +94,17 @@ class SaltSecurity(
        return false
     }
 
+    /**
+     * Return session by session ID.
+     */
     fun getSession(sid: String): SessionUser? {
         return sessions[sid]
     }
 
-    fun checkAuthorization(basicAuth: String): Pair<Int, String> {
+    /**
+     * Perform authentication with provided client credentials.
+     */
+    fun checkAuthentication(basicAuth: String): Pair<Int, String> {
         val enc = if (basicAuth.contains(" ")) {
             val tmp = basicAuth.trim().split(" ")
             tmp[1]
@@ -119,10 +143,16 @@ class SaltSecurity(
         }
     }
 
+    /**
+     * Not used.
+     */
     override fun shutdown() {
 
     }
 
+    /**
+     * Invoke function call.
+     */
     private fun Pair<Any, KFunction<*>>.invoke(vararg args: Any): Any? {
         val list = mutableListOf<Any>()
         for (arg in args) {
@@ -131,10 +161,17 @@ class SaltSecurity(
         return auth.second.call(*list.toTypedArray())
     }
 
+    /**
+     * Handles timeout of clients that cannot use the application service because of too many failed authentication
+     * requests.
+     */
     class Timeout(val timeout: Int, val fails: Int) {
         val mapping = mutableListOf<LocalDateTime>()
         var stopInit: LocalDateTime? = null
 
+        /**
+         * Check if timeout for a client persists or is still in place.
+         */
         fun process(): Boolean {
             val now = LocalDateTime.now()
             val remove = mutableListOf<LocalDateTime>()
@@ -150,8 +187,14 @@ class SaltSecurity(
             } else false
         }
 
+        /**
+         * Add failed authentication event.
+         */
         fun addStrike() = mapping.add(LocalDateTime.now())
 
+        /**
+         * Clear timeout.
+         */
         fun clear() = mapping.clear()
     }
 

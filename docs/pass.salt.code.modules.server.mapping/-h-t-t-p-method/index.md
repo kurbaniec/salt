@@ -2,7 +2,9 @@
 
 # HTTPMethod
 
-`enum class HTTPMethod` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/HTTPMethod.kt#L3)
+`enum class HTTPMethod` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/HTTPMethod.kt#L6)
+
+Enum for alls supported http methods by Salt.
 
 ### Enum Values
 

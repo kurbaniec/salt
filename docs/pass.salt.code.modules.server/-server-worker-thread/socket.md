@@ -2,4 +2,4 @@
 
 # socket
 
-`val socket: S` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L27)
+`val socket: S` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L29)

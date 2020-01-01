@@ -2,4 +2,4 @@
 
 # sec
 
-`var sec: `[`SaltSecurity`](../../pass.salt.code.modules.server.security/-salt-security/index.md)`?` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L40)
+`var sec: `[`SaltSecurity`](../../pass.salt.code.modules.server.security/-salt-security/index.md)`?` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L42)

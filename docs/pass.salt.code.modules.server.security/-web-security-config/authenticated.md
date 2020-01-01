@@ -2,4 +2,7 @@
 
 # authenticated
 
-`fun authenticated(): `[`WebSecurityConfig`](index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L48)
+`fun authenticated(): `[`WebSecurityConfig`](index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L102)
+
+Permit only authenticated access on selected request paths.
+

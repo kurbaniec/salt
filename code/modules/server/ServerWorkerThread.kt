@@ -51,6 +51,9 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         }
     }
 
+    /**
+     * Simple class that represents a client request.
+     */
     data class Request(val method: String, val path: String, val file: String, val params: MutableMap<String, String>, val ipaddress: String)
 
     /**
@@ -194,6 +197,9 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         }
     }
 
+    /**
+     * Function that returns a generated response to the client.
+     */
     private fun sendHelper(header: String, server: String, contentType: String, fileLength: Int, fileData: ByteArray) {
         out.println(header)
         out.println(server)
@@ -211,30 +217,25 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
     }
 
     /**
-     * Check client authentication status.
+     * Redirects the client to the https page of the request.
      */
-    private fun authenticate(header: MutableMap<String, String>) {
-        // Check url
-        val check = sec!!.checkAuthorization(header["Authorization"]!!)
-        if (check.first == 0) {
-            val sessionID = sec!!.addSession(check.second)
-            startSession(sessionID)
-        }
-        // send reload on false password
-        else if (check.first == 1) {
-            restartSession()
-        }
-        else {
-            HTTPTransport().locked().transport(out)
-            shutdown()
-        }
+    private fun redirect(path: String) {
+        val ip = config.findObjectAttribute("server", "ip_address") as String
+        val port = config.findObjectAttribute<String>("server", "https_port")
+        out.println("HTTP/1.1 302 Found")
+        out.println("Server: SaltApplication")
+        out.println("Date: ${Date()}")
+        out.println("Content-type: text/plain")
+        out.println("Location: https://$ip:$port$path")
+        out.println("Connection: Close")
+        out.println()
+        out.flush()
+        shutdown()
     }
 
-    private fun stopSession(sid: String) {
-        sec!!.removeSession(sid)
-        home()
-    }
-
+    /**
+     * Redirects the client to the login page.
+     */
     private fun login() {
         val path = sec!!.login
         val ip = config.findObjectAttribute("server", "ip_address") as String
@@ -250,6 +251,62 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         shutdown()
     }
 
+    /**
+     * Returns successful response that contains no content.
+     */
+    private fun success() {
+        out.println("HTTP/1.1 204 No content")
+        out.println("Server: SaltApplication")
+        out.println("Date: ${Date()}")
+        out.println()
+        out.flush()
+    }
+
+    /**
+     * Returns a 404 - File Not Found - response.
+     */
+    private fun fileNotFound() {
+        val file = File(WEB_ROOT, FILE_NOT_FOUND)
+        val content = "text/html"
+        val fileData = readFileData(file, null)
+        sendHelper("HTTP/1.1 404 File Not Found",
+                "Server: SaltApplication",
+                content, fileData.second, fileData.first)
+    }
+
+    /**
+     * Handles client authentication.
+     */
+    private fun authenticate(header: MutableMap<String, String>) {
+        // Check url
+        val check = sec!!.checkAuthentication(header["Authorization"]!!)
+        if (check.first == 0) {
+            val sessionID = sec!!.addSession(check.second)
+            startSession(sessionID)
+        }
+        // send reload on false password
+        else if (check.first == 1) {
+            restartSession()
+        }
+        else {
+            HTTPTransport().locked().transport(out)
+            shutdown()
+        }
+    }
+
+    /**
+     * Returns the session ID from a given Cookie in a [String] representation.
+     */
+    private fun getSID(cookieRaw: String): String {
+        val begin = cookieRaw.indexOf("_sid=")
+        val tmp = cookieRaw.substring(begin+5)
+        val tmp2 = tmp.split(" ")
+        return tmp2[0]
+    }
+
+    /**
+     * Starts a new session.
+     */
     private fun startSession(sessionID: String) {
         out.println("HTTP/1.1 204 No content")
         out.println("Server: SaltApplication")
@@ -259,14 +316,18 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         out.flush()
     }
 
-    private fun home() {
-        out.println("HTTP/1.1 204 No content")
-        out.println("Server: SaltApplication")
-        out.println("Date: ${Date()}")
-        out.println()
-        out.flush()
+    /**
+     * Stops the current session when the user looses its authentication status (e.g. through timeout)
+     * when on a secured page.
+     */
+    private fun stopSession(sid: String) {
+        sec!!.removeSession(sid)
+        success()
     }
 
+    /**
+     * Restarts session so that a new worker is spawned.
+     */
     private fun restartSession() {
         out.println("HTTP/1.1 403 Forbidden")
         out.println("Server: SaltApplication")
@@ -276,11 +337,17 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         shutdown()
     }
 
-    // return supported MIME Types
+    /**
+     * Returns MIME-Type of a file.
+     */
     private fun getContentType(fileRequested: File): String {
         return Files.probeContentType(fileRequested.toPath())
     }
 
+    /**
+     * Reads a file and returns it as a [Pair] containing the file as a [ByteArray] and its length.
+     * If a [Model] is given, then the file will be parsed with the [Model] attributes.
+     */
     @Throws(IOException::class)
     private fun readFileData(file: File, model: Model?): Pair<ByteArray, Int> {
         val bytes = if (getContentType(file) == "text/html" && file.name.endsWith(".html")) {
@@ -317,37 +384,9 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         else return Pair(ByteArray(0), 0)
     }
 
-    private fun fileNotFound() {
-        val file = File(WEB_ROOT, FILE_NOT_FOUND)
-        val content = "text/html"
-        val fileData = readFileData(file, null)
-        sendHelper("HTTP/1.1 404 File Not Found",
-                "Server: SaltApplication",
-                content, fileData.second, fileData.first)
-    }
-
-    private fun redirect(path: String) {
-        val ip = config.findObjectAttribute("server", "ip_address") as String
-        val port = config.findObjectAttribute<String>("server", "https_port")
-        out.println("HTTP/1.1 302 Found")
-        out.println("Server: SaltApplication")
-        out.println("Date: ${Date()}")
-        out.println("Content-type: text/plain")
-        out.println("Location: https://$ip:$port$path")
-        out.println("Connection: Close")
-        out.println()
-        out.flush()
-        shutdown()
-    }
-
-    fun shutdown() {
-        listening = false
-        inp.close()
-        out.close()
-        data.close()
-        socket.close()
-    }
-
+    /**
+     * Reads new request from client.
+     */
     private fun readRequest(): Request {
         val req = inp.readLine()
         val reqLs = req.split(" ")
@@ -370,6 +409,9 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         return Request(method, path, file, params, ipaddress)
     }
 
+    /**
+     * Reads the HTTP-header of a request.
+     */
     private fun readHeader(): MutableMap<String, String> {
         val header = mutableMapOf<String, String>()
         var adder: String = ""
@@ -389,6 +431,9 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         return header
     }
 
+    /**
+     * Reads the HTTP-body of a request.
+     */
     private fun readBody(request: Request, header: MutableMap<String, String>) {
         if (header.containsKey("Content-Length") && header["Content-Length"] != "0") {
             val length: Int = header["Content-Length"]!!.toInt()
@@ -406,11 +451,15 @@ class ServerWorkerThread<P: ServerSocket, S: Socket>(
         }
     }
 
-    private fun getSID(cookieRaw: String): String {
-        val begin = cookieRaw.indexOf("_sid=")
-        val tmp = cookieRaw.substring(begin+5)
-        val tmp2 = tmp.split(" ")
-        return tmp2[0]
+    /**
+     * Shutdown server worker.
+     */
+    fun shutdown() {
+        listening = false
+        inp.close()
+        out.close()
+        data.close()
+        socket.close()
     }
 
 }

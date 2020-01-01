@@ -3,3 +3,7 @@
 # &lt;init&gt;
 
 `Timeout(timeout: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, fails: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`)`
+
+Handles timeout of clients that cannot use the application service because of too many failed authentication
+requests.
+

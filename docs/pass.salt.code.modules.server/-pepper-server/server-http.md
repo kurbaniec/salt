@@ -2,4 +2,4 @@
 
 # serverHttp
 
-`lateinit var serverHttp: `[`ServerMainThread`](../-server-main-thread/index.md)`<`[`ServerSocket`](https://docs.oracle.com/javase/6/docs/api/java/net/ServerSocket.html)`>` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/PepperServer.kt#L24)
+`lateinit var serverHttp: `[`ServerMainThread`](../-server-main-thread/index.md)`<`[`ServerSocket`](https://docs.oracle.com/javase/6/docs/api/java/net/ServerSocket.html)`>` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/PepperServer.kt#L27)

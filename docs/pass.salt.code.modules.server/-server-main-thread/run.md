@@ -2,11 +2,9 @@
 
 # run
 
-`fun run(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerMainThread.kt#L32)
+`fun run(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerMainThread.kt#L27)
 
-init {
-val getMapping = mutableMapOf&lt;String, Pair&lt;Any, KFunction&lt;*&gt;&gt;&gt;()val postMapping = mutableMapOf&lt;String, Pair&lt;Any, KFunction&lt;*&gt;&gt;&gt;()
-mapping[get](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get.html) = getMapping
-mapping[post](#) = postMapping
-}
+Start server main thread.
+If it is the https server, an [SSLServerSocket](https://docs.oracle.com/javase/6/docs/api/javax/net/ssl/SSLServerSocket.html) is used,
+which uses the configured keystore from the [SSLManager](../../pass.salt.code.modules.server.encryption/-s-s-l-manager/index.md).
 

@@ -2,4 +2,7 @@
 
 # anyRequest
 
-`fun anyRequest(): `[`WebSecurityConfig`](index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L33)
+`fun anyRequest(): `[`WebSecurityConfig`](index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/WebSecurityConfig.kt#L81)
+
+Used to select any request path beside mapped ones.
+

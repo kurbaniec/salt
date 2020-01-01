@@ -110,6 +110,8 @@ Only viable in classes marked with [Controller](../pass.salt.code.annotations/-c
 
 ##### [pass.salt.code.modules.server.mapping.HTTPMethod](../pass.salt.code.modules.server.mapping/-h-t-t-p-method/index.md)
 
+Enum for alls supported http methods by Salt.
+
 
 |
 
@@ -166,15 +168,21 @@ Loads the Salt application.
 
 ##### [pass.salt.code.modules.server.mapping.Mapping](../pass.salt.code.modules.server.mapping/-mapping/index.md)
 
+Stores all request mappings for a given [HTTPMethod](../pass.salt.code.modules.server.mapping/-h-t-t-p-method/index.md).
+
 
 |
 
 ##### [pass.salt.code.modules.server.mapping.MappingScan](../pass.salt.code.modules.server.mapping/-mapping-scan/index.md)
 
+Scans classes marked with [Controller](../pass.salt.code.annotations/-controller/index.md) to look after [Get](../pass.salt.code.annotations/-get/index.md) and [Post](../pass.salt.code.annotations/-post/index.md) mappings.
+
 
 |
 
 ##### [pass.salt.code.modules.server.webparse.Model](../pass.salt.code.modules.server.webparse/-model/index.md)
+
+Supplies attributes that are used when parsing a html-site with [Webparse](../pass.salt.code.modules.server.webparse/-webparse/index.md).
 
 
 |
@@ -250,6 +258,9 @@ Only viable in classes marked with [Controller](../pass.salt.code.annotations/-c
 
 ##### [pass.salt.code.modules.server.PepperServer](../pass.salt.code.modules.server/-pepper-server/index.md)
 
+Represents the Pepper webserver that is used by the Salt framework.
+Pepper consist of two [ServerMainThread](../pass.salt.code.modules.server/-server-main-thread/index.md)s that serve http and https.
+
 
 |
 
@@ -285,6 +296,9 @@ A class module enables functionality through processing classes.
 
 ##### [pass.salt.code.modules.server.security.SaltSecurity](../pass.salt.code.modules.server.security/-salt-security/index.md)
 
+Handles all security functionality of Salt.
+This includes authentication and authentication of requests.
+
 
 |
 
@@ -311,6 +325,9 @@ Used to mark classes that should be configured with the Salt.
 
 ##### [pass.salt.code.modules.server.security.SecurityScan](../pass.salt.code.modules.server.security/-security-scan/index.md)
 
+Scans classes for security configurations. This classes are annotated with the [WebSecurity](../pass.salt.code.annotations/-web-security/index.md) annotation and
+implement the [WebSecurityConfigurator](../pass.salt.code.modules.server.security/-web-security-configurator/index.md) interface.
+
 
 |
 
@@ -321,15 +338,21 @@ Used to mark classes that should be configured with the Salt.
 
 ##### [pass.salt.code.modules.server.ServerWorkerThread](../pass.salt.code.modules.server/-server-worker-thread/index.md)
 
+Represents a worker that handles the connection and operations with one client.
+
 
 |
 
 ##### [pass.salt.code.modules.server.security.SessionUser](../pass.salt.code.modules.server.security/-session-user/index.md)
 
+Contains the client information for the session at runtime.
+
 
 |
 
 ##### [pass.salt.code.modules.server.encryption.SSLManager](../pass.salt.code.modules.server.encryption/-s-s-l-manager/index.md)
+
+Contains all SSL-Configuration for the HTTPS-[ServerMainThread](../pass.salt.code.modules.server/-server-main-thread/index.md).
 
 
 |
@@ -377,10 +400,14 @@ Marks a class as a security configurator.
 
 ##### [pass.salt.code.modules.server.security.WebSecurityConfig](../pass.salt.code.modules.server.security/-web-security-config/index.md)
 
+Configures authentication on request paths. Also configures login/logout and success path.
+
 
 |
 
 ##### [pass.salt.code.modules.server.security.WebSecurityConfigurator](../pass.salt.code.modules.server.security/-web-security-configurator/index.md)
+
+Interface that every class marked with [WebSecurity](../pass.salt.code.annotations/-web-security/index.md) should implement to configure Salt security.
 
 
 |

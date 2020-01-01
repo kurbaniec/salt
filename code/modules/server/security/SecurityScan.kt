@@ -1,10 +1,15 @@
 package pass.salt.code.modules.server.security
 
+import pass.salt.code.annotations.Scan
 import pass.salt.code.annotations.WebSecurity
 import pass.salt.code.container.Container
 import pass.salt.code.loader.config.Config
 import pass.salt.code.modules.SaltProcessor
 
+/**
+ * Scans classes for security configurations. This classes are annotated with the [WebSecurity] annotation and
+ * implement the [WebSecurityConfigurator] interface.
+ */
 class SecurityScan(
     val config: Config,
     val container: Container
@@ -18,6 +23,9 @@ class SecurityScan(
         }
     }
 
+    /**
+     * Scans class if it contains security configurations. If yes, then the security configuration will be enabled.
+     */
     override fun process(className: String) {
         if (enabled) {
             if (!configured) {
@@ -38,6 +46,9 @@ class SecurityScan(
         }
     }
 
+    /**
+     * Not used.
+     */
     override fun shutdown() {
 
     }

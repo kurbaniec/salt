@@ -2,19 +2,21 @@
 
 # ServerWorkerThread
 
-`class ServerWorkerThread<P : `[`ServerSocket`](https://docs.oracle.com/javase/6/docs/api/java/net/ServerSocket.html)`, S : `[`Socket`](https://docs.oracle.com/javase/6/docs/api/java/net/Socket.html)`> : `[`Runnable`](https://docs.oracle.com/javase/6/docs/api/java/lang/Runnable.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L26)
+`class ServerWorkerThread<P : `[`ServerSocket`](https://docs.oracle.com/javase/6/docs/api/java/net/ServerSocket.html)`, S : `[`Socket`](https://docs.oracle.com/javase/6/docs/api/java/net/Socket.html)`> : `[`Runnable`](https://docs.oracle.com/javase/6/docs/api/java/lang/Runnable.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerWorkerThread.kt#L28)
+
+Represents a worker that handles the connection and operations with one client.
 
 ### Types
 
 | Name | Summary |
 |---|---|
-| [Request](-request/index.md) | `data class Request` |
+| [Request](-request/index.md) | Simple class that represents a client request.`data class Request` |
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `ServerWorkerThread(socket: S, server: `[`ServerMainThread`](../-server-main-thread/index.md)`<P>, config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`, security: `[`Pair`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html)`<`[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`, `[`SaltSecurity`](../../pass.salt.code.modules.server.security/-salt-security/index.md)`?>)` |
+| [&lt;init&gt;](-init-.md) | Represents a worker that handles the connection and operations with one client.`ServerWorkerThread(socket: S, server: `[`ServerMainThread`](../-server-main-thread/index.md)`<P>, config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`, security: `[`Pair`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html)`<`[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`, `[`SaltSecurity`](../../pass.salt.code.modules.server.security/-salt-security/index.md)`?>)` |
 
 ### Properties
 
@@ -38,5 +40,5 @@
 
 | Name | Summary |
 |---|---|
-| [run](run.md) | `fun run(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [shutdown](shutdown.md) | `fun shutdown(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [run](run.md) | Listen for client request and serve corresponding files or data.`fun run(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [shutdown](shutdown.md) | Shutdown server worker.`fun shutdown(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |

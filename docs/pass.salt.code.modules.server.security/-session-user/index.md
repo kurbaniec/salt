@@ -2,13 +2,15 @@
 
 # SessionUser
 
-`class SessionUser` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SessionUser.kt#L5)
+`class SessionUser` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SessionUser.kt#L8)
+
+Contains the client information for the session at runtime.
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `SessionUser(username: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, sid: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, sec: `[`SaltSecurity`](../-salt-security/index.md)`)`<br>`SessionUser()` |
+| [&lt;init&gt;](-init-.md) | `SessionUser(username: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, sid: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, sec: `[`SaltSecurity`](../-salt-security/index.md)`)`<br>Contains the client information for the session at runtime.`SessionUser()` |
 
 ### Properties
 
@@ -21,4 +23,4 @@
 
 | Name | Summary |
 |---|---|
-| [endSession](end-session.md) | `fun endSession(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [endSession](end-session.md) | End client session.`fun endSession(): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |

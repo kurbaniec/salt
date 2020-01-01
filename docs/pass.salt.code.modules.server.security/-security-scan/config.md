@@ -2,4 +2,4 @@
 
 # config
 
-`val config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SecurityScan.kt#L9)
+`val config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/security/SecurityScan.kt#L14)

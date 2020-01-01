@@ -2,4 +2,4 @@
 
 # GET
 
-`GET` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/HTTPMethod.kt#L4)
+`GET` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/mapping/HTTPMethod.kt#L7)
