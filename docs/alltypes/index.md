@@ -335,6 +335,9 @@ implement the [WebSecurityConfigurator](../pass.salt.code.modules.server.securit
 
 ##### [pass.salt.code.modules.server.ServerMainThread](../pass.salt.code.modules.server/-server-main-thread/index.md)
 
+Main server thread that listens for http- or https client connections and spawns a [ServerWorkerThread](../pass.salt.code.modules.server/-server-worker-thread/index.md)
+for every new connection request.
+
 
 |
 

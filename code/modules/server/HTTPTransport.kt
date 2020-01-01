@@ -14,7 +14,7 @@ class HTTPTransport(
 
     constructor(header: Header) : this(header, Body())
 
-    constructor(body: Body): this(Header(), Body())
+    constructor(body: Body): this(Header(), body)
 
     constructor(): this(Header(), Body())
 

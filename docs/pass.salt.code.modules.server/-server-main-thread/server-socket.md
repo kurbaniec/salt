@@ -2,4 +2,4 @@
 
 # serverSocket
 
-`val serverSocket: P` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerMainThread.kt#L15)
+`val serverSocket: P` [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerMainThread.kt#L19)

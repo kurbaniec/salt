@@ -2,4 +2,4 @@
 
 # executor
 
-`val executor: `[`SaltThreadPool`](../../pass.salt.code.modules/-salt-thread-pool/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerMainThread.kt#L14)
+`val executor: `[`SaltThreadPool`](../../pass.salt.code.modules/-salt-thread-pool/index.md) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerMainThread.kt#L18)

@@ -1,15 +1,22 @@
 import com.gargoylesoftware.htmlunit.BrowserVersion.CHROME
 import com.gargoylesoftware.htmlunit.Page
 import com.gargoylesoftware.htmlunit.WebClient
+import def.dev.AutowiredTest
+import def.dev.Controller
 import org.junit.BeforeClass
 import pass.salt.code.SaltApplication
+import pass.salt.code.container.Container
+import pass.salt.code.loader.config.Config
+import pass.salt.code.modules.server.PepperServer
 import java.io.FileNotFoundException
+import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 import java.security.cert.X509Certificate
 import javax.net.ssl.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 
 /**
@@ -20,6 +27,9 @@ import kotlin.test.assertEquals
  */
 class SaltDefaultTest {
     companion object {
+
+        private lateinit var app: SaltApplication
+        private lateinit var container: Container
 
         /**
          * Initialize the Salt framework.
@@ -43,7 +53,8 @@ class SaltDefaultTest {
             val allHostsValid = HostnameVerifier { hostname, session -> true }
             HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid)
             // Init salt and wait a bit for initialization
-            val app = SaltApplication()
+            app = SaltApplication()
+            container = app.loader.container
             Thread.sleep(5000)
         }
 
@@ -63,22 +74,77 @@ class SaltDefaultTest {
     }
 
     /**
-     * Simple curl method.
+     * Simple get curl method.
      */
-    private fun curl(url: String): String {
+    private fun curlGet(url: String): String {
         return URL(url).readText()
+    }
+
+    /**
+     * Simple post curl method.
+     */
+    private fun curlPost(url: String): String {
+        val con = URL(url)
+        var response = ""
+        with(con.openConnection() as HttpURLConnection) {
+            requestMethod  = "POST"
+            inputStream.bufferedReader().use {
+                it.lines().forEach { line ->
+                    response += line
+                }
+            }
+        }
+        return response
+    }
+
+    @Test
+    fun testInit() {
+        assertNotNull(container.getElement("config"))
+        assertNotNull(container.getElement("saltThreadPool"))
+        assertNotNull(container.getElement("pepperServer"))
+        assertNotNull(container.getElement("serverMainThreadHttp"))
+        assertNotNull(container.getElement("serverMainThreadHttps"))
+    }
+
+    @Test
+    fun testConfig() {
+        val config = container.getElement("config") as Config
+        assertEquals("localhost", config.findObjectAttribute("server", "ip_address"))
+        assertEquals(true, config.findObjectAttribute("server", "http"))
+        assertEquals(true, config.findObjectAttribute("server", "https"))
+        assertEquals(8079, config.findObjectAttribute("server", "http_port"))
+        assertEquals(8080, config.findObjectAttribute("server", "https_port"))
+        assertEquals(true, config.findObjectAttribute("server", "redirect"))
+        assertEquals("https", config.findObjectAttribute("server", "redirect_protocol"))
+    }
+
+    @Test
+    fun testControllerInit() {
+        val controller = container.getElement("controller") as Controller
+        assertNotNull(controller)
+        assertEquals("index", controller.index())
+        val server = container.getElement("pepperServer") as PepperServer
+        assertEquals("/", server.mapping["get"]!!.getMapping("/")!!.path)
+        assertEquals("/template", server.mapping["get"]!!.getMapping("/template")!!.path)
+    }
+
+    @Test
+    fun testAutowired() {
+        val test = container.getElement("autowiredTest")
+        assertNotNull(test)
+        assertEquals("Test", (test as AutowiredTest).value)
     }
 
     @Test
     fun testGetHomePage() {
-        val actual = curl("https://localhost:8080/")
+        val actual = curlGet("https://localhost:8080/")
         assert(actual.contains("Welcome to Salt!"))
     }
-
+    
     @Test(expected = FileNotFoundException::class)
     // source: https://stackoverflow.com/a/5379288/12347616
     fun testGetUnavailablePage() {
-        val actual = curl("https://localhost:8080/doesnotexist")
+        val actual = curlGet("https://localhost:8080/doesnotexist")
     }
 
     @Test
@@ -98,6 +164,18 @@ class SaltDefaultTest {
         assertEquals("https://localhost:8080/", redURL)
     }
 
-    // TODO Annotations, HTML-Parsing Engine, post/get requests
+    @Test
+    fun testPostRequest() {
+        val actual = curlPost("https://localhost:8080/api")
+        assertEquals("Hi&Salt", actual)
+    }
+
+    @Test
+    fun testTemplateEngine() {
+        val actual = curlGet("https://localhost:8080/template")
+        assert(actual.contains("Hello, Salt"))
+        assert(actual.contains("user 0"))
+        assert(actual.contains("user 1"))
+    }
     
 }

@@ -10,6 +10,10 @@ import pass.salt.code.modules.server.security.SaltSecurity
 import javax.net.ssl.SSLServerSocket
 import javax.net.ssl.SSLSocket
 
+/**
+ * Main server thread that listens for http- or https client connections and spawns a [ServerWorkerThread]
+ * for every new connection request.
+ */
 class ServerMainThread<P: ServerSocket>(
         val executor: SaltThreadPool,
         val serverSocket: P,

@@ -2,13 +2,16 @@
 
 # ServerMainThread
 
-`class ServerMainThread<P : `[`ServerSocket`](https://docs.oracle.com/javase/6/docs/api/java/net/ServerSocket.html)`> : `[`Runnable`](https://docs.oracle.com/javase/6/docs/api/java/lang/Runnable.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerMainThread.kt#L13)
+`class ServerMainThread<P : `[`ServerSocket`](https://docs.oracle.com/javase/6/docs/api/java/net/ServerSocket.html)`> : `[`Runnable`](https://docs.oracle.com/javase/6/docs/api/java/lang/Runnable.html) [(source)](https://github.com/kurbaniec-tgm/salt/tree/master/code/modules/server/ServerMainThread.kt#L17)
+
+Main server thread that listens for http- or https client connections and spawns a [ServerWorkerThread](../-server-worker-thread/index.md)
+for every new connection request.
 
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `ServerMainThread(executor: `[`SaltThreadPool`](../../pass.salt.code.modules/-salt-thread-pool/index.md)`, serverSocket: P, mapping: `[`MutableMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, `[`Mapping`](../../pass.salt.code.modules.server.mapping/-mapping/index.md)`>, config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`, security: `[`Pair`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html)`<`[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`, `[`SaltSecurity`](../../pass.salt.code.modules.server.security/-salt-security/index.md)`?>)` |
+| [&lt;init&gt;](-init-.md) | Main server thread that listens for http- or https client connections and spawns a [ServerWorkerThread](../-server-worker-thread/index.md) for every new connection request.`ServerMainThread(executor: `[`SaltThreadPool`](../../pass.salt.code.modules/-salt-thread-pool/index.md)`, serverSocket: P, mapping: `[`MutableMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html)`<`[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, `[`Mapping`](../../pass.salt.code.modules.server.mapping/-mapping/index.md)`>, config: `[`Config`](../../pass.salt.code.loader.config/-config/index.md)`, security: `[`Pair`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html)`<`[`Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)`, `[`SaltSecurity`](../../pass.salt.code.modules.server.security/-salt-security/index.md)`?>)` |
 
 ### Properties
 
